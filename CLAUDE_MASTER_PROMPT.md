@@ -4302,6 +4302,12 @@ Build:
 
 Do not overwrite a valid intentional identifier without reason.
 
+> ESTABLISHED 2026-09-07 (user instruction, supersedes the placeholder above):
+> Product name `Resonance Chamber`, company `Resonance Chamber Co`, bundle id
+> `com.resonancechamberco.resonancechamber`, copyright `2026 Resonance Chamber Co`.
+> "Echo Forge" is retained only as the internal codename (namespaces, menus,
+> asset filenames, repo). Version 1.0.0, build 1 unchanged.
+
 ---
 
 # 79. MOBILE CONFIGURATION

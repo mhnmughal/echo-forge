@@ -2,7 +2,7 @@
 
 Last updated: September 7, 2026
 
-Resonance Chamber is a single player puzzle game published by Rehman Mughal
+Resonance Chamber is a single player puzzle game published by Resonance Chamber Co
 (internal codename "Echo Forge"). This policy explains what the app does and does
 not do with information.
 

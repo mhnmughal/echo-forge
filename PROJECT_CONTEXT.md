@@ -55,8 +55,9 @@ GameState, SaveController, AudioController, HapticController, SceneFlow.
 RESOLVED (completed) · CLEAN ECHO (within adjustment par) · PURE RESONANCE (optimal).
 
 ## Bundle
-Product Name: `Echo Forge` · Bundle ID: `com.rehmanmughal.echoforge` ·
-Version `1.0.0` · Build `1`.
+Product Name: `Resonance Chamber` · Company: `Resonance Chamber Co` ·
+Bundle ID: `com.resonancechamberco.resonancechamber` · Version `1.0.0` · Build `1`.
+(Codename "Echo Forge" for code / repo only. User set the name + id 2026-09-07.)
 
 ## Key terminology (Echo Forge specific)
 Resonance Hall, Suspended Resonance Ring, Resonance Dial, Echo Chamber, PULSE

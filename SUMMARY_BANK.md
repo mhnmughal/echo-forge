@@ -2,16 +2,20 @@
 
 > Any agent (Claude, Codex, human) must be able to resume from this file alone.
 
-## NAME (2026-09-07)
-Player-facing product name = **Resonance Chamber** (App Store name, Unity
-`productName`, home-screen name, every on-screen title). Chosen after a public
-App Store check: "Echo Forge" collides with "EchoForge: Voice Changer" + the
-"Echo Forge Gaming" publisher; "Resonance Chamber" has no App Store name match.
-**"Echo Forge" stays the codename** for C# namespaces (`EchoForge.*`), editor
-menus (`Echo Forge/Build/*`), asmdefs, asset filenames (`EchoForge.mixer`,
-`EchoForge_Icon_1024.png`), the save filename, the bundle id
-`com.rehmanmughal.echoforge`, and the git repo `mhnmughal/echo-forge`. Do NOT
-rename those. See APP_STORE_LISTING.md.
+## NAME + IDENTITY (2026-09-07, set by user)
+- Product name = **Resonance Chamber** (App Store name, Unity `productName`,
+  home-screen name, every on-screen title). Chosen after a public App Store
+  check: "Echo Forge" collides with "EchoForge: Voice Changer" + the
+  "Echo Forge Gaming" publisher; "Resonance Chamber" has no App Store name match.
+- Company / developer name = **Resonance Chamber Co**. Copyright "2026 Resonance
+  Chamber Co".
+- Bundle id = **com.resonancechamberco.resonancechamber** (supersedes master
+  prompt §78's placeholder `com.rehmanmughal.echoforge`; not yet reserved with
+  Apple).
+- **"Echo Forge" stays only the codename** for C# namespaces (`EchoForge.*`),
+  editor menus (`Echo Forge/Build/*`), asmdefs, asset filenames (`EchoForge.mixer`,
+  `EchoForge_Icon_1024.png`), the save filename, and the git repo
+  `mhnmughal/echo-forge`. Do NOT rename those. See APP_STORE_LISTING.md.
 
 ## PROJECT STATUS
 `IN_PROGRESS` - core game complete & heavily verified. This + the prior session
@@ -98,7 +102,8 @@ exposed MusicVol/EffectsVol/UIVol) built by `EchoPolish.BuildMixer`, wired in
 Assigned to Standalone/iOS/Android slots. Small-size QA: ring + point readable.
 
 ## MOBILE / PLAYER SETTINGS
-Product "Echo Forge", com.rehmanmughal.echoforge, v1.0.0/build 1, landscape-only,
+Product "Resonance Chamber", company "Resonance Chamber Co",
+com.resonancechamberco.resonancechamber, v1.0.0/build 1, landscape-only,
 IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 
 ## AUDITS

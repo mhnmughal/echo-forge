@@ -26,7 +26,7 @@ network-package removal)
 - **No login / accounts / multiplayer / remote config / web views.**
 
 ## Player Settings
-`com.rehmanmughal.echoforge`, landscape, IL2CPP, no camera/microphone/location
+`com.resonancechamberco.resonancechamber`, landscape, IL2CPP, no camera/microphone/location
 usage descriptions requested.
 
 ## Residual

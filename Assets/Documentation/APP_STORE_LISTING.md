@@ -24,9 +24,8 @@ App Store check:
 "Resonance Chamber" is the most unique of the three, sidesteps the whole
 "Echo Forge" / "EchoForge" family, avoids the saturated "Echo" prefix, and is
 literally what the game is about: you tune a resonance chamber. "Echo Forge"
-stays only as the internal codename (C# namespaces, editor menus, asset ids,
-the git repository). The bundle id `com.rehmanmughal.echoforge` is permanent and
-never shown to users, so it does not need to change.
+stays only as the internal codename (C# namespaces, editor menus, asset
+filenames, the git repository).
 
 Reserve the name in App Store Connect (My Apps, plus, New App) to confirm it is
 free before finalizing.
@@ -36,10 +35,15 @@ free before finalizing.
 ## Identity
 
 * **App name (max 30):** Resonance Chamber   (17 characters)
-* **Bundle ID:** com.rehmanmughal.echoforge
+* **Company / developer name:** Resonance Chamber Co
+* **Bundle ID:** com.resonancechamberco.resonancechamber
+  (set 2026-09-07, supersedes the master prompt's placeholder
+  `com.rehmanmughal.echoforge`. Not yet reserved with Apple; it becomes permanent
+  on first submission. `com.resonancechamber.game` is a shorter alternative if
+  preferred.)
 * **SKU:** RESCHAMBER-1000
 * **Version:** 1.0.0
-* **Copyright:** 2026 Rehman Mughal
+* **Copyright:** 2026 Resonance Chamber Co
 * **Primary language:** English (U.S.)
 * **Home-screen / product name:** Resonance Chamber (Unity `productName`)
 

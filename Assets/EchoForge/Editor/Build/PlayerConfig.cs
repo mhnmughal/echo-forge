@@ -4,19 +4,20 @@ using UnityEngine;
 
 namespace EchoForge.EditorTools
 {
-    /// <summary>Re-runnable production Player Settings. Product name is "Resonance Chamber"
-    /// (the App Store / home-screen name); "Echo Forge" stays the internal codename for the
-    /// namespaces, menus, and asset ids. Mobile-first, offline, landscape, no sensitive
-    /// permissions. Master prompt §43 / §78-80.</summary>
+    /// <summary>Re-runnable production Player Settings. Product name "Resonance Chamber",
+    /// company "Resonance Chamber Co", bundle id com.resonancechamberco.resonancechamber
+    /// (set by user 2026-09-07, supersedes master prompt §78). "Echo Forge" stays only as
+    /// the codename for namespaces, menus, and asset filenames. Mobile-first, offline,
+    /// landscape, no sensitive permissions. Master prompt §43 / §78-80.</summary>
     public static class PlayerConfig
     {
         [MenuItem("Echo Forge/Build/7 - Player Settings")]
         public static void Apply()
         {
-            const string id = "com.rehmanmughal.echoforge"; // permanent bundle id, not shown to users
+            const string id = "com.resonancechamberco.resonancechamber"; // permanent bundle id, not shown to users
 
             PlayerSettings.productName = "Resonance Chamber";
-            PlayerSettings.companyName = "Rehman Mughal";
+            PlayerSettings.companyName = "Resonance Chamber Co";
             PlayerSettings.bundleVersion = "1.0.0";
 
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Standalone, id);
@@ -57,7 +58,7 @@ namespace EchoForge.EditorTools
             PlayerSettings.gpuSkinning = true;
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"<b>Resonance Chamber: Player Settings applied ({id}, landscape, IL2CPP, no sensitive permissions).</b>");
+            Debug.Log($"<b>Resonance Chamber: Player Settings applied (company 'Resonance Chamber Co', {id}, landscape, IL2CPP, no sensitive permissions).</b>");
         }
     }
 }

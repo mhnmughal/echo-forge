@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Rehman Mughal
+  companyName: Resonance Chamber Co
   productName: Resonance Chamber
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -168,9 +168,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.rehmanmughal.echoforge
-    Standalone: com.rehmanmughal.echoforge
-    iPhone: com.rehmanmughal.echoforge
+    Android: com.resonancechamberco.resonancechamber
+    Standalone: com.resonancechamberco.resonancechamber
+    iPhone: com.resonancechamberco.resonancechamber
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -590,7 +590,10 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - serializedVersion: 3
+    m_BuildTarget: iOS
+    m_Formats: 03000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1

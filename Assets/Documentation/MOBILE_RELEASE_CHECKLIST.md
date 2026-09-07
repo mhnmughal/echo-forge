@@ -5,7 +5,9 @@ PlayerSettings API readback 2026-09-07.
 
 ## Player Settings
 - [x] Product Name = "Resonance Chamber" (App Store + home-screen name; codename "Echo Forge")
-- [x] Bundle ID = com.rehmanmughal.echoforge (Standalone / iOS / Android)
+- [x] Company / developer name = "Resonance Chamber Co"
+- [x] Bundle ID = com.resonancechamberco.resonancechamber (Standalone / iOS / Android)
+- [x] Copyright = "2026 Resonance Chamber Co"
 - [x] Version 1.0.0 / iOS build 1 / Android bundleVersionCode 1
 - [x] Orientation: LandscapeLeft default, portrait autorotate OFF, both landscapes ON
 - [x] iOS scripting backend: IL2CPP
