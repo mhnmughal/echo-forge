@@ -11,16 +11,18 @@ namespace EchoForge.EditorTools
 {
     /// <summary>App Store Connect screenshot pass. From Play Mode, renders five chosen views at
     /// the two mandatory landscape resolutions (iPhone 6.9 in 2868x1320, iPad 13 in 2752x2064)
-    /// with ScreenCapture, into Screenshots/AppStore/. Providing the largest sizes is enough;
-    /// App Store Connect scales down for smaller devices. Preserves the local save file.</summary>
+    /// with ScreenCapture, into Screenshots/AppStore/&lt;device&gt;/ (one folder per App Store
+    /// Connect device-size tab). Providing the largest sizes is enough; ASC scales down for
+    /// smaller devices. Preserves the local save file.</summary>
     public static class StoreShots
     {
         const BindingFlags Priv = BindingFlags.NonPublic | BindingFlags.Instance;
 
-        static readonly (string label, int w, int h)[] Sizes =
+        // folder = one App Store Connect device-size tab
+        static readonly (string folder, int w, int h)[] Sizes =
         {
-            ("iPhone_6_9", 2868, 1320),
-            ("iPad_13",    2752, 2064),
+            ("iPhone-6.9", 2868, 1320),
+            ("iPad-13",    2752, 2064),
         };
 
         // id, isChamber, levelId, whether to run a pulse for the wavefront
@@ -50,7 +52,7 @@ namespace EchoForge.EditorTools
             _savePath = Path.Combine(Application.persistentDataPath, "echoforge_save.json");
             _save = File.Exists(_savePath) ? File.ReadAllBytes(_savePath) : null;
             SeedProgress();
-            Directory.CreateDirectory("Screenshots/AppStore");
+            foreach (var s in Sizes) Directory.CreateDirectory($"Screenshots/AppStore/{s.folder}");
             _shot = _size = _phase = 0;
             _next = 0;
             Status = "running";
@@ -93,7 +95,7 @@ namespace EchoForge.EditorTools
                         break;
 
                     case 2: // set the target resolution
-                        ResponsiveQA.SetGameViewSize(Sizes[_size].w, Sizes[_size].h, "ASC_" + Sizes[_size].label);
+                        ResponsiveQA.SetGameViewSize(Sizes[_size].w, Sizes[_size].h, "ASC_" + Sizes[_size].folder);
                         _frame = Time.frameCount;
                         _phase = shot.pulse ? 25 : 3;   // pulse shots go through the pulse phase
                         _next = Now + 0.5;
@@ -113,10 +115,12 @@ namespace EchoForge.EditorTools
                     case 3: // capture once the frame has rendered
                         if (Time.frameCount < _frame + (shot.pulse ? 1 : 4)) return;
                         var capture = Type.GetType("UnityEngine.ScreenCapture, UnityEngine.ScreenCaptureModule");
-                        var path = Path.GetFullPath($"Screenshots/AppStore/{Sizes[_size].label}_{shot.id}_{Sizes[_size].w}x{Sizes[_size].h}.png");
+                        var dir = $"Screenshots/AppStore/{Sizes[_size].folder}";
+                        Directory.CreateDirectory(dir);
+                        var path = Path.GetFullPath($"{dir}/{shot.id}_{Sizes[_size].w}x{Sizes[_size].h}.png");
                         capture.GetMethod("CaptureScreenshot", new[] { typeof(string), typeof(int) })
                                .Invoke(null, new object[] { path, 1 });
-                        Status = $"{shot.id} @ {Sizes[_size].label}";
+                        Status = $"{shot.id} @ {Sizes[_size].folder}";
                         _phase = 4;
                         _next = Now + 0.8;
                         break;
