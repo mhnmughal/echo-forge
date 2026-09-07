@@ -1,16 +1,18 @@
 # PACKAGE_AUDIT - Resonance Chamber (codename Echo Forge)
 
-Status: **APPLIED 2026-09-07**. Three passes from a normal editor launch.
-`Packages/manifest.json` went 53 -> 29 -> 19 -> **14** dependencies. After each
-`Client.Resolve()`: 0 compile errors, 17/17 EditMode, 13/13 `Validate Levels`,
-19/19 PlayMode, Windows build 0/0 (~99 MB), smoke test clean (PhysX + Input init,
-scene transitions, no missing-module errors).
+Status: **APPLIED 2026-09-07**. Four passes from a normal editor launch.
+`Packages/manifest.json` went 53 -> 29 -> 19 -> 14 -> **12** dependencies. After
+each `Client.Resolve()`: 0 compile errors, 17/17 EditMode, 13/13 `Validate
+Levels`, 19/19 PlayMode, Windows build 0/0 (~99 MB), smoke test clean (PhysX +
+Input init, scene transitions, no missing-module errors).
 
-## Current set (14)
-- com.anklebreaker.unity-mcp - **editor-only dev tooling**, localhost bridge, never
-  in the player. Strip this last, right before the store export (master prompt §34).
-- com.unity.ide.rider / ide.visualstudio - editor only (Rider one can also go if
-  JetBrains Rider is never used; visualstudio covers VS / VS Code)
+Pass 4 (14 -> 12) removed both remaining editor-only integrations:
+`com.unity.ide.rider` and `com.anklebreaker.unity-mcp`. **The MCP editor bridge
+is gone** - no more AI/editor automation; open the project in Unity to
+re-resolve and confirm 0 errors before any store export.
+
+## Current set (12)
+- com.unity.ide.visualstudio - editor only (VS / VS Code csproj + intellisense)
 - com.unity.inputsystem 1.19.0 - all input
 - com.unity.render-pipelines.universal 17.3.0 - rendering (pulls core, shadergraph,
   universal-config transitively)
@@ -60,6 +62,9 @@ service URLs blanked. `ProjectSettings.asset`: `submitAnalytics 0`.
 - 2026-09-07: pass 3 applied (19 -> 14), 5 unused engine modules removed
   (animation, particlesystem, physics2d, accessibility, androidjni). Verified:
   17/17 + 19/19 tests, 13/13 validator, Windows build 0/0 ~99 MB, smoke clean.
-- Remaining: strip `com.anklebreaker.unity-mcp` for the final store export
-  (one manifest line, re-resolve, rebuild). Verify `androidjni` removal on the
-  first real Android build.
+- 2026-09-07: pass 4 applied (14 -> 12) at user request - removed
+  `com.unity.ide.rider` (verified: resolve clean, 0 errors, 17/17 + 19/19) and
+  `com.anklebreaker.unity-mcp` (MCP bridge; verified in manifest + packages-lock
+  only - editor connection severed by the removal itself; re-open the project in
+  Unity to confirm the resolve). com.unity.ext.nunit stays (Test Framework dep).
+- Remaining: verify `androidjni` removal on the first real Android build.

@@ -69,7 +69,7 @@ and better ratings. Clearing Level 12 brings the whole room into tune.
 * Original audio, generated offline by C# synthesis into 16 bit WAV.
 * Original app icon, rendered procedurally.
 * One AudioMixer with Master, Ambience, SFX, and UI buses.
-* 14-package manifest, no network modules. Unity engine diagnostics and analytics
+* 12-package manifest, no network modules. Unity engine diagnostics and analytics
   disabled in the project settings.
 
 ## Privacy and networking

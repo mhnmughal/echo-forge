@@ -91,11 +91,13 @@ Reset: PASS  (confirmation dialog + ResetProgress)
 
 Offline Audit: PASS - NO RUNTIME NETWORK FUNCTIONALITY
 Third-Party SDK Audit: PASS  (none present)
-Package Audit: PASS  (applied in three passes, 53 -> 29 -> 19 -> 14 deps; all network
-  engine modules removed; Unity diagnostics + analytics disabled; re-verified
-  tests/validator/build. See PACKAGE_AUDIT.md. §34 MCP-plugin strip still pending.)
-MCP Production Cleanup: NOT DONE  (MCP still needed for authoring; Editor-only
-  plugin, not in player output - to be removed before the final production export)
+Package Audit: PASS  (applied in four passes, 53 -> 29 -> 19 -> 14 -> 12 deps; all
+  network engine modules removed; both editor IDE/MCP integrations removed; Unity
+  diagnostics + analytics disabled; re-verified tests/validator/build through
+  pass 3, tests + clean resolve through pass 4. See PACKAGE_AUDIT.md.)
+MCP Production Cleanup: DONE  (com.anklebreaker.unity-mcp + com.unity.ide.rider
+  removed from the manifest 2026-09-07. Editor connection is severed - re-open the
+  project in Unity to confirm the resolve and re-run a build before store submit.)
 
 Mobile Settings: PASS  (landscape, IL2CPP, ARM64, bundle id, version, icon)
 Permissions Audit: PASS  (no camera/microphone/location/photos/Bluetooth/ATT)
@@ -107,7 +109,8 @@ Automated Tests: PASS  (36 total: 17 EditMode + 19 PlayMode; the campaign test n
   moves + rotates every level's parts through the real controller, and there are
   new tests for pause-during-pulse and board-fits-above-actuator on L11/L12)
 Console: PASS  (0 compile errors, 0 editor-assembly warnings, 0 build warnings)
-Windows Build: PASS  (0 errors / 0 warnings / ~99 MB, post 14-package trim)
+Windows Build: PASS  (0 errors / 0 warnings / ~99 MB, post 14-package trim; the
+  14 -> 12 trim removed only editor packages, player output unchanged)
 Windows Smoke Test: PASS  (launches, D3D12 + Input System + PhysX init, runs
   without exception)
 iOS Unity Export: NOT VERIFIED  (requires macOS/Xcode toolchain)
@@ -139,8 +142,9 @@ Genuine External Blockers (cannot be cleared in this environment):
   - hosting for PRIVACY_POLICY.md and a support page (needs a URL the user owns)
 
 Cleared across this session:
-  - Packages trimmed 53 -> 29 -> 19 -> 14, all network modules removed, Unity
-    diagnostics + analytics disabled. SampleScene gone. Real AudioMixer built +
+  - Packages trimmed 53 -> 29 -> 19 -> 14 -> 12, all network modules removed,
+    both editor IDE/MCP integrations (ide.rider, anklebreaker.unity-mcp) removed,
+    Unity diagnostics + analytics disabled. SampleScene gone. Real AudioMixer built +
     wired. Torus Resonance Ring. Private GitHub remote pushed. README + App Store
     listing + privacy policy written. Project text de-dashed (US English).
   - UI system unified + realigned; modal panels no longer bleed the menu or
@@ -157,11 +161,12 @@ Latest Git Commit:
 PROJECT STATUS:
   IN_PROGRESS
   Rationale: fully playable and heavily verified (13/13 valid, 36 tests, clean
-  ~99 MB Windows build, offline PASS, 14-package network-free manifest, real
+  ~99 MB Windows build, offline PASS, 12-package network-free manifest, real
   AudioMixer, dressed environment, reworked pulse VFX, unified aligned UI,
   responsive capture pass). Remaining work needs external hardware or hosting:
   iOS export/sign/device, a real-device UI + notch check, human touch + audio
-  listening QA, a profiler pass on device, App Store screenshots, and a URL to
-  host the privacy policy. No locally-achievable release-blocking work is
-  outstanding; the MCP editor plugin is the last package to strip before export.
+  listening QA, a profiler pass on device, an App Store preview video, and a URL
+  to host the privacy policy. No locally-achievable release-blocking work is
+  outstanding. The MCP editor plugin has been removed - re-open the project in
+  Unity to re-resolve packages and re-run a build before store submission.
 ```

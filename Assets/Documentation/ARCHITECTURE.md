@@ -18,8 +18,8 @@ Status: CURRENT (2026-09-07). All systems below implemented + tested.
   `ResponsiveQA` (Game View aspect harness).
 - `EchoForge.Tests` / `EchoForge.PlayTests` - EditMode + PlayMode tests.
 
-No third-party runtime assemblies. MCP plugin is Editor-only tooling.
-Packages trimmed to 14, network modules removed (see PACKAGE_AUDIT.md).
+No third-party runtime assemblies. Packages trimmed to 12, network modules
+removed, both editor IDE/MCP integrations removed (see PACKAGE_AUDIT.md).
 
 ## Deterministic simulation (authoritative)
 The puzzle result is computed entirely by `PulseSimulator`, a pure C# discrete

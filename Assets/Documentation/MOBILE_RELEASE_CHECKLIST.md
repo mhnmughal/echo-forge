@@ -42,7 +42,7 @@ PlayerSettings API readback 2026-09-07.
 
 ## Build
 - [x] Scene list: Bootstrap, ResonanceHall, EchoChamber
-- [x] Packages trimmed to 14; all network modules removed (PACKAGE_AUDIT.md)
+- [x] Packages trimmed to 12; all network modules + editor IDE/MCP integrations removed (PACKAGE_AUDIT.md)
 - [x] Unity engine diagnostics + analytics disabled (UnityConnectSettings, submitAnalytics 0)
 - [x] Windows build - PASS (0 errors / 0 warnings, ~99 MB)
 - [x] Windows smoke test - PASS (launches, engine + input + physics init, no exception)

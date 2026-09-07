@@ -33,7 +33,9 @@ generic laser-reflection / neon grid puzzle. Pulse must read as SOUND, not LIGHT
 
 ## Engine
 Unity 6000.3.19f1, Universal Render Pipeline (URP), New Input System, TextMeshPro,
-Unity Test Framework. MCP: com.anklebreaker.unity-mcp (plugin 2.39.5, port 7890).
+Unity Test Framework. 12-package manifest, no network modules. (The
+com.anklebreaker.unity-mcp editor bridge was removed 2026-09-07 - re-add the git
+package if agent-driven editor automation is needed again.)
 
 ## Content scope
 Exactly 13 stages: Level 0 (Sound Check tutorial) + Levels 1-12.

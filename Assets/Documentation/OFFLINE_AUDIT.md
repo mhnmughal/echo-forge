@@ -30,6 +30,6 @@ network-package removal)
 usage descriptions requested.
 
 ## Residual
-The `com.anklebreaker.unity-mcp` editor plugin remains for authoring. It is
-editor-only (never in the player build) and talks only to 127.0.0.1. It is the
-last item to remove before the store export (PACKAGE_AUDIT.md, master prompt §34).
+None. The `com.anklebreaker.unity-mcp` editor plugin (editor-only, localhost-only,
+never in the player) was removed 2026-09-07 along with `com.unity.ide.rider`
+(PACKAGE_AUDIT.md pass 4). Manifest is 12 packages, zero network modules.

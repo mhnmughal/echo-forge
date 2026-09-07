@@ -19,13 +19,15 @@
 
 ## PROJECT STATUS
 `IN_PROGRESS` - core game complete & heavily verified. This + the prior session
-added: 14-package network-free manifest, analytics/diagnostics disabled, real
+added: 12-package network-free manifest, analytics/diagnostics disabled, real
 AudioMixer, torus ring, dressed environment (membranes/ribs/inlays), reworked
 pulse VFX (wavefront/charge/impact rings), unified + realigned UI, per-aspect
 camera fit, 65-frame responsive capture pass, 36 automated tests, README +
 App Store listing + privacy policy. Remaining work needs external hardware or
 hosting only (iOS toolchain/device, human tester, audio device, screenshots,
-privacy-policy URL). MCP plugin is the last package to strip before export.
+privacy-policy URL). MCP plugin + Rider removed 2026-09-07 (manifest now 12) -
+the Unity editor can no longer be driven by an AI agent; open the project
+manually to re-resolve and verify.
 
 ## CURRENT MILESTONE
 M7 - visual polish pass + honest final audit. Core (M1-M6) done.
@@ -33,17 +35,21 @@ M7 - visual polish pass + honest final audit. Core (M1-M6) done.
 ## LAST VERIFIED BUILD
 Windows StandaloneWindows64: **PASS** (2026-09-07, post 14-package trim) - 0 errors, 0 warnings, ~99 MB. Smoke test: launches on D3D12, Input System
 + PhysX init, no exceptions. iOS export: NOT ATTEMPTED (needs macOS/Xcode).
+NOTE: the 14 -> 12 trim (removed ide.rider + unity-mcp, both editor-only, not in
+player output) was verified via EditMode 17/17 + PlayMode 19/19 + clean resolve
+before the MCP removal; not re-built after (build unaffected by editor packages).
 
 ## ENVIRONMENT
 - Unity 6000.3.19f1, URP 17.3, Linear color space, New Input System, TMP, Test FW.
-- Editor now runs WITHOUT `-noUpm` (relaunched 2026-09-07). Package Manager works;
-  trim APPLIED (manifest 53 -> 29 -> 19 -> 14, all network modules gone). Unity engine
-  diagnostics + analytics disabled. If a future session sees `-noUpm`, package ops
-  fail - check `Environment.GetCommandLineArgs()`.
+- Editor runs WITHOUT `-noUpm`. Package Manager works; trim APPLIED (manifest
+  53 -> 29 -> 19 -> 14 -> 12, all network modules + both editor IDE/MCP
+  integrations gone). Unity engine diagnostics + analytics disabled.
 - Known limit: this session's editor is unfocused, so the Game View renders only
   ~1 frame per play session (screenshot pipeline unreliable for sequences). Also
   no audio output device.
-- MCP: AnkleBreaker plugin 2.39.5, instance "Echo Forge" port 7890.
+- **MCP REMOVED 2026-09-07.** `com.anklebreaker.unity-mcp` is no longer in the
+  manifest - no AI agent can drive this Unity editor any more. To restore agent
+  automation, re-add the git package. Tests/builds now need a human in the editor.
 - Tests via advanced tool `unity_testing_run_tests` (assemblies
   ["EchoForge.Tests"] / ["EchoForge.PlayTests"]).
 
@@ -109,11 +115,14 @@ IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 - OFFLINE_AUDIT: **PASS - no runtime network functionality** (code scan clean,
   no SDKs, services + engine diagnostics disabled, network modules removed,
   local save only).
-- PACKAGE_AUDIT: **APPLIED** - 53 -> 29 -> 19 -> 14 deps, network-free. See PACKAGE_AUDIT.md.
+- PACKAGE_AUDIT: **APPLIED** - 53 -> 29 -> 19 -> 14 -> 12 deps, network-free,
+  editor IDE/MCP integrations removed. See PACKAGE_AUDIT.md.
 - STORE: README.md, PRIVACY_POLICY.md, Assets/Documentation/APP_STORE_LISTING.md
   written (name/subtitle/keywords/description/category/review notes, US English,
-  no em dashes). Screenshots + preview video still to capture.
-- MCP cleanup (§34): not done - MCP still needed for authoring. Editor-only plugin.
+  no em dashes). Screenshots done (StoreShots -> Screenshots/AppStore/, gitignored,
+  delivered to user). Preview video still to capture.
+- MCP cleanup (§34): **DONE 2026-09-07** - `com.anklebreaker.unity-mcp` +
+  `com.unity.ide.rider` removed from the manifest.
 
 ## DONE THIS SESSION (2026-09-07, session_01HnKWKst1ksn91DWhcZytbv)
 - Package trim 53→29 (`f335774`), SampleScene confirmed gone.
@@ -135,7 +144,8 @@ IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 - Responsive: middle 3 aspects + 4:3 corner-HUD photo recheck (layout math = PASS).
 - Profiler pass; iOS export/archive/sign; physical device; human touch + audio
   listening QA.
-- §34: strip `com.anklebreaker.unity-mcp` before the final store export.
+- Open the project in Unity once (post MCP removal) to let Package Manager
+  re-resolve and confirm 0 compile errors.
 
 ## NEXT EXACT ACTIONS
 1. On macOS/Xcode: iOS platform switch -> export -> archive -> sign -> device
@@ -146,8 +156,8 @@ IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
    ReleaseQA frames in QA/Responsive/ are a starting point.
 4. Host PRIVACY_POLICY.md at a public URL; pick one subtitle + one keyword set +
    one promo option from APP_STORE_LISTING.md.
-5. Before final export: remove `com.anklebreaker.unity-mcp`, re-resolve, rebuild,
-   re-run tests + validator.
+5. Open the project in Unity (MCP + Rider now removed) - let Package Manager
+   re-resolve, confirm 0 compile errors, re-run tests + validator + a build.
 6. Update FINAL_AUDIT.md per-line each pass.
 
 ## QA CAPTURE TOOLING (editor only)

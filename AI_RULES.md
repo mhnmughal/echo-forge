@@ -23,11 +23,13 @@ editor menu paths `Echo Forge/...`, asmdef names, asset filenames
 (`EchoForge.mixer`, `EchoForge_Icon_*`), the save filename, and the git repo.
 Do not rename those. Any new player-visible text uses "Resonance Chamber".
 
-## RULE 3 - MCP-FIRST UNITY EDITING
-Use the AnkleBreaker Unity MCP (`unity_*` tools, port 7890) for scenes, hierarchy,
-prefabs, components, UI, RectTransforms, environment, camera, lighting, materials,
-Inspector config, Player Settings, build settings, inspection. Never call the HTTP
-bridge directly.
+## RULE 3 - UNITY EDITING
+The AnkleBreaker Unity MCP bridge (`com.anklebreaker.unity-mcp`) was **removed
+from the manifest 2026-09-07** at the user's request. There is no agent-driven
+editor automation any more - scene/component/Player-Settings changes need a human
+in the editor, or the git package re-added first. Edit-time builder scripts
+(`EchoBuild*`, `PlayerConfig`, `EchoPolish`, run from the `Echo Forge/` menu)
+remain the source of truth for scenes and assets.
 
 ## RULE 4 - LOG MCP CHANGES
 After each meaningful MCP batch, append an `MCP-XXXX` entry to `SUMMARY_BANK.md`.
