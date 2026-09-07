@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5816a658ab7a4049aa66594b83fced8, type: 3}
+  m_Name: Level_10
+  m_EditorClassIdentifier: EchoForge.Runtime::EchoForge.Level.EchoLevelDefinition
+  levelId: 10
+  title: Double Beat
+  series: C
+  isTutorial: 0
+  tutorialText: 
+  visualVariant: 0
+  chamberSize: {x: 11, y: 9}
+  emitters:
+  - cell: {x: 5, y: 0}
+    dir: 0
+    startBeat: 0
+  fixedComponents:
+  - type: 3
+    cell: {x: 5, y: 3}
+    orient: 0
+    delayBeats: 0
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  - type: 1
+    cell: {x: 3, y: 5}
+    orient: 2
+    delayBeats: 0
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  - type: 1
+    cell: {x: 7, y: 5}
+    orient: 2
+    delayBeats: 0
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  - type: 6
+    cell: {x: 5, y: 7}
+    orient: 0
+    delayBeats: 0
+    receiverId: 1
+    forbidden: 0
+    rule: 1
+    ruleParam: 2
+  adjustables:
+  - type: 4
+    cell: {x: 2, y: 7}
+    orient: 0
+    delayBeats: 2
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  movableSockets:
+  - {x: 4, y: 6}
+  - {x: 6, y: 6}
+  - {x: 2, y: 7}
+  movableAdjustableIndices: 00000000
+  timing: []
+  adjustmentPar: 2
+  optimalAdjustments: 1
+  optimalComponents:
+  - type: 4
+    cell: {x: 4, y: 6}
+    orient: 0
+    delayBeats: 2
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
