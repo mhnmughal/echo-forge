@@ -57,6 +57,7 @@ namespace EchoForge.Menu
             {
                 var n = nodes[i];
                 if (n == null) continue;
+                if (ring != null) n.transform.localRotation = Quaternion.Inverse(ring.localRotation);
                 int id = n.chamberId;
                 var rec = SaveSystem.RecordFor(id);
                 n.Refresh(SaveSystem.IsUnlocked(id), rec.completed, id == _focus);

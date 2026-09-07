@@ -20,6 +20,9 @@ namespace EchoForge.Chamber
 
         static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         MaterialPropertyBlock _mpb;
+        float _response;
+        bool _selected;
+        Vector3 _restScale = Vector3.one;
 
         public Vector2Int Cell { get; private set; }
 
@@ -40,6 +43,26 @@ namespace EchoForge.Chamber
             spinner = spinnerT;
             selectionRing = ring;
             accent = accentR;
+            if (accent == null && spinner != null) accent = spinner.GetComponentInChildren<Renderer>();
+            if (spinner != null) _restScale = spinner.localScale;
+            SetActivated(false);
+        }
+
+        public void SetCell(Vector2Int cell) => Cell = cell;
+
+        public void React(SegEnd end)
+        {
+            if (end != SegEnd.Travel && end != SegEnd.Exit) _response = 1f;
+        }
+
+        void Update()
+        {
+            if (spinner == null) return;
+            _response = Mathf.MoveTowards(_response, 0f, Time.deltaTime * 2.5f);
+            float vibration = Mathf.Sin(_response * Mathf.PI * 4f) * _response;
+            float compression = Type == CompType.Absorber ? -0.22f * _response : 0.10f * vibration;
+            spinner.localScale = Vector3.Scale(_restScale, new Vector3(1f - compression * 0.3f, 1f + compression, 1f - compression * 0.3f));
+            spinner.localPosition = Vector3.Lerp(spinner.localPosition, Vector3.up * (_selected ? 0.12f : 0f), Mathf.Min(1f, Time.deltaTime * 16f));
         }
 
         public void ApplyOrientation(int orient)
@@ -53,6 +76,7 @@ namespace EchoForge.Chamber
 
         public void SetSelected(bool on)
         {
+            _selected = on;
             if (selectionRing != null) selectionRing.SetActive(on);
         }
 

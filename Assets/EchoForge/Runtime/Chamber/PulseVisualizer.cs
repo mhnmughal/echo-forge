@@ -17,6 +17,7 @@ namespace EchoForge.Chamber
         [SerializeField] Transform boardRoot;
 
         readonly List<GameObject> _spawned = new();
+        Material _waveMaterial;
 
         public float BeatSeconds => beatSeconds;
 
@@ -67,6 +68,9 @@ namespace EchoForge.Chamber
                 {
                     if (t >= running[i].endT)
                     {
+                        var ended = running[i].seg;
+                        if (ended.end != SegEnd.Travel && ended.end != SegEnd.Exit)
+                            StartCoroutine(Impact(ended, grid));
                         onSegmentEnd?.Invoke(running[i].seg);
                         running.RemoveAt(i);
                     }
@@ -90,16 +94,32 @@ namespace EchoForge.Chamber
             tr.localPosition = a;
             tr.localRotation = Quaternion.LookRotation((b - a).sqrMagnitude > 0.0001f ? (b - a) : Vector3.forward);
 
+            // A delayed outgoing segment includes the hold in its duration. Stay at
+            // the plate, then travel at the same speed as every other wave packet.
+            float hold = Mathf.Max(0f, dur - beatSeconds);
+            if (hold > 0f)
+            {
+                float charge = 0f;
+                while (charge < hold)
+                {
+                    charge += Time.deltaTime;
+                    tr.localScale = Vector3.one * (0.7f + 0.15f * Mathf.Sin(charge * 24f));
+                    yield return null;
+                }
+                AudioController.Instance?.Play(Sfx.DelayRelease);
+                tr.localScale = Vector3.one;
+            }
+            float travel = Mathf.Min(dur, beatSeconds);
             float e = 0f;
-            while (e < dur)
+            while (e < travel)
             {
                 e += Time.deltaTime;
-                float k = Mathf.Clamp01(e / dur);
+                float k = Mathf.Clamp01(e / travel);
                 tr.localPosition = Vector3.Lerp(a, b, k);
                 yield return null;
             }
             tr.localPosition = b;
-            // brief lingering wavefront, then fade with the batch Clear()
+            go.GetComponent<LineRenderer>().enabled = false;
         }
 
         GameObject MakePacket()
@@ -113,15 +133,53 @@ namespace EchoForge.Chamber
             tr.endWidth = 0.02f;
             tr.numCapVertices = 4;
             tr.minVertexDistance = 0.03f;
-            var mat = new Material(Shader.Find("Sprites/Default"));
-            mat.color = pulseColor;
-            tr.material = mat;
+            if (_waveMaterial == null) _waveMaterial = new Material(Shader.Find("Sprites/Default")) { name = "EchoForge Wave Material" };
+            tr.sharedMaterial = _waveMaterial;
             var grad = new Gradient();
             grad.SetKeys(
                 new[] { new GradientColorKey(pulseColor, 0f), new GradientColorKey(pulseColor * 0.4f, 1f) },
                 new[] { new GradientAlphaKey(0.9f, 0f), new GradientAlphaKey(0f, 1f) });
             tr.colorGradient = grad;
+            // Curved pressure front in the board plane, perpendicular to travel.
+            var front = go.AddComponent<LineRenderer>();
+            front.sharedMaterial = _waveMaterial;
+            front.useWorldSpace = false;
+            front.positionCount = 17;
+            front.widthMultiplier = 0.035f;
+            front.startColor = front.endColor = pulseColor;
+            for (int i = 0; i < front.positionCount; i++)
+            {
+                float angle = Mathf.Lerp(-1.05f, 1.05f, i / 16f);
+                front.SetPosition(i, new Vector3(Mathf.Sin(angle) * 0.35f, 0f, (Mathf.Cos(angle) - 1f) * 0.35f));
+            }
             return go;
+        }
+
+        IEnumerator Impact(Segment seg, ChamberGrid grid)
+        {
+            var go = MakePacket();
+            _spawned.Add(go);
+            go.name = "AcousticResponse_" + seg.end;
+            go.GetComponent<TrailRenderer>().emitting = false;
+            go.transform.localPosition = grid.Local(seg.to, 0.4f);
+            var ring = go.GetComponent<LineRenderer>();
+            ring.loop = true;
+            ring.positionCount = 32;
+            for (int i = 0; i < 32; i++)
+            {
+                float a = i * Mathf.PI / 16f;
+                ring.SetPosition(i, new Vector3(Mathf.Sin(a), 0, Mathf.Cos(a)) * 0.3f);
+            }
+            Color color = seg.end == SegEnd.Forbidden ? new Color(0.8f, 0.2f, 0.25f) : pulseColor;
+            for (float t = 0; t < 0.45f; t += Time.deltaTime)
+            {
+                float k = t / 0.45f;
+                go.transform.localScale = Vector3.one * (seg.end == SegEnd.Absorb ? 1f - k : 1f + k * 1.3f);
+                color.a = 1f - k;
+                ring.startColor = ring.endColor = color;
+                yield return null;
+            }
+            go.SetActive(false);
         }
 
         void DestroyPackets()
@@ -134,6 +192,12 @@ namespace EchoForge.Chamber
         {
             StopAllCoroutines();
             DestroyPackets();
+        }
+
+        void OnDestroy()
+        {
+            DestroyPackets();
+            if (_waveMaterial != null) Destroy(_waveMaterial);
         }
     }
 }

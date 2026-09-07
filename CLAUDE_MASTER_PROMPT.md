@@ -2034,7 +2034,7 @@ The assignment is to build:
 containing:
 
 - Level 0 interactive tutorial
-- Levels 1–12
+- Levels 1-12
 - complete progression
 - unique 2.5D acoustic gameplay
 - complete scene-authored UI/UX
@@ -2200,13 +2200,13 @@ The same configuration must always produce the same result.
 
 Create:
 
-# LEVEL 0 — SOUND CHECK
+# LEVEL 0 - SOUND CHECK
 
 Dedicated interactive tutorial.
 
 Plus:
 
-# LEVELS 1–12
+# LEVELS 1-12
 
 Twelve main handcrafted puzzles.
 
@@ -2304,7 +2304,7 @@ Create this BEFORE production development.
 
 It must permanently enforce:
 
-## RULE 1 — READ MEMORY FIRST
+## RULE 1 - READ MEMORY FIRST
 
 Every new AI session must first read:
 
@@ -2316,7 +2316,7 @@ Every new AI session must first read:
 
 ---
 
-## RULE 2 — REPOSITORY IS AUTHORITATIVE
+## RULE 2 - REPOSITORY IS AUTHORITATIVE
 
 Do not depend on chat memory.
 
@@ -2324,7 +2324,7 @@ Record important decisions in the repository.
 
 ---
 
-## RULE 3 — MCP-FIRST UNITY EDITING
+## RULE 3 - MCP-FIRST UNITY EDITING
 
 Use MCP for supported:
 
@@ -2342,7 +2342,7 @@ Use MCP for supported:
 
 ---
 
-## RULE 4 — LOG MCP CHANGES
+## RULE 4 - LOG MCP CHANGES
 
 After every meaningful MCP batch, update:
 
@@ -2354,7 +2354,7 @@ Group coherent changes.
 
 ---
 
-## RULE 5 — NEVER CLAIM UNVERIFIED SUCCESS
+## RULE 5 - NEVER CLAIM UNVERIFIED SUCCESS
 
 Never claim:
 
@@ -2367,7 +2367,7 @@ unless actually tested.
 
 ---
 
-## RULE 6 — NO FINAL PLACEHOLDERS
+## RULE 6 - NO FINAL PLACEHOLDERS
 
 Final release must contain no:
 
@@ -2385,7 +2385,7 @@ Final release must contain no:
 
 ---
 
-## RULE 7 — SCENE-AUTHORED UI
+## RULE 7 - SCENE-AUTHORED UI
 
 Primary production UI must be manually authored in Unity scene/prefab hierarchy through MCP.
 
@@ -2403,13 +2403,13 @@ but must not replace authored production hierarchy.
 
 ---
 
-## RULE 8 — SCENE-AUTHORED ENVIRONMENT
+## RULE 8 - SCENE-AUTHORED ENVIRONMENT
 
 Major production environment elements must exist visibly in Edit Mode.
 
 ---
 
-## RULE 9 — COMPLETELY OFFLINE
+## RULE 9 - COMPLETELY OFFLINE
 
 Never add runtime:
 
@@ -2430,7 +2430,7 @@ Never add runtime:
 
 ---
 
-## RULE 10 — NO THIRD-PARTY RUNTIME SDKs
+## RULE 10 - NO THIRD-PARTY RUNTIME SDKs
 
 Do not add runtime:
 
@@ -2446,7 +2446,7 @@ Do not add runtime:
 
 ---
 
-## RULE 11 — ORIGINAL PRODUCT
+## RULE 11 - ORIGINAL PRODUCT
 
 Do not copy another game's:
 
@@ -2463,7 +2463,7 @@ Do not copy another game's:
 
 ---
 
-## RULE 12 — DO NOT REUSE PREVIOUS PROJECT DESIGN
+## RULE 12 - DO NOT REUSE PREVIOUS PROJECT DESIGN
 
 Echo Forge must not reuse UI or environmental design systems from:
 
@@ -2473,7 +2473,7 @@ Echo Forge must not reuse UI or environmental design systems from:
 
 ---
 
-## RULE 13 — AUDIO IS CORE GAME QUALITY
+## RULE 13 - AUDIO IS CORE GAME QUALITY
 
 Do not treat audio as an optional final pass.
 
@@ -2481,19 +2481,19 @@ Echo Forge requires intentional original sound design.
 
 ---
 
-## RULE 14 — SETTINGS MUST BE REAL
+## RULE 14 - SETTINGS MUST BE REAL
 
 Music/Sound/Haptics controls must affect actual systems and persist.
 
 ---
 
-## RULE 15 — NO DEAD CONTROLS
+## RULE 15 - NO DEAD CONTROLS
 
 Every player-facing production control must function.
 
 ---
 
-## RULE 16 — MOBILE FIRST
+## RULE 16 - MOBILE FIRST
 
 Always verify:
 
@@ -2506,7 +2506,7 @@ Always verify:
 
 ---
 
-## RULE 17 — ASSET PROVENANCE
+## RULE 17 - ASSET PROVENANCE
 
 Every shipped asset must have a known legal source.
 
@@ -2514,19 +2514,19 @@ Prefer project-generated original assets.
 
 ---
 
-## RULE 18 — DOCUMENT MAJOR CHANGES
+## RULE 18 - DOCUMENT MAJOR CHANGES
 
 Update project memory after substantial work.
 
 ---
 
-## RULE 19 — TEST AFTER IMPLEMENTING
+## RULE 19 - TEST AFTER IMPLEMENTING
 
 Implementation without testing is incomplete.
 
 ---
 
-## RULE 20 — DO NOT STOP EARLY
+## RULE 20 - DO NOT STOP EARLY
 
 Continue until completion gates pass or a genuine external blocker exists.
 
@@ -2718,7 +2718,7 @@ Status: VERIFIED FIXED
 
 # NEXT EXACT ACTIONS
 
-Always maintain the next 3–10 exact tasks.
+Always maintain the next 3-10 exact tasks.
 
 ---
 
@@ -2974,7 +2974,7 @@ Do not make it painfully slow.
 
 ---
 
-# 20. LEVEL 0 — SOUND CHECK
+# 20. LEVEL 0 - SOUND CHECK
 
 Dedicated tutorial.
 
@@ -3065,21 +3065,21 @@ Replay from Sound Guide.
 
 Create three groups.
 
-# SERIES A — REFLECTION
+# SERIES A - REFLECTION
 
-Levels 1–4.
+Levels 1-4.
 
-# SERIES B — RESONANCE
+# SERIES B - RESONANCE
 
-Levels 5–8.
+Levels 5-8.
 
-# SERIES C — PHASE
+# SERIES C - PHASE
 
-Levels 9–12.
+Levels 9-12.
 
 ---
 
-# 23. LEVEL 1 — FIRST ECHO
+# 23. LEVEL 1 - FIRST ECHO
 
 Mechanics:
 
@@ -3091,7 +3091,7 @@ Simple independent puzzle.
 
 ---
 
-# 24. LEVEL 2 — CORNER TONE
+# 24. LEVEL 2 - CORNER TONE
 
 Use:
 
@@ -3102,7 +3102,7 @@ Introduce deeper spatial reasoning.
 
 ---
 
-# 25. LEVEL 3 — SILENT WALL
+# 25. LEVEL 3 - SILENT WALL
 
 Introduce:
 
@@ -3112,7 +3112,7 @@ One unwanted pulse path must be stopped.
 
 ---
 
-# 26. LEVEL 4 — ECHO PATH
+# 26. LEVEL 4 - ECHO PATH
 
 Combine:
 
@@ -3124,7 +3124,7 @@ First mastery puzzle.
 
 ---
 
-# 27. LEVEL 5 — SPLIT SIGNAL
+# 27. LEVEL 5 - SPLIT SIGNAL
 
 Introduce:
 
@@ -3134,7 +3134,7 @@ One emitter must activate two receivers.
 
 ---
 
-# 28. LEVEL 6 — TWO VOICES
+# 28. LEVEL 6 - TWO VOICES
 
 Combine:
 
@@ -3147,7 +3147,7 @@ Player must create two valid branches without triggering forbidden target.
 
 ---
 
-# 29. LEVEL 7 — LATE ECHO
+# 29. LEVEL 7 - LATE ECHO
 
 Introduce:
 
@@ -3161,7 +3161,7 @@ Timing visualization must be clear.
 
 ---
 
-# 30. LEVEL 8 — HARMONIC GATE
+# 30. LEVEL 8 - HARMONIC GATE
 
 Introduce:
 
@@ -3175,7 +3175,7 @@ This is logic, not a music exam.
 
 ---
 
-# 31. LEVEL 9 — CROSSING ECHOES
+# 31. LEVEL 9 - CROSSING ECHOES
 
 Introduce:
 
@@ -3188,7 +3188,7 @@ Make rule clear.
 
 ---
 
-# 32. LEVEL 10 — DOUBLE BEAT
+# 32. LEVEL 10 - DOUBLE BEAT
 
 Use:
 
@@ -3200,7 +3200,7 @@ Require a simple pulse timing pattern.
 
 ---
 
-# 33. LEVEL 11 — RESONANCE NETWORK
+# 33. LEVEL 11 - RESONANCE NETWORK
 
 Advanced combination:
 
@@ -3214,7 +3214,7 @@ Still keep layout readable.
 
 ---
 
-# 34. LEVEL 12 — FINAL RESONANCE
+# 34. LEVEL 12 - FINAL RESONANCE
 
 Final mastery level.
 
@@ -3266,7 +3266,7 @@ Store:
 - tutorial data
 - visual variation
 
-Do NOT implement Levels 0–12 via giant switch statements.
+Do NOT implement Levels 0-12 via giant switch statements.
 
 ---
 
@@ -3276,7 +3276,7 @@ Build an Editor validator.
 
 Validate:
 
-- IDs 00–12
+- IDs 00-12
 - unique IDs
 - emitters valid
 - components valid
@@ -3317,7 +3317,7 @@ Do NOT use previous-project scene names such as:
 
 ---
 
-# 38. RESONANCE HALL — MAIN MENU
+# 38. RESONANCE HALL - MAIN MENU
 
 This UI/environment must be completely distinct.
 
@@ -3370,7 +3370,7 @@ Secondary interactions exist around the circular environment.
 
 ---
 
-# 40. CHAMBER SELECT — RESONANCE DIAL
+# 40. CHAMBER SELECT - RESONANCE DIAL
 
 Do NOT create:
 
@@ -4071,7 +4071,7 @@ Actions:
 
 ---
 
-# 69. GAME ICON — MUST ACTUALLY BE CREATED
+# 69. GAME ICON - MUST ACTUALLY BE CREATED
 
 The game icon is a mandatory production artifact.
 
@@ -4450,7 +4450,7 @@ Create tests for:
 
 # 86. LEVEL QA
 
-Manually test Level 0 and Levels 1–12.
+Manually test Level 0 and Levels 1-12.
 
 For every main level verify:
 
@@ -4521,7 +4521,7 @@ Avoid:
 - repeated object searches
 - excessive physics
 
-Profile advanced Levels 11–12.
+Profile advanced Levels 11-12.
 
 ---
 
@@ -4545,7 +4545,7 @@ Before completion search for:
 
 Expected:
 
-# PASS — NO RUNTIME NETWORK FUNCTIONALITY
+# PASS - NO RUNTIME NETWORK FUNCTIONALITY
 
 Create:
 
@@ -4662,7 +4662,7 @@ Explicitly document how Echo Forge is visually different from the three previous
 
 # 94. LEVEL\_DESIGN.md
 
-Document all stages 00–12.
+Document all stages 00-12.
 
 For each:
 
@@ -4750,7 +4750,7 @@ UI work must include actual Game View inspection.
 
 # 97. VERTICAL SLICE FIRST
 
-Do NOT immediately mass-produce Levels 1–12.
+Do NOT immediately mass-produce Levels 1-12.
 
 First complete:
 
@@ -4788,7 +4788,7 @@ Then perform an originality review.
 
 Fix the foundation.
 
-Only then produce Levels 3–12.
+Only then produce Levels 3-12.
 
 ---
 
@@ -4822,7 +4822,7 @@ Only then produce Levels 3–12.
 ## CONTENT
 
 -  Level 0
--  Levels 1–12
+-  Levels 1-12
 -  13/13 validation
 -  all main levels solvable
 -  13/13 manual QA
@@ -5076,12 +5076,12 @@ Start with:
 18. create ResonanceHall
 19. create EchoChamber
 20. create Level 0
-21. create Levels 1–2
+21. create Levels 1-2
 22. build polished vertical slice
 23. create original audio foundation
 24. perform UI/originality audit
 25. fix foundation problems
-26. create Levels 3–12
+26. create Levels 3-12
 27. complete environment
 28. complete VFX/animation
 29. complete audio

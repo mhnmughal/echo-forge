@@ -1,25 +1,26 @@
-# OFFLINE_AUDIT — Echo Forge
+# OFFLINE_AUDIT - Echo Forge
 
 ## Conclusion
-`PASS — NO RUNTIME NETWORK FUNCTIONALITY` (2026-09-07)
+`PASS - NO RUNTIME NETWORK FUNCTIONALITY` (2026-09-07, re-verified after the
+network-package removal)
 
 ## Method + evidence
 - **Runtime code scan** (`Assets/EchoForge/Runtime/**`) for `UnityWebRequest`,
   `HttpClient`, `System.Net`, `Socket` / `TcpClient` / `UdpClient` / `WebClient`,
   `Firebase`, `Analytics`, `Advertisement` / `.Ads`, `Telemetry`, `RemoteConfig`,
-  `WebView`, `Application.OpenURL`, `DownloadHandler` — **zero matches** (the only
+  `WebView`, `Application.OpenURL`, `DownloadHandler` - **zero matches** (the only
   "Socket" hits are the game's *acoustic sockets*).
 - **No third-party runtime SDKs** in the project: no Firebase / AdMob / Unity Ads
   / AppsFlyer / GameAnalytics / Facebook / analytics / attribution packages
   present (see PACKAGE_AUDIT.md).
-- **Unity services disabled** — `ProjectSettings/UnityConnectSettings.asset`:
-  UnityConnect `m_Enabled: 0`, Analytics `0`, Ads `0`, Purchasing `0`,
-  Performance Reporting `0`, Cloud Diagnostics reporting `0`. (`EngineDiagnostics`
-  / `CaptureEditorExceptions` flags are editor-only, not in the player.)
-- **`com.unity.modules.unityanalytics`** engine module is present but unreferenced
-  by any code and gated off by the disabled service — no active runtime
-  networking (master prompt §32: unused engine symbols ≠ active networking).
-  Flagged for removal in PACKAGE_AUDIT.md.
+- **Unity services and diagnostics disabled** - `UnityConnectSettings.asset`:
+  UnityConnect `m_Enabled 0`, `EngineDiagnosticsEnabled 0`,
+  `CaptureEditorExceptions 0`, Analytics / Ads / Purchasing / Performance
+  Reporting / Cloud Diagnostics all `0`, `InitializeOnStartup 0`, service URLs
+  blanked. `ProjectSettings.asset`: `submitAnalytics 0`.
+- **Network engine modules removed** - `unitywebrequest`, `unitywebrequesttexture`,
+  `video`, plus every earlier `unitywebrequest*` and `unityanalytics` module. The
+  manifest holds 19 packages, none network capable. See PACKAGE_AUDIT.md.
 - **Save**: local JSON in `Application.persistentDataPath` only.
 - **Audio / assets / icon**: all project-generated offline; no remote loading.
 - **No login / accounts / multiplayer / remote config / web views.**
@@ -29,7 +30,6 @@
 usage descriptions requested.
 
 ## Residual
-Full removal of the unused `unityanalytics` / `unitywebrequest*` engine modules
-requires a normal editor launch — this session's editor runs with `-noUpm`
-(Package Manager disabled), so manifest edits do not resolve. This does not affect
-the offline conclusion (services are disabled and nothing references them).
+The `com.anklebreaker.unity-mcp` editor plugin remains for authoring. It is
+editor-only (never in the player build) and talks only to 127.0.0.1. It is the
+last item to remove before the store export (PACKAGE_AUDIT.md, master prompt §34).

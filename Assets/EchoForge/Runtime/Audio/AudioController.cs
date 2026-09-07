@@ -29,6 +29,7 @@ namespace EchoForge.Audio
         AudioSource[] _pool;
         int _next;
         float _effects = 1f;
+        bool _damped;
 
         void Awake()
         {
@@ -45,8 +46,11 @@ namespace EchoForge.Audio
                 if (sfxGroup != null) s.outputAudioMixerGroup = sfxGroup;
                 _pool[i] = s;
             }
-            ApplyVolumes();
         }
+
+        void Start() => ApplyVolumes();
+
+        public void SetDamped(bool damped) { _damped = damped; ApplyVolumes(); }
 
         public void ApplyVolumes()
         {
@@ -58,8 +62,8 @@ namespace EchoForge.Audio
                 mixer.SetFloat("MusicVol", ToDb(music));
                 mixer.SetFloat("EffectsVol", ToDb(_effects));
             }
-            if (ambienceSource != null && mixer == null)
-                ambienceSource.volume = music;
+            if (ambienceSource != null)
+                ambienceSource.volume = (mixer == null ? music : 1f) * (_damped ? 0.3f : 1f);
         }
 
         static float ToDb(float linear01) =>

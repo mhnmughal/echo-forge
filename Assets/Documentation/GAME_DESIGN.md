@@ -1,4 +1,4 @@
-# GAME_DESIGN — Echo Forge
+# GAME_DESIGN - Echo Forge
 
 Status: DRAFT (bootstrap).
 

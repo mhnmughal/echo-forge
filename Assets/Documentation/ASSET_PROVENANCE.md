@@ -1,4 +1,4 @@
-# ASSET_PROVENANCE — Echo Forge
+# ASSET_PROVENANCE - Echo Forge
 
 Every shipped non-code asset. Nothing external; all project-generated.
 
@@ -17,7 +17,7 @@ with `com.unity.ugui`). Used for all UI. Single family; weight/tracking/case giv
 hierarchy. No font files added to the repo, no prior-project font pairing reused.
 
 ## App icon
-`Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` — 1024×1024 master, plus
+`Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` - 1024×1024 master, plus
 180/120/60 QA downscales. **Procedurally rendered** by
 `Assets/EchoForge/Editor/Build/IconGen.cs` (2× supersampled raster): bronze
 resonance ring + three restrained violet acoustic wavefronts curving in from the
@@ -29,7 +29,7 @@ tool. Small-size QA (2026-09-07): ring silhouette + resonant point readable at
 no prior-project motif, no text.
 
 ## Audio
-See AUDIO_PROVENANCE.md — 20 project-generated procedural WAVs.
+See AUDIO_PROVENANCE.md - 20 project-generated procedural WAVs.
 
 ## External assets
 NONE.

@@ -1,4 +1,4 @@
-# UI_UX_SYSTEM — Echo Forge
+# UI_UX_SYSTEM - Echo Forge
 
 Status: DRAFT (bootstrap).
 
@@ -8,26 +8,26 @@ the screen. No full-width top HUD, no permanent tool dock, no status rail, no
 rectangular level grid, no generic menu cards.
 
 ## Screens / elements
-- **Resonance Hall** — circular acoustic room. Centerpiece: Suspended Resonance
+- **Resonance Hall** - circular acoustic room. Centerpiece: Suspended Resonance
   Ring (tap → vibrate + ripple). Primary: START SESSION / RESUME CHAMBER.
-- **Resonance Dial** — large radial dial; 12 chambers as frequency positions.
+- **Resonance Dial** - large radial dial; 12 chambers as frequency positions.
   Rotate to bring a chamber to focus. Shows number, title, completion quality,
   lock state. Sound Check accessed separately.
-- **Echo Chamber** — puzzle scene. Contextual selected-component readout near
+- **Echo Chamber** - puzzle scene. Contextual selected-component readout near
   lower-left safe region (e.g. `REFLECTOR / ANGLE 45`). Manipulation controls
   appear at the object.
-- **PULSE actuator** — physical Resonance Actuator at lower-center chamber frame.
+- **PULSE actuator** - physical Resonance Actuator at lower-center chamber frame.
   Not a generic button.
-- **Adjustment counter** — small engraved `TUNES 03`.
-- **Sound Damping pause** — damping panels slide inward, ambience filters down.
+- **Adjustment counter** - small engraved `TUNES 03`.
+- **Sound Damping pause** - damping panels slide inward, ambience filters down.
   Resume / Restart Chamber / Sound Guide / Exit Session.
-- **Tuning Strip settings** — Music/Ambience fader, Effects fader, Haptics toggle,
+- **Tuning Strip settings** - Music/Ambience fader, Effects fader, Haptics toggle,
   recessed Reset Progress, Credits maker plate.
-- **Sound Guide** — acoustic reference wall explaining each component.
-- **Success** — RESONANCE ACHIEVED (or CHAMBER IN TUNE on L12). Rating as
+- **Sound Guide** - acoustic reference wall explaining each component.
+- **Success** - RESONANCE ACHIEVED (or CHAMBER IN TUNE on L12). Rating as
   waveform marks: Resolved / Clean Echo / Pure Resonance. Actions: Next Chamber /
   Retune / Resonance Dial.
-- **Failure** — OUT OF PHASE / SIGNAL LOST + reason. Retune.
+- **Failure** - OUT OF PHASE / SIGNAL LOST + reason. Retune.
 
 ## Palette
 Midnight navy, graphite charcoal, warm bronze, matte black, soft ivory,

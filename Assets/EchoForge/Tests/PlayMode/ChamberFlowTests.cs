@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using System.IO;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +20,21 @@ namespace EchoForge.PlayTests
         static object Priv(object o, string field) => o.GetType().GetField(field, F).GetValue(o);
         static void Tap(LevelController lc, ComponentView v) =>
             typeof(LevelController).GetMethod("OnComponentTapped", F).Invoke(lc, new object[] { v });
+
+        byte[] _savedProgress;
+        string SavePath => Path.Combine(Application.persistentDataPath, "echoforge_save.json");
+
+        [OneTimeSetUp]
+        public void PreserveProgress() => _savedProgress = File.Exists(SavePath) ? File.ReadAllBytes(SavePath) : null;
+
+        [OneTimeTearDown]
+        public void RestoreProgress()
+        {
+            Time.timeScale = 1f;
+            if (_savedProgress == null) File.Delete(SavePath);
+            else File.WriteAllBytes(SavePath, _savedProgress);
+            SaveSystem.Load();
+        }
 
         [SetUp]
         public void Reset() => SaveSystem.ResetProgress();
@@ -108,16 +124,34 @@ namespace EchoForge.PlayTests
             var def = (EchoForge.Level.EchoLevelDefinition)
                 chamber.GetType().GetProperty("Definition").GetValue(chamber);
 
-            var adjList = (System.Collections.IList)
-                chamber.GetType().GetField("_adjustables", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(chamber);
-            adjList.Clear();
-            foreach (var c in def.optimalComponents) adjList.Add(c);
+            var runtime = (EchoForge.Level.ChamberRuntime)chamber;
+            var views = (System.Collections.Generic.List<ComponentView>)Priv(lc, "_adjustableViews");
+            for (int i = 0; i < def.optimalComponents.Count; i++)
+            {
+                var goal = def.optimalComponents[i];
+                Tap(lc, views[i]);
+                if (runtime.Adjustables[i].cell != goal.cell)
+                {
+                    var socket = Object.FindObjectsByType<SocketMarker>(FindObjectsSortMode.None);
+                    Assert.IsTrue(System.Array.Exists(socket, s => s.Cell == goal.cell), "Movable component must expose its destination socket");
+                    typeof(LevelController).GetMethod("OnSocketTapped", F).Invoke(lc, new object[] { goal.cell });
+                    Assert.AreEqual(goal.cell, views[i].Cell, "Moved view must follow logical position");
+                }
+                int turns = 0;
+                while (runtime.Adjustables[i].orient != goal.orient && turns++ < 4) Tap(lc, views[i]);
+                Assert.AreEqual(goal.orient, runtime.Adjustables[i].orient);
+            }
 
             lc.OnPulsePressed();
             yield return WaitUntilNotBusy(lc, 18f);
 
             Assert.IsTrue((bool)Priv(lc, "_solved"),
                 $"L{levelId:00} '{def.title}': optimal config did not solve through the scene pipeline");
+            lc.OnRetunePressed();
+            lc.OnPulsePressed();
+            Assert.IsTrue((bool)Priv(lc, "_busy"), "Retune after success must allow another pulse");
+            yield return WaitUntilNotBusy(lc, 18f);
+            Assert.IsTrue((bool)Priv(lc, "_solved"));
         }
 
         [UnityTest]
@@ -135,6 +169,47 @@ namespace EchoForge.PlayTests
             Assert.AreEqual(1f, Time.timeScale);
             var input = (ChamberInput)Priv(lc, "input");
             Assert.IsTrue(input.InputEnabled);
+        }
+
+        [UnityTest]
+        public IEnumerator PauseDuringPulse_StopsPlayback_AndResumeKeepsManipulationLocked()
+        {
+            yield return LoadChamber(11);
+            var lc = Controller();
+            lc.OnPulsePressed();
+            lc.OnPausePressed();
+            Assert.AreEqual(0f, Time.timeScale);
+            var input = (ChamberInput)Priv(lc, "input");
+            Assert.IsFalse(input.InputEnabled);
+            yield return new WaitForSecondsRealtime(0.1f);
+            Assert.IsTrue((bool)Priv(lc, "_busy"));
+            lc.OnResumePressed();
+            Assert.IsFalse(input.InputEnabled, "Resuming a pulse must not unlock component manipulation");
+            yield return WaitUntilNotBusy(lc, 18f);
+            lc.OnRetunePressed();
+            Assert.IsTrue(input.InputEnabled);
+        }
+
+        [UnityTest]
+        public IEnumerator AdvancedBoards_StayAboveActuator_AndEmitterFacesItsLogicalDirection()
+        {
+            foreach (int id in new[] { 11, 12 })
+            {
+                yield return LoadChamber(id);
+                var lc = Controller();
+                var runtime = (EchoForge.Level.ChamberRuntime)Priv(lc, "_chamber");
+                foreach (var view in Object.FindObjectsByType<ComponentView>(FindObjectsSortMode.None))
+                {
+                    var p = Camera.main.WorldToViewportPoint(view.transform.position);
+                    Assert.That(p.x, Is.InRange(0.07f, 0.93f));
+                    Assert.That(p.y, Is.InRange(0.24f, 0.9f), "Component must not be hidden under PULSE");
+                    if (view.Type != EchoForge.Sim.CompType.Emitter) continue;
+                    var source = runtime.Definition.emitters.Find(e => e.cell == view.Cell);
+                    var forward = view.transform.Find("Spinner").forward;
+                    var step = EchoForge.Sim.Directions.Step(source.dir);
+                    Assert.Greater(Vector3.Dot(forward, new Vector3(step.x, 0, step.y).normalized), 0.99f);
+                }
+            }
         }
     }
 }

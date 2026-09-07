@@ -1,7 +1,7 @@
-# PROJECT_CONTEXT.md — Echo Forge
+# PROJECT_CONTEXT.md - Echo Forge
 
 ## Product
-**Echo Forge** — a 2.5D offline spatial acoustic logic puzzle game.
+**Echo Forge** - a 2.5D offline spatial acoustic logic puzzle game.
 
 ## Core fantasy
 **Tune the room, not the character.** The player configures a physical acoustic
@@ -33,14 +33,14 @@ Unity Test Framework. MCP: com.anklebreaker.unity-mcp (plugin 2.39.5, port 7890)
 
 ## Content scope
 Exactly 13 stages: Level 0 (Sound Check tutorial) + Levels 1-12.
-- Series A — Reflection: 1-4
-- Series B — Resonance: 5-8
-- Series C — Phase: 9-12
+- Series A - Reflection: 1-4
+- Series B - Resonance: 5-8
+- Series C - Phase: 9-12
 
 ## Scenes
-- `Bootstrap` — entry, save load, routing
-- `ResonanceHall` — circular acoustic main menu + Resonance Dial chamber select
-- `EchoChamber` — the puzzle scene (data-driven per level)
+- `Bootstrap` - entry, save load, routing
+- `ResonanceHall` - circular acoustic main menu + Resonance Dial chamber select
+- `EchoChamber` - the puzzle scene (data-driven per level)
 
 ## Systems (see Assets/Documentation/ARCHITECTURE.md)
 AcousticGraph, PulseSimulator, Emitter, Reflector, Absorber, Splitter, DelayPlate,

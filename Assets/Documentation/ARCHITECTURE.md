@@ -1,25 +1,25 @@
-# ARCHITECTURE — Echo Forge
+# ARCHITECTURE - Echo Forge
 
 Status: CURRENT (2026-09-07). All systems below implemented + tested.
 
 ## Build / authoring tools (Editor, `Assets/EchoForge/Editor/Build/`)
-- `EchoBuild` — palette, URP material factory, UI factory, post-process profile,
+- `EchoBuild` - palette, URP material factory, UI factory, post-process profile,
   generated UI sprites, primitive/light helpers.
-- `EchoBuildScenes` — `Echo Forge/Build/*` menu: rebuilds the 3 scenes + catalog
+- `EchoBuildScenes` - `Echo Forge/Build/*` menu: rebuilds the 3 scenes + catalog
   + soundbank at edit time and serialises them (scene-authored, not runtime).
-- `AudioGen` — offline procedural WAV synthesis -> SoundBank.
-- `IconGen` — procedural 1024 icon render -> Player Settings.
-- `PlayerConfig` — production Player Settings.
-- `LevelValidator` — `Echo Forge/Validate Levels`, target 13/13.
+- `AudioGen` - offline procedural WAV synthesis -> SoundBank.
+- `IconGen` - procedural 1024 icon render -> Player Settings.
+- `PlayerConfig` - production Player Settings.
+- `LevelValidator` - `Echo Forge/Validate Levels`, target 13/13.
 
 ## Assemblies
-- `EchoForge.Runtime` (Assets/EchoForge/Runtime) — all gameplay/runtime code.
-- `EchoForge.Editor` (Assets/EchoForge/Editor) — validator, tooling, asset gen,
+- `EchoForge.Runtime` (Assets/EchoForge/Runtime) - all gameplay/runtime code.
+- `EchoForge.Editor` (Assets/EchoForge/Editor) - validator, tooling, asset gen,
   `ResponsiveQA` (Game View aspect harness).
-- `EchoForge.Tests` / `EchoForge.PlayTests` — EditMode + PlayMode tests.
+- `EchoForge.Tests` / `EchoForge.PlayTests` - EditMode + PlayMode tests.
 
 No third-party runtime assemblies. MCP plugin is Editor-only tooling.
-Packages trimmed to 29 (see PACKAGE_AUDIT.md).
+Packages trimmed to 19, network modules removed (see PACKAGE_AUDIT.md).
 
 ## Deterministic simulation (authoritative)
 The puzzle result is computed entirely by `PulseSimulator`, a pure C# discrete
@@ -29,8 +29,8 @@ the logical outcome.
 - **Grid**: integer cell coordinates on a 2D plane (`Vector2Int`).
 - **Direction**: 4- or 8-way enum (`Dir`), fixed unit steps.
 - **PulseState**: `{ cell, dir, beat, channel, branchId, alive }`.
-- **AcousticGraph**: immutable snapshot of a chamber configuration — component at
-  each occupied cell + its oriented behavior — built from an `EchoLevelDefinition`
+- **AcousticGraph**: immutable snapshot of a chamber configuration - component at
+  each occupied cell + its oriented behavior - built from an `EchoLevelDefinition`
   plus the player's current adjustments.
 - **Step loop**: BFS/queue over active pulses, advancing one cell per beat.
   Components transform pulses on entry:
@@ -52,7 +52,7 @@ resonatorStates[], totalBeats, endedByCap }`.
 ResonanceIncomplete }`.
 
 ## Level data
-`EchoLevelDefinition` ScriptableObject — see LEVEL_DESIGN.md for full field list.
+`EchoLevelDefinition` ScriptableObject - see LEVEL_DESIGN.md for full field list.
 Levels 0-12 are individual assets under `Assets/EchoForge/Levels/`. No switch
 statements on level id in gameplay code.
 
@@ -62,18 +62,18 @@ statements on level id in gameplay code.
 `SceneFlow` handles additive/single loads and transitions.
 
 ## Save
-`SaveController` — versioned JSON in `Application.persistentDataPath`. Handles
+`SaveController` - versioned JSON in `Application.persistentDataPath`. Handles
 missing / corrupt / newer-version saves. Never downgrades an earned rating.
 
 ## Audio
 `AudioController` + `EchoForge.mixer` AudioMixer (Master → Ambience / SFX / UI,
 exposed MusicVol / EffectsVol / UIVol). Clips are project-generated (see
-AUDIO_PROVENANCE.md). Saved 0–1 slider values drive the exposed params in dB;
+AUDIO_PROVENANCE.md). Saved 0-1 slider values drive the exposed params in dB;
 a multiplier fallback covers `mixer == null`.
 
 ## Presentation assets (edit-time generated, `Assets/EchoForge/Art/`)
-- `ResonanceRing.asset` — procedural torus mesh for the Hall's suspended ring
+- `ResonanceRing.asset` - procedural torus mesh for the Hall's suspended ring
   (`EchoPolish.BuildTorus`), replaced the flat scaled-cylinder stand-in.
-- `EchoForge.mixer` — see Audio, above.
-- `EchoForge_Post.asset` — URP post profile (bloom / ACES / color / vignette).
+- `EchoForge.mixer` - see Audio, above.
+- `EchoForge_Post.asset` - URP post profile (bloom / ACES / color / vignette).
 Menu: `Echo Forge/Build/8 - Ring Mesh + Mixer`.

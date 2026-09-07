@@ -6,7 +6,7 @@ using UnityEngine;
 namespace EchoForge.EditorTools
 {
     /// <summary>Drives the Game View to each target device aspect for the responsive/safe-area
-    /// QA pass. Landscape only (the game is landscape-locked). Editor tooling — never shipped.</summary>
+    /// QA pass. Landscape only (the game is landscape-locked). Editor tooling - never shipped.</summary>
     public static class ResponsiveQA
     {
         // label -> (w, h). Landscape. Covers 16:9 .. 21:9 phones and 4:3 / ~4.3:3 tablets.

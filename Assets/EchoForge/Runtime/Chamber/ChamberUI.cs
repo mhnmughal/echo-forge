@@ -96,6 +96,7 @@ namespace EchoForge.Chamber
         public void ShowSoundGuide(bool on)
         {
             if (soundGuideLayer) soundGuideLayer.SetActive(on);
+            if (pauseLayer && Time.timeScale == 0f) pauseLayer.SetActive(!on);
         }
 
         static void SetGroup(CanvasGroup g, bool on)

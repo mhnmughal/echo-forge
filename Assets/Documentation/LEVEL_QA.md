@@ -1,4 +1,4 @@
-# LEVEL_QA — Echo Forge
+# LEVEL_QA - Echo Forge
 
 Manual player-facing QA per stage. Manual = played through the real flow
 (load, select, rotate, move, PULSE, correct + incorrect solution, fail reason,
@@ -7,13 +7,14 @@ success, retry/reset, pause/resume, rating, save, unlock, replay).
 Target: `13 / 13 HUMAN TOUCH PASS`.
 
 Two categories, both required, never substituted for each other:
-- **DATA / SIMULATION VALID** — `LevelValidator` runs the deterministic sim on
+- **DATA / SIMULATION VALID** - `LevelValidator` runs the deterministic sim on
   each level's optimal config. **13/13 VALID**.
-- **AUTOMATED CONTROLLER QA** — `EchoForge.PlayTests` loads each level in the real
-  EchoChamber scene and drives it to success through `LevelController`.
-  **13/13 PASS** (job 8690206b3364, 2026-09-07).
-- **HUMAN TOUCH QA** — a person plays each stage with touch controls.
-  **0/13 — NOT VERIFIED** (no device / no human tester available).
+- **AUTOMATED CONTROLLER QA** - `EchoForge.PlayTests` loads each level in the real
+  EchoChamber scene and drives it to the solve by tapping, moving, and rotating
+  the parts through `LevelController`, then retunes and re-pulses.
+  **13/13 PASS** (2026-09-07, part of the 19-test PlayMode suite).
+- **HUMAN TOUCH QA** - a person plays each stage with touch controls.
+  **0/13 - NOT VERIFIED** (no device / no human tester available).
 
 | Stage | Data valid | Automated controller | Human touch |
 |-------|-----------|----------------------|-------------|

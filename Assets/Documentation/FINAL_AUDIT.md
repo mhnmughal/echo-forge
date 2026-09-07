@@ -1,4 +1,4 @@
-# FINAL_AUDIT — Echo Forge
+# FINAL_AUDIT - Echo Forge
 
 Date: 2026-09-07. Honest PASS / FAIL / NOT VERIFIED (master prompt §30, §58).
 
@@ -29,34 +29,35 @@ Final Level 12: PASS  (2 emitters -> converging resonator, BeatDelta 2)
 Chamber In Tune Finale: PASS  (plays once on return; emblem persists; finaleSeen)
 
 Resonance Hall UI: PASS  (centred menu card, one flush button column, primary
-  emphasis, title + bronze rule — PHOTO-verified 16:9)
+  emphasis, title + bronze rule - PHOTO-verified 16:9)
 Resonance Dial UI: PASS (radial, 12 nodes, header, aligned close/launch)
 Echo Chamber UI: PASS (contextual, chamber-dominant, no permanent dock; HUD pills
   + pause menu PHOTO-verified 16:9)
-UI system: PASS  (one EchoBuild factory — themed Button/Panel/Header/ButtonStack;
+UI system: PASS  (one EchoBuild factory - themed Button/Panel/Header/ButtonStack;
   panels + buttons share margins, heights, gaps; bronze/graphite/ivory throughout)
 Contextual Controls: PASS   PULSE Actuator: PASS (physical circular strike pad)
 Sound Damping Pause: PASS   Tuning Strip: PASS (real persisted settings + reset
   confirm)   Sound Guide: PASS
-Responsive Phone UI: PARTIAL   Responsive Tablet UI: PARTIAL
-  (layout ANALYZED across all 5 target aspects — CanvasScaler match-height + all
-  UI under SafeAreaFitter → no clip predicted; PHOTO-verified Hall 16:9,
-  Chamber 16:9 + 4:3. Middle aspects + a 4:3 corner-HUD recheck need a focused
-  editor. See UI_QA.md.)
+Responsive Phone UI: PASS   Responsive Tablet UI: PASS
+  (layout model PASS across all 5 target aspects; ReleaseQA captured all 13 UI
+  states at all 5 aspects = 65 frames in QA/Responsive/, subset hand-inspected;
+  per-aspect camera fit keeps every board above the actuator. See UI_QA.md.
+  Real-device / Dynamic Island check still needs hardware.)
 Safe Area: PARTIAL  (SafeAreaFitter drives every canvas, math correct; not
   device-verified on a real notch / Dynamic Island)
-Touch UX: PASS (automated) / human comfort NOT VERIFIED
+Touch UX: PASS (automated + 96x80 minimum touch-target padding) / human comfort NOT VERIFIED
 
-Environment: PARTIAL  (scene-authored bronze frame, radial wall panels, resonator
-  posts, real torus Resonance Ring, layered warm/violet lighting; stylised-
-  minimal, not the full membrane/detail treatment of §21 — a real-time art pass
-  on a focused editor is the remaining gap)
+Environment: PASS  (scene-authored bronze frame + rivets, radial wall panels,
+  acoustic membranes with fabric skins, absorption ribs, radial floor inlays,
+  resonator posts, real torus Resonance Ring, layered warm/violet lighting;
+  reads as an acoustic laboratory, not a gray-box)
 Materials: PASS (URP, project palette; component emissives + glow lights raised
   for board readability)   Lighting: PASS (baked-free, few lights, gradient key)
-VFX: PARTIAL  (pulse wave-packet trail + component glow + impact sfx; no dedicated
-  particle systems for membrane/charge/branch yet)
-Animations: PARTIAL  (ring ripple, finale, reflector snap via orientation; no
-  skeletal/keyframed component animation)
+VFX: PASS  (curved pressure wavefront + travelling trail, delay-plate charge hold,
+  expanding impact rings per segment end, per-component vibration/compression,
+  shared wave material - no per-packet allocation)
+Animations: PARTIAL  (ring ripple, finale, camera fit, component react squash,
+  reflector snap via orientation; no skeletal/keyframed component animation)
 
 Original Audio: PASS  (20 procedural WAVs, AudioGen)
 Audio Listening QA: NOT VERIFIED  (no audio output device in this environment;
@@ -84,8 +85,9 @@ Reset: PASS  (confirmation dialog + ResetProgress)
 
 Offline Audit: PASS - NO RUNTIME NETWORK FUNCTIONALITY
 Third-Party SDK Audit: PASS  (none present)
-Package Audit: PASS  (applied — 53 -> 29 deps; re-verified tests/validator/build;
-  see PACKAGE_AUDIT.md. §34 MCP-plugin strip still pending final export.)
+Package Audit: PASS  (applied in two passes, 53 -> 29 -> 19 deps; all network
+  engine modules removed; Unity diagnostics + analytics disabled; re-verified
+  tests/validator/build. See PACKAGE_AUDIT.md. §34 MCP-plugin strip still pending.)
 MCP Production Cleanup: NOT DONE  (MCP still needed for authoring; Editor-only
   plugin, not in player output - to be removed before the final production export)
 
@@ -95,9 +97,11 @@ Local Performance: NOT VERIFIED  (no profiler pass; scenes are lightweight -
   primitives, <10 lights, one trail, no per-frame allocs in hot paths)
 Device Performance Level 11: NOT VERIFIED   Device Performance Level 12: NOT VERIFIED
 
-Automated Tests: PASS  (34 total: 17 EditMode + 17 PlayMode)
+Automated Tests: PASS  (36 total: 17 EditMode + 19 PlayMode; the campaign test now
+  moves + rotates every level's parts through the real controller, and there are
+  new tests for pause-during-pulse and board-fits-above-actuator on L11/L12)
 Console: PASS  (0 compile errors, 0 editor-assembly warnings, 0 build warnings)
-Windows Build: PASS  (0 errors / 0 warnings / ~103 MB, post package-trim)
+Windows Build: PASS  (0 errors / 0 warnings / ~99 MB, post 19-package trim)
 Windows Smoke Test: PASS  (launches, D3D12 + Input System + PhysX init, runs
   without exception)
 iOS Unity Export: NOT VERIFIED  (requires macOS/Xcode toolchain)
@@ -109,7 +113,7 @@ Summary Bank: PASS
 
 Final Automated Tests:
   EditMode  EchoForge.Tests      17/17 PASS
-  PlayMode  EchoForge.PlayTests  17/17 PASS  (incl. 13/13 levels via scene)
+  PlayMode  EchoForge.PlayTests  19/19 PASS  (incl. 13/13 levels via scene)
 
 Final Level Validation:
   Echo Forge/Validate Levels  ->  13/13 VALID
@@ -122,27 +126,36 @@ Known Locally Fixable Release-Blocking Bugs:
 
 Genuine External Blockers (cannot be cleared in this environment):
   - macOS + Xcode toolchain (iOS export, archive, code sign)
-  - physical iOS device (install, device profiling)
+  - physical iOS device (install, device profiling, real notch / Dynamic Island)
   - human tester (13/13 touch QA, interaction comfort, audio fatigue)
   - audio output device (listening QA)
-  - a FOCUSED interactive editor for real-time visual iteration + the last
-    responsive photo captures (this session's editor renders the Game View only
-    when focused, which is not controllable from here)
+  - App Store screenshots + preview video (need a device or a framed capture set)
+  - hosting for PRIVACY_POLICY.md and a support page (needs a URL the user owns)
 
-Cleared this session (were blockers):
-  - `-noUpm` — editor relaunched normally; package trim APPLIED (53->29),
-    SampleScene already gone, AudioMixer asset built + wired.
+Cleared across this session:
+  - Packages trimmed 53 -> 29 -> 19, all network modules removed, Unity
+    diagnostics + analytics disabled. SampleScene gone. Real AudioMixer built +
+    wired. Torus Resonance Ring. Private GitHub remote pushed. README + App Store
+    listing + privacy policy written. Project text de-dashed (US English).
+  - UI system unified + realigned; modal panels no longer bleed the menu or
+    environment; dial LOCKED / number overlap fixed; per-aspect camera fit so
+    boards clear the actuator; touch targets padded to 96x80.
+  - Environment dressed (membranes, ribs, floor inlays); pulse VFX reworked
+    (curved wavefront, delay charge, impact rings); component react animation.
+  - Automated tests 34 -> 36; campaign test drives real moves + rotations.
+  - `ReleaseQA` + `ResponsiveQA`: 65-frame capture pass across 5 aspects.
 
 Latest Git Commit:
-  see `git log -1`  (local only, never pushed)
+  see `git log -1`  (origin = private github.com/mhnmughal/echo-forge)
 
 PROJECT STATUS:
   IN_PROGRESS
-  Rationale: fully playable and heavily verified (13/13 valid, 34 tests, clean
-  103 MB Windows build, offline PASS, package trim applied, real AudioMixer,
-  torus Resonance Ring, icon + audio + mobile settings done). Remaining work is
-  now bounded to items that need a focused interactive editor or external
-  hardware: a real-time environment/VFX/animation art pass, the last responsive
-  photo captures, a profiler pass, iOS export/sign/device, human touch + audio
-  listening QA. No locally-achievable release-blocking work is outstanding.
+  Rationale: fully playable and heavily verified (13/13 valid, 36 tests, clean
+  ~99 MB Windows build, offline PASS, 19-package network-free manifest, real
+  AudioMixer, dressed environment, reworked pulse VFX, unified aligned UI,
+  responsive capture pass). Remaining work needs external hardware or hosting:
+  iOS export/sign/device, a real-device UI + notch check, human touch + audio
+  listening QA, a profiler pass on device, App Store screenshots, and a URL to
+  host the privacy policy. No locally-achievable release-blocking work is
+  outstanding; the MCP editor plugin is the last package to strip before export.
 ```

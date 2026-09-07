@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -18,6 +19,8 @@ namespace EchoForge.Chamber
         [SerializeField] LayerMask rayMask = ~0;
 
         public bool InputEnabled = true;
+        readonly List<RaycastResult> _uiHits = new();
+        PointerEventData _pointerData;
 
         public event Action<ComponentView> ComponentTapped;
         public event Action<Vector2Int> SocketTapped;
@@ -34,9 +37,16 @@ namespace EchoForge.Chamber
             var p = Pointer.current;
             if (p == null || !p.press.wasPressedThisFrame) return;
 
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-
             Vector2 screen = p.position.ReadValue();
+            // Query this press, including a touchscreen press, rather than last frame's mouse hover.
+            if (EventSystem.current != null)
+            {
+                _pointerData ??= new PointerEventData(EventSystem.current);
+                _pointerData.position = screen;
+                _uiHits.Clear();
+                EventSystem.current.RaycastAll(_pointerData, _uiHits);
+                if (_uiHits.Count > 0) return;
+            }
             Ray ray = cam.ScreenPointToRay(screen);
             if (Physics.Raycast(ray, out RaycastHit hit, 200f, rayMask, QueryTriggerInteraction.Collide))
             {

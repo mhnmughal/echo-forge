@@ -52,6 +52,8 @@ namespace EchoForge.Chamber
         bool _solved;
         int _tutorialStep;
         string[] _tutorialLines = System.Array.Empty<string>();
+        Coroutine _tutorialRoutine;
+        float _cameraAspect;
 
         void Start()
         {
@@ -79,6 +81,7 @@ namespace EchoForge.Chamber
             }
 
             BuildBoard();
+            FitCamera();
             if (ui != null) ui.SetTunes(0);
 
             AudioController.Instance?.PlayAmbience();
@@ -87,7 +90,7 @@ namespace EchoForge.Chamber
             {
                 _tutorialLines = _def.tutorialText.Split('\n');
                 _tutorialStep = 0;
-                StartCoroutine(TutorialIntro());
+                _tutorialRoutine = StartCoroutine(TutorialIntro());
             }
             else if (ui != null)
             {
@@ -97,10 +100,39 @@ namespace EchoForge.Chamber
 
         void OnDestroy()
         {
+            AudioController.Instance?.SetDamped(false);
             if (input == null) return;
             input.ComponentTapped -= OnComponentTapped;
             input.SocketTapped -= OnSocketTapped;
             input.BackgroundTapped -= OnBackgroundTapped;
+        }
+
+        void LateUpdate()
+        {
+            if (cam != null && !Mathf.Approximately(_cameraAspect, cam.aspect)) FitCamera();
+        }
+
+        void FitCamera()
+        {
+            if (cam == null || _def == null) return;
+            _cameraAspect = cam.aspect;
+            // Keep the data-driven board above the actuator at every landscape aspect.
+            var target = boardRoot.position - cam.transform.up * 1.2f;
+            float halfW = _def.chamberSize.x * cellSize * 0.5f + 0.5f;
+            float halfH = _def.chamberSize.y * cellSize * 0.5f + 0.5f;
+            for (float distance = 14f; distance <= 45f; distance += 0.25f)
+            {
+                cam.transform.position = target - cam.transform.forward * distance;
+                bool fits = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    var p = boardRoot.TransformPoint(new Vector3((i & 1) == 0 ? -halfW : halfW,
+                        (i & 2) == 0 ? 0f : 1.4f, (i & 4) == 0 ? -halfH : halfH));
+                    var v = cam.WorldToViewportPoint(p);
+                    if (v.x < 0.07f || v.x > 0.93f || v.y < 0.24f || v.y > 0.9f) fits = false;
+                }
+                if (fits) break;
+            }
         }
 
         // ---------------- board construction ----------------
@@ -227,7 +259,7 @@ namespace EchoForge.Chamber
             ring2.SetActive(false);
 
             view.BindVisuals(spinner, ring2, accent);
-            view.ApplyOrientation(orient);
+            if (type == CompType.Reflector || type == CompType.Splitter) view.ApplyOrientation(orient);
             _viewByCell[cell] = view;
             return view;
         }
@@ -269,15 +301,11 @@ namespace EchoForge.Chamber
                 if (_selected == view) RotateSelected();
                 else Select(view);
             }
-            else if (_chamber.CanMove(idx))
-            {
-                Select(view);
-                SetSocketsVisible(true);
-            }
             else
             {
                 Select(view);
             }
+            SetSocketsVisible(_chamber.CanMove(idx));
 
             NotifyTutorial(TutEvent.Selected);
         }
@@ -289,6 +317,9 @@ namespace EchoForge.Chamber
             if (!_chamber.CanMoveTo(idx, cell)) return;
 
             _chamber.MoveTo(idx, cell);
+            _viewByCell.Remove(_selected.Cell);
+            _selected.SetCell(cell);
+            _viewByCell[cell] = _selected;
             _selected.transform.localPosition = _grid.Local(cell, 0f);
             if (ui != null) ui.SetTunes(_chamber.Tunes);
             AudioController.Instance?.Play(Sfx.ComponentSocket);
@@ -374,6 +405,8 @@ namespace EchoForge.Chamber
 
             AudioController.Instance?.Play(Sfx.PulseActuator);
             AudioController.Instance?.Play(Sfx.EmitterPulse, 1f, 0.9f);
+            foreach (var emitter in _def.emitters)
+                if (_viewByCell.TryGetValue(emitter.cell, out var source)) source.React(SegEnd.Receiver);
             Haptics.Play(Haptic.Medium);
 
             var result = _chamber.Pulse();
@@ -387,6 +420,7 @@ namespace EchoForge.Chamber
         {
             if (_viewByCell.TryGetValue(seg.to, out var v))
             {
+                v.React(seg.end);
                 if (seg.end is SegEnd.Receiver or SegEnd.Resonator or SegEnd.Forbidden)
                     v.SetActivated(true);
             }
@@ -455,6 +489,7 @@ namespace EchoForge.Chamber
 
         public void OnRetunePressed()
         {
+            _solved = false;
             if (ui != null) ui.HideResult();
             visualizer?.Clear();
             foreach (var v in _viewByCell.Values) v.SetActivated(false);
@@ -467,18 +502,19 @@ namespace EchoForge.Chamber
 
         public void OnPausePressed()
         {
-            if (_busy) return;
             Time.timeScale = 0f;
             if (input != null) input.InputEnabled = false;
             if (ui != null) ui.ShowPause(true);
             AudioController.Instance?.Play(Sfx.PauseDamping);
+            AudioController.Instance?.SetDamped(true);
         }
 
         public void OnResumePressed()
         {
+            AudioController.Instance?.SetDamped(false);
             Time.timeScale = 1f;
             if (ui != null) ui.ShowPause(false);
-            if (input != null) input.InputEnabled = true;
+            if (input != null) input.InputEnabled = !_busy && !_solved;
         }
 
         public void OnRestartPressed() { Time.timeScale = 1f; SceneFlow.ReloadChamber(); }
@@ -518,6 +554,7 @@ namespace EchoForge.Chamber
             }
             else if (e == TutEvent.Solved)
             {
+                if (_tutorialRoutine != null) StopCoroutine(_tutorialRoutine);
                 ui.HideTutorial();
             }
         }

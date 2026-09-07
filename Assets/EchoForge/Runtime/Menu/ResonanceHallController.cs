@@ -17,9 +17,20 @@ namespace EchoForge.Menu
         [SerializeField] GameObject chamberInTuneEmblem;
         [SerializeField] Transform resonanceRing;
         [SerializeField] Light rimLight;
+        [SerializeField] GameObject[] modalPanels;
+        [SerializeField] GameObject[] menuElements;
 
         Vector3 _ringBaseScale = Vector3.one;
         float _rimBaseIntensity;
+
+        void LateUpdate()
+        {
+            bool modal = false;
+            if (modalPanels != null) foreach (var panel in modalPanels) if (panel != null && panel.activeSelf) modal = true;
+            if (menuElements != null) foreach (var element in menuElements)
+                if (element != null) element.SetActive(!modal && (element != chamberInTuneEmblem || SaveSystem.Data.chamberInTune));
+            if (primaryActionLabel != null) primaryActionLabel.text = SaveSystem.Data.tutorialComplete ? "RESUME CHAMBER" : "START SESSION";
+        }
 
         void Start()
         {

@@ -14,6 +14,79 @@ namespace EchoForge.EditorTools
         public const string TorusPath = EchoBuild.ArtDir + "/ResonanceRing.asset";
         public const string MixerPath = EchoBuild.ArtDir + "/EchoForge.mixer";
 
+        /// <summary>Pads any control smaller than the 96x80 minimum touch target with an
+        /// invisible child that expands only the short axis. Needs real RectTransform sizes,
+        /// so it forces a layout pass first. No-op for controls already large enough.</summary>
+        public static void ImproveTouchTargets()
+        {
+            Canvas.ForceUpdateCanvases();
+            foreach (var control in UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Selectable>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                var rt = control.transform as RectTransform;
+                if (rt == null || rt.Find("TouchArea") != null) continue;
+                float w = rt.rect.width, h = rt.rect.height;
+                if (w <= 1f || h <= 1f) continue;                 // degenerate rect: skip rather than balloon it
+                float padX = Mathf.Max(0f, 96f - w), padY = Mathf.Max(0f, 80f - h);
+                if (padX <= 0f && padY <= 0f) continue;           // already a comfortable target
+                var area = new GameObject("TouchArea", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+                var touch = (RectTransform)area.transform;
+                touch.SetParent(rt, false);
+                touch.SetAsFirstSibling();
+                touch.anchorMin = Vector2.zero; touch.anchorMax = Vector2.one;
+                touch.sizeDelta = new Vector2(padX, padY);
+                var img = area.GetComponent<UnityEngine.UI.Image>();
+                img.color = Color.clear;
+                img.raycastTarget = true;
+            }
+        }
+
+        public static void DressEnvironment(bool hall)
+        {
+            var root = GameObject.Find(hall ? "HallEnvironment" : "ChamberEnvironment");
+            if (root == null || root.transform.Find("AcousticDetail") != null) return;
+            var detail = new GameObject("AcousticDetail").transform;
+            detail.SetParent(root.transform, false);
+            var bronze = AssetDatabase.LoadAssetAtPath<Material>(EchoBuild.MatDir + "/Env_Bronze.mat");
+            var fabric = EchoBuild.Mat("Env_Membrane", EchoBuild.Hex("494454"), 0.15f, 0.35f);
+            var ribs = EchoBuild.Mat("Env_Ribs", EchoBuild.Hex("33333D"), 0.3f, 0.3f);
+            var torus = AssetDatabase.LoadAssetAtPath<Mesh>(TorusPath) ?? BuildTorus();
+            if (hall)
+            {
+                foreach (Transform child in root.transform)
+                    if (child.name.StartsWith("WallPanel") && child.localPosition.z < 1f) child.gameObject.SetActive(false);
+            }
+            for (int i = -2; i <= 2; i++)
+            {
+                var position = hall ? new Vector3(i * 2.5f, 2.5f, 8.5f - Mathf.Abs(i) * 0.6f)
+                    : new Vector3(i * 3f, 2.1f, 6.25f);
+                var ring = new GameObject("MembraneRim" + i, typeof(MeshFilter), typeof(MeshRenderer));
+                ring.transform.SetParent(detail, false);
+                ring.transform.localPosition = position;
+                ring.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                ring.transform.localScale = Vector3.one * 0.75f;
+                ring.GetComponent<MeshFilter>().sharedMesh = torus;
+                ring.GetComponent<MeshRenderer>().sharedMaterial = bronze;
+                EchoBuild.Primitive(PrimitiveType.Cylinder, "ResonantMembrane" + i, detail,
+                    position + Vector3.forward * 0.04f, new Vector3(90, 0, 0), new Vector3(1.3f, 0.025f, 1.3f), fabric);
+                for (int rib = -3; rib <= 3; rib++)
+                    EchoBuild.Primitive(PrimitiveType.Cube, "AbsorptionRib", detail,
+                        position + new Vector3(rib * 0.20f, -1.25f, 0.07f), Vector3.zero,
+                        new Vector3(0.06f, 0.65f, 0.12f), ribs);
+            }
+            if (hall)
+                for (int i = 0; i < 24; i++)
+                {
+                    float a = i * Mathf.PI / 12f;
+                    EchoBuild.Primitive(PrimitiveType.Cube, "RadialInlay" + i, detail,
+                        new Vector3(Mathf.Sin(a) * 5.2f, 0.075f, 2f + Mathf.Cos(a) * 5.2f),
+                        new Vector3(0, a * Mathf.Rad2Deg, 0), new Vector3(0.028f, 0.025f, 2.8f), bronze);
+                }
+            else
+                for (int i = -6; i <= 6; i++)
+                    EchoBuild.Primitive(PrimitiveType.Cylinder, "FrameFastener" + i, detail,
+                        new Vector3(i, 0.32f, 5.6f), Vector3.zero, new Vector3(0.10f, 0.025f, 0.10f), ribs);
+        }
+
         [MenuItem("Echo Forge/Build/8 - Ring Mesh + Mixer")]
         public static void BuildAll()
         {
@@ -24,7 +97,7 @@ namespace EchoForge.EditorTools
 
         // ---------------------------------------------------------------- torus mesh
 
-        /// <summary>Torus in the XZ plane, major R = 1, tube r = 0.13 — scale the transform to
+        /// <summary>Torus in the XZ plane, major R = 1, tube r = 0.13 - scale the transform to
         /// size it. Replaces the flat scaled-cylinder that used to stand in for the ring.</summary>
         public static Mesh BuildTorus()
         {
@@ -80,7 +153,7 @@ namespace EchoForge.EditorTools
 
         /// <summary>AudioMixer asset: Master -> {Ambience, SFX, UI}, exposing MusicVol /
         /// EffectsVol / UIVol. Built through the internal AudioMixerController by reflection
-        /// (no public creation API). On any failure it logs and deletes the partial asset —
+        /// (no public creation API). On any failure it logs and deletes the partial asset -
         /// AudioController already ships a working mixer-optional volume path.</summary>
         public static AudioMixer BuildMixer()
         {
@@ -94,7 +167,7 @@ namespace EchoForge.EditorTools
                 var pathT = asm.GetType("UnityEditor.Audio.AudioGroupParameterPath");
                 var epT = asm.GetType("UnityEditor.Audio.ExposedAudioParameter");
                 if (ctrlT == null || pathT == null || epT == null)
-                { Debug.LogWarning("EchoPolish: audio editor internals not found — mixer skipped."); return null; }
+                { Debug.LogWarning("EchoPolish: audio editor internals not found - mixer skipped."); return null; }
 
                 const BindingFlags any = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -124,7 +197,7 @@ namespace EchoForge.EditorTools
                     var guid = groupT.GetMethod("GetGUIDForVolume", any).Invoke(g, null);
                     addExposed.Invoke(mixer, new[] { pathCtor.Invoke(new[] { g, guid }) });
 
-                    // AddExposedParameter names it "Exposed Parameter N" — rename the last entry.
+                    // AddExposedParameter names it "Exposed Parameter N" - rename the last entry.
                     var arr = (Array)exposedProp.GetValue(mixer);
                     object box = arr.GetValue(arr.Length - 1);   // boxed struct copy
                     epName.SetValue(box, param);

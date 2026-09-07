@@ -31,8 +31,8 @@ namespace EchoForge.EditorTools
         public static readonly Color Crimson = Hex("8C1E28");
 
         // ---- UI system (one scale so panels + buttons line up everywhere) ----
-        public static readonly Color ScrimFill  = new Color(0.031f, 0.035f, 0.051f, 0.955f); // full-screen dim
-        public static readonly Color PanelFill  = new Color(0.070f, 0.078f, 0.106f, 0.985f); // card / group
+        public static readonly Color ScrimFill  = new Color(0.028f, 0.031f, 0.045f, 0.992f); // full-screen dim
+        public static readonly Color PanelFill  = new Color(0.078f, 0.086f, 0.118f, 1f);     // card / group
         public static readonly Color PanelDark  = PanelFill;                                  // legacy alias
         public static readonly Color BtnNormal  = new Color(0.102f, 0.118f, 0.169f, 0.96f);
         public static readonly Color BtnHover   = new Color(0.149f, 0.173f, 0.235f, 1f);
@@ -205,7 +205,7 @@ namespace EchoForge.EditorTools
             return img;
         }
 
-        /// <summary>Thin filled bar — a bronze accent rule / divider. Never a raycast target.</summary>
+        /// <summary>Thin filled bar - a bronze accent rule / divider. Never a raycast target.</summary>
         public static Image Rule(GameObject parent, string name, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 pos, Vector2 size, Color? color = null)
         {

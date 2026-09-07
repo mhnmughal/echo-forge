@@ -116,6 +116,7 @@ namespace EchoForge.EditorTools
         static void Save(Scene s, string name)
         {
             B.EnsureDirs();
+            EchoPolish.ImproveTouchTargets();
             EditorSceneManager.MarkSceneDirty(s);
             EditorSceneManager.SaveScene(s, $"{B.SceneDir}/{name}.unity");
         }
@@ -215,7 +216,7 @@ namespace EchoForge.EditorTools
                     new Vector3(-8, -a * Mathf.Rad2Deg, 0), new Vector3(2.6f, 5.6f, 0.3f), m["FabricEnv"]);
             }
 
-            // suspended resonance ring — real torus mesh, standing vertical, facing the camera
+            // suspended resonance ring - real torus mesh, standing vertical, facing the camera
             var ringGO = new GameObject("ResonanceRing", typeof(MeshFilter), typeof(MeshRenderer));
             ringGO.transform.SetParent(env, false);
             ringGO.transform.localPosition = new Vector3(0, 3.6f, 3.4f);
@@ -264,7 +265,7 @@ namespace EchoForge.EditorTools
             emblem.characterSpacing = 7f;
             emblem.gameObject.SetActive(false);
 
-            // centred menu card — one column, everything flush
+            // centred menu card - one column, everything flush
             var menu = B.Panel(safe, "MainMenu", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                 new Vector2(0, -70), new Vector2(524, 462));
             B.Rule(menu.gameObject, "MenuTopRule", new Vector2(0, 1), new Vector2(1, 1),
@@ -302,6 +303,7 @@ namespace EchoForge.EditorTools
                 var nrt = B.Rect(ringRT.gameObject, $"Node{i + 1}", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                     new Vector2(Mathf.Sin(a) * 300f, Mathf.Cos(a) * 300f), new Vector2(96, 96));
                 var nimg = nrt.gameObject.AddComponent<Image>();
+                nimg.sprite = B.Disc(true);
                 nimg.color = new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.18f);
                 var node = nrt.gameObject.AddComponent<DialNode>();
                 node.chamberId = i + 1;
@@ -309,8 +311,11 @@ namespace EchoForge.EditorTools
                 B.Stretch((RectTransform)num.transform);
                 var lockT = B.Text(nrt.gameObject, "Lock", "LOCKED", 12, TextAlignmentOptions.Center, B.Crimson);
                 B.Stretch((RectTransform)lockT.transform);
+                lockT.alignment = TextAlignmentOptions.Bottom;
+                lockT.margin = new Vector4(0, 0, 0, 8);
                 var focusGlow = B.Panel(nrt.gameObject, "Focus", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero,
                     new Vector2(18, 18), new Color(B.Amber.r, B.Amber.g, B.Amber.b, 0.28f));
+                focusGlow.GetComponent<Image>().sprite = B.Disc(true);
                 var mark = B.Text(nrt.gameObject, "Mark", "~", 18, TextAlignmentOptions.BottomRight, B.Amber);
                 B.Stretch((RectTransform)mark.transform);
                 SetRef(node, "numberLabel", num);
@@ -354,8 +359,9 @@ namespace EchoForge.EditorTools
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
 
-            // tuning strip — header · two faders · toggle · divider · reset · done
-            var stripPanel = B.Panel(safe, "TuningStrip", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            // tuning strip - full-screen scrim + centred card (header · two faders · toggle · divider · reset · done)
+            var stripRoot = B.Panel(safe, "TuningStrip", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
+            var stripPanel = B.Panel(stripRoot.gameObject, "Card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                 Vector2.zero, new Vector2(720, 636));
             B.Header(stripPanel.gameObject, "TUNING  STRIP", 28);
             var musicSlider = MakeSlider(stripPanel.gameObject, "MusicFader", "MUSIC / AMBIENCE", 150);
@@ -397,20 +403,21 @@ namespace EchoForge.EditorTools
                 new Vector2(108, 36 + 34), new Vector2(196, 68));
             B.Wire(cancelReset, strip, nameof(TuningStripController.OnResetCancelled));
             resetConfirm.gameObject.SetActive(false);
-            stripPanel.gameObject.SetActive(false);
+            stripRoot.gameObject.SetActive(false);
 
             B.WireFloat(musicSlider, strip, nameof(TuningStripController.OnMusicChanged));
             B.WireFloat(fxSlider, strip, nameof(TuningStripController.OnEffectsChanged));
             B.WireBool(hapticsToggle, strip, nameof(TuningStripController.OnHapticsChanged));
-            SetRef(strip, "panel", stripPanel.gameObject);
+            SetRef(strip, "panel", stripRoot.gameObject);
             SetRef(strip, "musicFader", musicSlider);
             SetRef(strip, "effectsFader", fxSlider);
             SetRef(strip, "hapticsToggle", hapticsToggle);
             SetRef(strip, "resetConfirm", resetConfirm.gameObject);
             SetRef(strip, "creditsPanel", creditsPanel.gameObject);
 
-            // sound guide
-            var guidePanel = B.Panel(safe, "SoundGuidePanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            // sound guide - full-screen scrim + centred card
+            var guideRoot = B.Panel(safe, "SoundGuidePanel", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
+            var guidePanel = B.Panel(guideRoot.gameObject, "Card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                 Vector2.zero, new Vector2(880, 660));
             B.Header(guidePanel.gameObject, "SOUND  GUIDE", 28);
             B.Text(guidePanel.gameObject, "GuideBody",
@@ -426,8 +433,8 @@ namespace EchoForge.EditorTools
             var guideClose = B.Button(guidePanel.gameObject, "GuideClose", "BACK", 22,
                 new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 38 + 30), new Vector2(240, 60));
             B.Wire(guideClose, guide, nameof(SoundGuidePanel.Close));
-            guidePanel.gameObject.SetActive(false);
-            SetRef(guide, "panel", guidePanel.gameObject);
+            guideRoot.gameObject.SetActive(false);
+            SetRef(guide, "panel", guideRoot.gameObject);
 
             // hall refs
             SetRef(hall, "dial", dial);
@@ -437,11 +444,22 @@ namespace EchoForge.EditorTools
             SetRef(hall, "chamberInTuneEmblem", emblem.gameObject);
             SetRef(hall, "resonanceRing", ring.transform);
             SetRef(hall, "rimLight", rimLight);
+            var hallSettings = new SerializedObject(hall);
+            var modalRefs = hallSettings.FindProperty("modalPanels");
+            var modals = new[] { dialPanel.gameObject, stripRoot.gameObject, guideRoot.gameObject };
+            modalRefs.arraySize = modals.Length;
+            for (int i = 0; i < modals.Length; i++) modalRefs.GetArrayElementAtIndex(i).objectReferenceValue = modals[i];
+            var menuRefs = hallSettings.FindProperty("menuElements");
+            var menuObjects = new[] { menu.gameObject, title.gameObject, safe.transform.Find("TitleRule").gameObject, emblem.gameObject };
+            menuRefs.arraySize = menuObjects.Length;
+            for (int i = 0; i < menuObjects.Length; i++) menuRefs.GetArrayElementAtIndex(i).objectReferenceValue = menuObjects[i];
+            hallSettings.ApplyModifiedPropertiesWithoutUndo();
 
             // ring tap -> hall.OnRingTapped via a physical raycast helper on the ring
             var tap = ring.AddComponent<RingTapRelay>();
             SetRef(tap, "hall", hall);
 
+            EchoPolish.DressEnvironment(true);
             Save(s, "ResonanceHall");
             Debug.Log("Echo Forge: Resonance Hall scene built.");
         }
@@ -709,6 +727,7 @@ namespace EchoForge.EditorTools
             SetRef(input, "cam", cam);
             SetRef(visualizer, "boardRoot", board);
 
+            EchoPolish.DressEnvironment(false);
             Save(s, "EchoChamber");
             Debug.Log("Echo Forge: Echo Chamber scene built.");
         }
