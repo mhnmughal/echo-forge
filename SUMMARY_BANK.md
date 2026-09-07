@@ -29,8 +29,9 @@ Windows StandaloneWindows64: **PASS** (2026-09-07, post package-trim) — 0 erro
   ["EchoForge.Tests"] / ["EchoForge.PlayTests"]).
 
 ## GIT
-Local-only (user-authorized 2026-09-07), never pushed. ~20 commits.
-`git log -1` for latest.
+User-authorized 2026-09-07. ~21 commits. `git log -1` for latest.
+Remote `origin` = https://github.com/mhnmughal/echo-forge (**PRIVATE**, user
+authorized the push 2026-09-07). Push to it; keep it private; no other remotes.
 
 ## SCENES  (Assets/EchoForge/Scenes/, rebuilt by `Echo Forge/Build/Everything`)
 | Scene | Status |

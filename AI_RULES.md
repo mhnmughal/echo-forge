@@ -76,10 +76,13 @@ Implementation without testing is incomplete.
 ## RULE 20 — DO NOT STOP EARLY
 Continue until completion gates pass or a genuine external blocker exists.
 
-## RULE 21 — LOCAL COMMIT SYSTEM
-Git is local-only (initialized 2026-09-07 with user authorization). Commit every
-meaningful change with a clear message. NEVER push to a remote. Never rewrite or
-force-reset existing history.
+## RULE 21 — COMMIT SYSTEM
+Git initialized 2026-09-07 with user authorization. Commit every meaningful change
+with a clear message. Never rewrite or force-reset existing history.
+Remote: on 2026-09-07 the user explicitly authorized a **private** GitHub repo —
+`origin` = https://github.com/mhnmughal/echo-forge (PRIVATE). Pushing to that
+private remote is allowed. Do NOT make it public and do NOT add other remotes
+without a fresh explicit instruction.
 
 ## RULE 22 — DETERMINISM IS AUTHORITATIVE
 Puzzle outcomes come from deterministic discrete-state simulation, never Unity
