@@ -12,6 +12,7 @@ namespace EchoForge.Menu
 
         IEnumerator Start()
         {
+            Application.targetFrameRate = 60;
             _ = SaveSystem.Data;                 // force load / recovery
             AudioController.Instance?.ApplyVolumes();
             yield return new WaitForSeconds(holdSeconds);
