@@ -1,0 +1,20 @@
+* text=auto eol=lf
+
+# Unity YAML assets — keep as-is, use UnityYAMLMerge if configured
+*.unity      -text merge=unityyamlmerge diff
+*.prefab     -text merge=unityyamlmerge diff
+*.asset      -text merge=unityyamlmerge diff
+*.meta       -text merge=unityyamlmerge diff
+*.controller -text merge=unityyamlmerge diff
+*.anim       -text merge=unityyamlmerge diff
+*.mat        -text merge=unityyamlmerge diff
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.fbx binary
+*.ttf binary
+*.otf binary
