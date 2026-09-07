@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: SoundBank
   m_EditorClassIdentifier: EchoForge.Runtime::EchoForge.Audio.SoundBank
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ambienceBeds: []
+  - {fileID: 8300000, guid: 0010651cf47949d409bb66866c2cbbaf, type: 3}
+  - {fileID: 8300000, guid: fa86331cf7aa98246ace158fd47555be, type: 3}
+  - {fileID: 8300000, guid: 1df741d945cef894c95888616def5f58, type: 3}
+  - {fileID: 8300000, guid: e42a7d1e7e53e5c4ead258cceaece0bc, type: 3}
+  - {fileID: 8300000, guid: 23f200f7b503faa4ca5c58ec71cd94ac, type: 3}
+  - {fileID: 8300000, guid: 327783f4958b2d04da4afc18a824edb0, type: 3}
+  - {fileID: 8300000, guid: e721825b766a8944299bfb692c7b5950, type: 3}
+  - {fileID: 8300000, guid: c01e80c869f1a5445a94dc4489ab9768, type: 3}
+  - {fileID: 8300000, guid: aaa44c8b18390934dafdba135d1f653c, type: 3}
+  - {fileID: 8300000, guid: 4c9f7515eeef6f04fbbf365bbd65da99, type: 3}
+  - {fileID: 8300000, guid: 52f7f3f003e553842a419f3753d4af5d, type: 3}
+  - {fileID: 8300000, guid: ec8c361111f9d274bac75946c32a8e52, type: 3}
+  - {fileID: 8300000, guid: ec090aaf34312ef439924e7fd46e1c9f, type: 3}
+  - {fileID: 8300000, guid: c3742c3d75401b84a9332d8635acb95d, type: 3}
+  - {fileID: 8300000, guid: 7a738acfd96679843ad6be698d51fef8, type: 3}
+  - {fileID: 8300000, guid: 4e16c415937363749bf16875f2f9fa88, type: 3}
+  - {fileID: 8300000, guid: b2642c712a73ba142a6e8613352060c4, type: 3}
+  - {fileID: 8300000, guid: 18417a4be28fafe44ab5cf169d9ee950, type: 3}
+  - {fileID: 8300000, guid: 8f08d828e5972cf4eb663d2bad400937, type: 3}
+  ambienceBeds:
+  - {fileID: 8300000, guid: 93cfc8f2e7985ad4c83ef925e8d6c4fe, type: 3}
