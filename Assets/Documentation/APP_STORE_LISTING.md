@@ -248,13 +248,16 @@ Expected result: **4+.**
 * App icon 1024 by 1024, no alpha, no rounded corners. Source is
   `Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` (codename filename; the art
   is the Resonance Chamber icon).
-* iPhone 6.9 inch screenshots, landscape, 2868 by 1320 (or another accepted size).
-  Provide 1 to 10; three distinct gameplay views are recommended.
-* iPad 13 inch screenshots, landscape, 2752 by 2064 (or 2732 by 2048). Provide 1 to 10.
-* Optional app preview video, landscape, 15 to 30 seconds.
-* Screenshots must be captured from the real build with no added device frames
-  that misrepresent the content, and no marketing text that claims features the
-  app does not have.
+* **Screenshots: DONE.** `StoreShots` (Echo Forge/QA menu, from Play Mode) renders
+  five views at the two mandatory landscape sizes into `Screenshots/AppStore/`
+  (gitignored): iPhone 6.9 in 2868x1320 and iPad 13 in 2752x2064, 8-bit RGB PNG,
+  no alpha. Providing the largest sizes is enough; App Store Connect scales down.
+  The five views: menu (title), an early chamber, the pulse wavefront in flight,
+  the deep "Resonance Network" chamber, and the chamber-select dial. Upload 3 to
+  10 per size; reorder as you like. Regenerate any time from a focused editor.
+* Optional app preview video, landscape, 15 to 30 seconds. Not captured.
+* Screenshots are captured from the real build with no added device frames and no
+  marketing text. If you add caption bars later, keep claims accurate.
 
 ## Official references checked September 7, 2026
 

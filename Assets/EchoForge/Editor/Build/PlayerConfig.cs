@@ -23,6 +23,16 @@ namespace EchoForge.EditorTools
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Standalone, id);
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, id);
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, id);
+            // the iOS identifier has been observed to drift on domain reload; assert it back and warn
+            foreach (var nbt in new[] { NamedBuildTarget.Standalone, NamedBuildTarget.iOS, NamedBuildTarget.Android })
+            {
+                var got = PlayerSettings.GetApplicationIdentifier(nbt);
+                if (got != id)
+                {
+                    PlayerSettings.SetApplicationIdentifier(nbt, id);
+                    Debug.LogWarning($"PlayerConfig: {nbt} bundle id had drifted to '{got}', reset to '{id}'.");
+                }
+            }
 
             PlayerSettings.iOS.buildNumber = "1";
             PlayerSettings.Android.bundleVersionCode = 1;
