@@ -1,6 +1,16 @@
 # ARCHITECTURE — Echo Forge
 
-Status: DRAFT (bootstrap). Updated as systems land.
+Status: CURRENT (2026-09-07). All systems below implemented + tested.
+
+## Build / authoring tools (Editor, `Assets/EchoForge/Editor/Build/`)
+- `EchoBuild` — palette, URP material factory, UI factory, post-process profile,
+  generated UI sprites, primitive/light helpers.
+- `EchoBuildScenes` — `Echo Forge/Build/*` menu: rebuilds the 3 scenes + catalog
+  + soundbank at edit time and serialises them (scene-authored, not runtime).
+- `AudioGen` — offline procedural WAV synthesis -> SoundBank.
+- `IconGen` — procedural 1024 icon render -> Player Settings.
+- `PlayerConfig` — production Player Settings.
+- `LevelValidator` — `Echo Forge/Validate Levels`, target 13/13.
 
 ## Assemblies
 - `EchoForge.Runtime` (Assets/EchoForge/Runtime) — all gameplay/runtime code.

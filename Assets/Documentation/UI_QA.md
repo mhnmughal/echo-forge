@@ -26,6 +26,24 @@ Ratios: 16:9 phone · wide iPhone (~19.5:9) · extra-wide phone · standard iPad
 Checks: no clipping / overlap / unsafe controls / unreadable labels / tiny touch
 targets / chamber obstruction by oversized UI.
 
-## Runtime-UI-construction audit
-Search for `new GameObject` / `AddComponent<Button>` / `AddComponent<Image>` /
-`AddComponent<TextMeshProUGUI>` in primary UI paths: NOT VERIFIED (no UI yet).
+## Runtime-UI-construction audit — PASS (2026-09-07)
+`grep` of `Assets/EchoForge/Runtime` for `AddComponent<Button|Image|
+TextMeshProUGUI|Canvas|CanvasScaler|Slider|Toggle>`: **zero matches**.
+`new GameObject` in runtime is used only for: the AudioSource pool, the
+data-driven puzzle-board component views (justified per §7/§20 — content varies
+per level), a gameplay glow light, and transient pulse-VFX packets. No primary
+production UI is built at runtime — all three scenes' UI is authored at edit time
+by `EchoBuildScenes` and serialized into the `.unity` files.
+
+## Screens built & wired (edit-time authored)
+Resonance Hall (primary action, Sound Check, Dial, Tuning, Sound Guide, finale
+emblem) · Resonance Dial (12 nodes, focus readout, prev/next/launch/close) ·
+Echo Chamber (context readout, circular PULSE actuator, TUNES counter, circular
+pause, tutorial caption, result layer, Sound Damping pause layer, dialog layer,
+Sound Guide layer) · Tuning Strip (Music/Effects faders, Haptics toggle, reset
+confirm, credits).
+
+## Aspect-ratio pass — NOT VERIFIED
+CanvasScaler is set to ScaleWithScreenSize / match-height=1 and a SafeAreaFitter
+drives every canvas, but the Game View has not been exercised at 16:9 / 19.5:9 /
+21:9 / 4:3 / 4.3:3 with screenshots. Do this from an interactive editor.
