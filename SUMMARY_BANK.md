@@ -59,10 +59,13 @@ Not started.
 
 ## LEVEL PROGRESS
 ```
-Level 0:  Not implemented / Not validated / Not QA'd
-Level 1-12: Not implemented / Not validated / Not QA'd
+Level 0:  Data implemented / VALIDATED (optimal solves) / Not manual-QA'd
+Level 1:  Data implemented / VALIDATED / Not manual-QA'd
+Level 2:  Data implemented / VALIDATED / Not manual-QA'd
+Level 3-12: Not implemented
 ```
-Level validator: NOT BUILT. Automated tests: NOT BUILT. Manual QA: NOT VERIFIED.
+Level validator: BUILT, 3/3 VALID (of 3 authored; 13 expected).
+Automated tests: BUILT, 13/13 PASS. Manual QA: NOT VERIFIED (no scenes yet).
 
 ## KNOWN ISSUES
 None recorded.
@@ -80,10 +83,9 @@ Result: PASS. No scene left dirty.
 ```
 
 ## NEXT EXACT ACTIONS
-1. Author Level_00/01/02 EchoLevelDefinition assets (Editor tool or execute_code
-   to create + populate .asset). Run `Echo Forge/Validate Levels`, get them VALID.
-2. Add a PlayMode/EditMode test that loads each shipped level asset and asserts
-   optimal config solves (data-solvability gate).
+1. [DONE] Level_00/01/02 authored + validated 3/3.
+2. Add an EditMode test that loads every shipped Level_*.asset and asserts the
+   optimal config solves (data-solvability regression gate).
 3. Runtime scene systems: SceneFlow, GameState, SaveController (versioned JSON),
    LevelController (drives ChamberRuntime + fires sim on PULSE), AudioController
    stub, HapticController stub.
