@@ -2,7 +2,10 @@
     "name": "EchoForge.Editor",
     "rootNamespace": "EchoForge.EditorTools",
     "references": [
-        "EchoForge.Runtime"
+        "EchoForge.Runtime",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
     ],
     "includePlatforms": [
         "Editor"

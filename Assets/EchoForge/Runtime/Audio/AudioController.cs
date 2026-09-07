@@ -12,21 +12,9 @@ namespace EchoForge.Audio
         Success, Failure, FinalResonance
     }
 
-    [CreateAssetMenu(menuName = "Echo Forge/Sound Bank", fileName = "SoundBank")]
-    public sealed class SoundBank : ScriptableObject
-    {
-        public AudioClip[] clips = new AudioClip[19];
-        public AudioClip[] ambienceBeds;
-
-        public AudioClip Get(Sfx s)
-        {
-            int i = (int)s;
-            return (clips != null && i >= 0 && i < clips.Length) ? clips[i] : null;
-        }
-    }
-
-    /// <summary>Central non-networked audio. Mixer groups: Master / Ambience / SFX / UI.
-    /// Volumes persist via SaveSystem. Cosmetic only - never affects simulation.</summary>
+    /// <summary>Central non-networked audio. If an AudioMixer is assigned its exposed params
+    /// MusicVol / EffectsVol are driven; otherwise category volume multipliers are applied
+    /// directly. Volumes persist via SaveSystem. Cosmetic only - never affects simulation.</summary>
     [DefaultExecutionOrder(-50)]
     public sealed class AudioController : MonoBehaviour
     {
@@ -34,13 +22,13 @@ namespace EchoForge.Audio
 
         [SerializeField] AudioMixer mixer;
         [SerializeField] AudioMixerGroup sfxGroup;
-        [SerializeField] AudioMixerGroup uiGroup;
         [SerializeField] AudioMixerGroup ambienceGroup;
         [SerializeField] SoundBank bank;
         [SerializeField] AudioSource ambienceSource;
 
         AudioSource[] _pool;
         int _next;
+        float _effects = 1f;
 
         void Awake()
         {
@@ -54,7 +42,7 @@ namespace EchoForge.Audio
                 var s = new GameObject($"sfx_{i}").AddComponent<AudioSource>();
                 s.transform.SetParent(transform);
                 s.playOnAwake = false;
-                s.outputAudioMixerGroup = sfxGroup;
+                if (sfxGroup != null) s.outputAudioMixerGroup = sfxGroup;
                 _pool[i] = s;
             }
             ApplyVolumes();
@@ -62,16 +50,20 @@ namespace EchoForge.Audio
 
         public void ApplyVolumes()
         {
-            SetDb("MusicVol", SaveSystem.Data.musicVolume);
-            SetDb("EffectsVol", SaveSystem.Data.effectsVolume);
+            float music = Mathf.Clamp01(SaveSystem.Data.musicVolume);
+            _effects = Mathf.Clamp01(SaveSystem.Data.effectsVolume);
+
+            if (mixer != null)
+            {
+                mixer.SetFloat("MusicVol", ToDb(music));
+                mixer.SetFloat("EffectsVol", ToDb(_effects));
+            }
+            if (ambienceSource != null && mixer == null)
+                ambienceSource.volume = music;
         }
 
-        void SetDb(string param, float linear01)
-        {
-            if (mixer == null) return;
-            float db = linear01 <= 0.0001f ? -80f : Mathf.Log10(Mathf.Clamp01(linear01)) * 20f;
-            mixer.SetFloat(param, db);
-        }
+        static float ToDb(float linear01) =>
+            linear01 <= 0.0001f ? -80f : Mathf.Log10(linear01) * 20f;
 
         public void Play(Sfx cue, float pitch = 1f, float volume = 1f)
         {
@@ -79,15 +71,18 @@ namespace EchoForge.Audio
             if (clip == null) return;
             var src = _pool[_next]; _next = (_next + 1) % _pool.Length;
             src.pitch = pitch;
-            src.PlayOneShot(clip, volume);
+            src.PlayOneShot(clip, volume * (mixer != null ? 1f : _effects));
         }
 
         public void PlayAmbience()
         {
-            if (ambienceSource == null || bank == null || bank.ambienceBeds == null || bank.ambienceBeds.Length == 0) return;
+            if (ambienceSource == null || bank == null || bank.ambienceBeds == null || bank.ambienceBeds.Length == 0)
+                return;
+            if (ambienceSource.isPlaying) return;
             ambienceSource.clip = bank.ambienceBeds[0];
             ambienceSource.loop = true;
-            ambienceSource.outputAudioMixerGroup = ambienceGroup;
+            if (ambienceGroup != null) ambienceSource.outputAudioMixerGroup = ambienceGroup;
+            ApplyVolumes();
             ambienceSource.Play();
         }
     }

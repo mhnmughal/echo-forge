@@ -37,3 +37,7 @@ sysinfo.txt
 
 # Local Claude scratch (if any lands here)
 /.claude-scratch/
+
+# Dev screenshots (not shipped assets)
+/Assets/Screenshots/
+/Assets/Screenshots.meta

@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/EchoForge/Scenes/Bootstrap.unity
+    guid: 607f1b32332a0344398e1ee39e896828
+  - enabled: 1
+    path: Assets/EchoForge/Scenes/ResonanceHall.unity
+    guid: 116ff00170068c943a1a9fab4185eacf
+  - enabled: 1
+    path: Assets/EchoForge/Scenes/EchoChamber.unity
+    guid: 1cbf31bc9a7f1a1459e8e3b02614eedc
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
