@@ -25,6 +25,7 @@ namespace EchoForge.Game
         public float effectsVolume = 0.9f;
         public bool hapticsEnabled = true;
         public bool chamberInTune;
+        public bool finaleSeen;
     }
 
     /// <summary>Versioned local JSON save. Offline only. Never downgrades an earned rating.</summary>

@@ -6,23 +6,6 @@ using EchoForge.Level;
 
 namespace EchoForge.Menu
 {
-    public sealed class DialNode : MonoBehaviour
-    {
-        public int chamberId = 1;
-        [SerializeField] TMP_Text numberLabel;
-        [SerializeField] GameObject lockIcon;
-        [SerializeField] GameObject focusGlow;
-        [SerializeField] GameObject completeMark;
-
-        public void Refresh(bool unlocked, bool completed, bool focused)
-        {
-            if (numberLabel != null) numberLabel.text = $"{chamberId:00}";
-            if (lockIcon != null) lockIcon.SetActive(!unlocked);
-            if (completeMark != null) completeMark.SetActive(completed);
-            if (focusGlow != null) focusGlow.SetActive(focused);
-        }
-    }
-
     /// <summary>Radial chamber select. Twelve chambers sit at frequency positions on a ring the
     /// player rotates; the focused chamber reads out and launches. Not a grid / list / carousel.</summary>
     public sealed class ResonanceDialController : MonoBehaviour

@@ -97,6 +97,30 @@ namespace EchoForge.PlayTests
         }
 
         [UnityTest]
+        public IEnumerator EveryLevel_OptimalConfig_SolvesThroughTheChamberScene(
+            [Values(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)] int levelId)
+        {
+            yield return LoadChamber(levelId);
+            var lc = Controller();
+            Assert.IsNotNull(lc, $"L{levelId:00}: no LevelController");
+
+            var chamber = Priv(lc, "_chamber");
+            var def = (EchoForge.Level.EchoLevelDefinition)
+                chamber.GetType().GetProperty("Definition").GetValue(chamber);
+
+            var adjList = (System.Collections.IList)
+                chamber.GetType().GetField("_adjustables", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(chamber);
+            adjList.Clear();
+            foreach (var c in def.optimalComponents) adjList.Add(c);
+
+            lc.OnPulsePressed();
+            yield return WaitUntilNotBusy(lc, 18f);
+
+            Assert.IsTrue((bool)Priv(lc, "_solved"),
+                $"L{levelId:00} '{def.title}': optimal config did not solve through the scene pipeline");
+        }
+
+        [UnityTest]
         public IEnumerator Pause_Then_Resume_RestoresTimeAndInput()
         {
             yield return LoadChamber(1);
