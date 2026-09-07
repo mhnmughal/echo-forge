@@ -91,7 +91,7 @@ Reset: PASS  (confirmation dialog + ResetProgress)
 
 Offline Audit: PASS - NO RUNTIME NETWORK FUNCTIONALITY
 Third-Party SDK Audit: PASS  (none present)
-Package Audit: PASS  (applied in two passes, 53 -> 29 -> 19 deps; all network
+Package Audit: PASS  (applied in three passes, 53 -> 29 -> 19 -> 14 deps; all network
   engine modules removed; Unity diagnostics + analytics disabled; re-verified
   tests/validator/build. See PACKAGE_AUDIT.md. §34 MCP-plugin strip still pending.)
 MCP Production Cleanup: NOT DONE  (MCP still needed for authoring; Editor-only
@@ -107,7 +107,7 @@ Automated Tests: PASS  (36 total: 17 EditMode + 19 PlayMode; the campaign test n
   moves + rotates every level's parts through the real controller, and there are
   new tests for pause-during-pulse and board-fits-above-actuator on L11/L12)
 Console: PASS  (0 compile errors, 0 editor-assembly warnings, 0 build warnings)
-Windows Build: PASS  (0 errors / 0 warnings / ~99 MB, post 19-package trim)
+Windows Build: PASS  (0 errors / 0 warnings / ~99 MB, post 14-package trim)
 Windows Smoke Test: PASS  (launches, D3D12 + Input System + PhysX init, runs
   without exception)
 iOS Unity Export: NOT VERIFIED  (requires macOS/Xcode toolchain)
@@ -139,7 +139,7 @@ Genuine External Blockers (cannot be cleared in this environment):
   - hosting for PRIVACY_POLICY.md and a support page (needs a URL the user owns)
 
 Cleared across this session:
-  - Packages trimmed 53 -> 29 -> 19, all network modules removed, Unity
+  - Packages trimmed 53 -> 29 -> 19 -> 14, all network modules removed, Unity
     diagnostics + analytics disabled. SampleScene gone. Real AudioMixer built +
     wired. Torus Resonance Ring. Private GitHub remote pushed. README + App Store
     listing + privacy policy written. Project text de-dashed (US English).
@@ -157,7 +157,7 @@ Latest Git Commit:
 PROJECT STATUS:
   IN_PROGRESS
   Rationale: fully playable and heavily verified (13/13 valid, 36 tests, clean
-  ~99 MB Windows build, offline PASS, 19-package network-free manifest, real
+  ~99 MB Windows build, offline PASS, 14-package network-free manifest, real
   AudioMixer, dressed environment, reworked pulse VFX, unified aligned UI,
   responsive capture pass). Remaining work needs external hardware or hosting:
   iOS export/sign/device, a real-device UI + notch check, human touch + audio

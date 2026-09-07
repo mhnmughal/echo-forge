@@ -54,7 +54,7 @@ namespace EchoForge.EditorTools
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.iOS, ManagedStrippingLevel.Medium);
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.Android, ManagedStrippingLevel.Medium);
 
-            PlayerSettings.iOS.targetOSVersionString = "13.0";
+            PlayerSettings.iOS.targetOSVersionString = "15.0"; // Unity 6000.3's enforced iOS minimum
             PlayerSettings.iOS.appleEnableAutomaticSigning = false;
             PlayerSettings.iOS.targetDevice = iOSTargetDevice.iPhoneAndiPad;
 

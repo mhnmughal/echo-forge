@@ -1,25 +1,30 @@
-# PACKAGE_AUDIT - Echo Forge
+# PACKAGE_AUDIT - Resonance Chamber (codename Echo Forge)
 
-Status: **APPLIED 2026-09-07**. Two passes from a normal editor launch (no `-noUpm`).
-`Packages/manifest.json` went 53 -> 29 -> **19** dependencies. After each
+Status: **APPLIED 2026-09-07**. Three passes from a normal editor launch.
+`Packages/manifest.json` went 53 -> 29 -> 19 -> **14** dependencies. After each
 `Client.Resolve()`: 0 compile errors, 17/17 EditMode, 13/13 `Validate Levels`,
-19/19 PlayMode, Windows build 0/0 (~99 MB). Committed `f335774`, then the offline pass.
+19/19 PlayMode, Windows build 0/0 (~99 MB), smoke test clean (PhysX + Input init,
+scene transitions, no missing-module errors).
 
-## Pass 2 goal: network-free, minimal offline set
-
-Removed everything that reaches the network or is unused by this game.
-
-### Kept (19)
+## Current set (14)
 - com.anklebreaker.unity-mcp - **editor-only dev tooling**, localhost bridge, never
   in the player. Strip this last, right before the store export (master prompt §34).
-- com.unity.ide.rider / ide.visualstudio - editor only
+- com.unity.ide.rider / ide.visualstudio - editor only (Rider one can also go if
+  JetBrains Rider is never used; visualstudio covers VS / VS Code)
 - com.unity.inputsystem 1.19.0 - all input
 - com.unity.render-pipelines.universal 17.3.0 - rendering (pulls core, shadergraph,
   universal-config transitively)
-- com.unity.test-framework 1.6.0 - EditMode + PlayMode tests
+- com.unity.test-framework 1.6.0 - EditMode + PlayMode tests (pulls ext.nunit)
 - com.unity.ugui 2.0.0 - UI + bundled TextMeshPro
-- com.unity.modules: accessibility, androidjni, animation, audio, imageconversion,
-  imgui, jsonserialize, particlesystem, physics, physics2d, ui, uielements
+- com.unity.modules: audio, imageconversion (IconGen editor tool), imgui,
+  jsonserialize (save), physics (tap raycast), ui, uielements
+
+### Removed in pass 3 (5) - 0 code refs, no package declares a dependency on them, resolve + tests + build + smoke all green
+- com.unity.modules.animation - `Animator` / `Animation` (unused; UI uses ColorTint transitions, not the Animation transition)
+- com.unity.modules.particlesystem - `ParticleSystem` (unused; pulse VFX uses LineRenderer + TrailRenderer)
+- com.unity.modules.physics2d - 2D physics (unused; the 3D `EchoForgeForwardRenderer` needs no 2D physics)
+- com.unity.modules.accessibility - `UnityEngine.Accessibility` (unused; no VoiceOver / screen-reader integration exists, so the module adds nothing - re-add + implement if that changes)
+- com.unity.modules.androidjni - `AndroidJavaObject` / JNI (unused; the per-platform haptic impact generator TODO would re-add this. NOTE: not yet verified on an actual Android build.)
 
 ### Removed in pass 2 (10) - verified: 0 code references, resolve clean, tests + build green
 - com.unity.modules.unitywebrequest - HTTP client (no code uses `UnityWebRequest`)
@@ -51,6 +56,10 @@ service URLs blanked. `ProjectSettings.asset`: `submitAnalytics 0`.
 - 2026-09-07: trial trim under `-noUpm` reverted (Package Manager disabled).
 - 2026-09-07: editor relaunched without `-noUpm`; pass 1 applied (53 -> 29).
 - 2026-09-07: pass 2 applied (29 -> 19), network modules removed, engine
-  diagnostics + analytics disabled. Verified. Build ~103 MB, 0/0.
-- Remaining §34 item: strip `com.anklebreaker.unity-mcp` for the final store export
-  (one manifest line, then re-resolve and rebuild).
+  diagnostics + analytics disabled. Verified.
+- 2026-09-07: pass 3 applied (19 -> 14), 5 unused engine modules removed
+  (animation, particlesystem, physics2d, accessibility, androidjni). Verified:
+  17/17 + 19/19 tests, 13/13 validator, Windows build 0/0 ~99 MB, smoke clean.
+- Remaining: strip `com.anklebreaker.unity-mcp` for the final store export
+  (one manifest line, re-resolve, rebuild). Verify `androidjni` removal on the
+  first real Android build.

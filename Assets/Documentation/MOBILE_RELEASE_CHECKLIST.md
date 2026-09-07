@@ -11,7 +11,7 @@ PlayerSettings API readback 2026-09-07.
 - [x] Version 1.0.0 / iOS build 1 / Android bundleVersionCode 1
 - [x] Orientation: LandscapeLeft default, portrait autorotate OFF, both landscapes ON
 - [x] iOS scripting backend: IL2CPP
-- [x] iOS architecture: ARM64 (targetDevice iPhone+iPad, min iOS 13)
+- [x] iOS architecture: ARM64 (targetDevice iPhone+iPad, min iOS 15 - Unity 6000.3 floor)
 - [x] Android: IL2CPP + ARM64, minSdk 25
 - [x] Target frame rate 60 (BootstrapController)
 - [x] Managed stripping: Medium (iOS + Android)
@@ -42,7 +42,7 @@ PlayerSettings API readback 2026-09-07.
 
 ## Build
 - [x] Scene list: Bootstrap, ResonanceHall, EchoChamber
-- [x] Packages trimmed to 19; all network modules removed (PACKAGE_AUDIT.md)
+- [x] Packages trimmed to 14; all network modules removed (PACKAGE_AUDIT.md)
 - [x] Unity engine diagnostics + analytics disabled (UnityConnectSettings, submitAnalytics 0)
 - [x] Windows build - PASS (0 errors / 0 warnings, ~99 MB)
 - [x] Windows smoke test - PASS (launches, engine + input + physics init, no exception)

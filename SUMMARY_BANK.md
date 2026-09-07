@@ -19,7 +19,7 @@
 
 ## PROJECT STATUS
 `IN_PROGRESS` - core game complete & heavily verified. This + the prior session
-added: 19-package network-free manifest, analytics/diagnostics disabled, real
+added: 14-package network-free manifest, analytics/diagnostics disabled, real
 AudioMixer, torus ring, dressed environment (membranes/ribs/inlays), reworked
 pulse VFX (wavefront/charge/impact rings), unified + realigned UI, per-aspect
 camera fit, 65-frame responsive capture pass, 36 automated tests, README +
@@ -31,14 +31,13 @@ privacy-policy URL). MCP plugin is the last package to strip before export.
 M7 - visual polish pass + honest final audit. Core (M1-M6) done.
 
 ## LAST VERIFIED BUILD
-Windows StandaloneWindows64: **PASS** (2026-09-07, post package-trim) - 0 errors,
-0 warnings, ~103 MB. Smoke test (earlier build): launches on D3D12, Input System
+Windows StandaloneWindows64: **PASS** (2026-09-07, post 14-package trim) - 0 errors, 0 warnings, ~99 MB. Smoke test: launches on D3D12, Input System
 + PhysX init, no exceptions. iOS export: NOT ATTEMPTED (needs macOS/Xcode).
 
 ## ENVIRONMENT
 - Unity 6000.3.19f1, URP 17.3, Linear color space, New Input System, TMP, Test FW.
 - Editor now runs WITHOUT `-noUpm` (relaunched 2026-09-07). Package Manager works;
-  trim APPLIED (manifest 53 -> 29 -> 19, all network modules gone). Unity engine
+  trim APPLIED (manifest 53 -> 29 -> 19 -> 14, all network modules gone). Unity engine
   diagnostics + analytics disabled. If a future session sees `-noUpm`, package ops
   fail - check `Environment.GetCommandLineArgs()`.
 - Known limit: this session's editor is unfocused, so the Game View renders only
@@ -110,7 +109,7 @@ IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 - OFFLINE_AUDIT: **PASS - no runtime network functionality** (code scan clean,
   no SDKs, services + engine diagnostics disabled, network modules removed,
   local save only).
-- PACKAGE_AUDIT: **APPLIED** - 53 -> 29 -> 19 deps, network-free. See PACKAGE_AUDIT.md.
+- PACKAGE_AUDIT: **APPLIED** - 53 -> 29 -> 19 -> 14 deps, network-free. See PACKAGE_AUDIT.md.
 - STORE: README.md, PRIVACY_POLICY.md, Assets/Documentation/APP_STORE_LISTING.md
   written (name/subtitle/keywords/description/category/review notes, US English,
   no em dashes). Screenshots + preview video still to capture.

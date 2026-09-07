@@ -19,7 +19,7 @@ Status: CURRENT (2026-09-07). All systems below implemented + tested.
 - `EchoForge.Tests` / `EchoForge.PlayTests` - EditMode + PlayMode tests.
 
 No third-party runtime assemblies. MCP plugin is Editor-only tooling.
-Packages trimmed to 19, network modules removed (see PACKAGE_AUDIT.md).
+Packages trimmed to 14, network modules removed (see PACKAGE_AUDIT.md).
 
 ## Deterministic simulation (authoritative)
 The puzzle result is computed entirely by `PulseSimulator`, a pure C# discrete
