@@ -3,103 +3,102 @@
 > Any agent (Claude, Codex, human) must be able to resume from this file alone.
 
 ## PROJECT STATUS
-`IN_PROGRESS`
+`IN_PROGRESS` — core game complete & verified; remaining work is presentation
+polish, listening QA, package trim (blocked by -noUpm), and iOS/device checks.
 
 ## CURRENT MILESTONE
-M1 complete — deterministic simulator + core data model + tests.
-Next: M2 — author Level 0/1/2 assets, run validator, then vertical-slice scenes.
+M7 — visual polish pass + honest final audit. Core (M1-M6) done.
 
 ## LAST VERIFIED BUILD
-No player build yet. EditMode tests 13/13 PASS (2026-09-07, job c2e48c7fdf3e).
-Clean compile: EchoForge.Runtime, EchoForge.Editor, EchoForge.Tests.
+Windows StandaloneWindows64: **PASS** (2026-09-07) — 0 errors, 0 warnings,
+~105 MB. Smoke test: launches on D3D12, Input System + PhysX init, runs with no
+exceptions. iOS export: NOT ATTEMPTED (needs macOS/Xcode; see below).
 
 ## ENVIRONMENT
-- Unity 6000.3.19f1, URP, New Input System, TMP, Test Framework 1.6.0
-- MCP: com.anklebreaker.unity-mcp, plugin 2.39.5, instance "Echo Forge" port 7890
-- Platform target currently: StandaloneWindows64 (to switch to iOS later)
-- Project was a fresh Unity URP 2D-ish template: only `Assets/Scenes/SampleScene.unity`
-
-## MCP VERIFICATION
-`PASS` (2026-09-07) — round-trip: create Empty GO → set transform (1,2,3) →
-inspect (confirmed) → delete. Console clean, 0 compile errors.
+- Unity 6000.3.19f1, URP 17.3, Linear color space, New Input System, TMP, Test FW.
+- Editor runs with `-noUpm` → Package Manager disabled, manifest edits don't
+  resolve. Package trim is documented in PACKAGE_AUDIT.md, not applied.
+- MCP: AnkleBreaker plugin 2.39.5, instance "Echo Forge" port 7890.
+- Tests via advanced tool `unity_testing_run_tests` (assemblies
+  ["EchoForge.Tests"] / ["EchoForge.PlayTests"]).
 
 ## GIT
-- Local repo initialized 2026-09-07 with explicit user authorization. Local-only, never push.
-- Latest commit: (see `git log -1`)
+Local-only (user-authorized 2026-09-07), never pushed. ~20 commits.
+`git log -1` for latest.
 
-## SCENES
+## SCENES  (Assets/EchoForge/Scenes/, rebuilt by `Echo Forge/Build/Everything`)
 | Scene | Status |
 |-------|--------|
-| SampleScene | template leftover, to be removed once Bootstrap/Hall/Chamber exist |
-| Bootstrap | not created |
-| ResonanceHall | not created |
-| EchoChamber | not created |
+| Bootstrap | built — title, AudioRig, routes to Hall |
+| ResonanceHall | built — circular room, Suspended Resonance Ring (tap ripple), |
+|               | radial Resonance Dial (12 nodes), Tuning Strip, Sound Guide, |
+|               | Chamber In Tune finale + emblem |
+| EchoChamber | built — data-driven board, contextual UI, circular PULSE actuator, |
+|             | Sound Damping pause, result/tutorial layers, post-processing |
+| SampleScene (Assets/Scenes) | template leftover — DELETE in a normal editor |
 
-## IMPORTANT PREFABS
-None yet.
+## GAMEPLAY SYSTEMS  (all in Assets/EchoForge/Runtime/)
+| System | Status |
+|--------|--------|
+| Deterministic pulse sim (Sim/AcousticSim.cs) | DONE + 17 EditMode tests |
+| EchoLevelDefinition + ChamberRuntime | DONE |
+| LevelController / ChamberInput / ChamberUI / PulseVisualizer | DONE |
+| SaveSystem (versioned JSON, recovery, no rating downgrade, reset) | DONE |
+| SceneFlow / GameSession / Haptics | DONE |
+| AudioController + SoundBank (mixer-optional, category volumes) | DONE |
+| Menu: Bootstrap/Hall/Dial/TuningStrip/SoundGuide/RingTapRelay | DONE |
+| LevelValidator (Editor) | DONE — 13/13 VALID |
+| Build tools: EchoBuild, EchoBuildScenes, AudioGen, IconGen, PlayerConfig | DONE |
 
-## GAMEPLAY SYSTEMS
-| System | Status | Files |
-|--------|--------|-------|
-| Deterministic pulse sim | IMPLEMENTED + TESTED | Runtime/Sim/AcousticSim.cs |
-| Level data model | IMPLEMENTED | Runtime/Level/EchoLevelDefinition.cs |
-| Chamber tunable state / TUNES | IMPLEMENTED + TESTED | Runtime/Level/ChamberRuntime.cs |
-| Level validator (Editor) | IMPLEMENTED (no level assets yet) | Editor/LevelValidator.cs |
-| Scene flow / GameState / Save / Audio / VFX | NOT STARTED | — |
+## LEVELS
+`Assets/EchoForge/Levels/Level_00..12.asset` — **13/13 VALID**.
+Solutions in Assets/Documentation/LEVEL_DESIGN.md.
 
-Sim design notes: 8-way Dir; reflector 4 orient states (/, \, |, -); splitter forks
-±45°; delay adds beats; loop guard = MaxSteps 5000 + per-(cell,dir) cap 8.
-Fail priority: Forbidden > ReceiverMissed > Timing > ResonanceIncomplete.
-
-## UI/UX
-Not started. Design in Assets/Documentation/UI_UX_SYSTEM.md (to be written).
+## TESTS
+- EditMode `EchoForge.Tests`: **17/17 PASS** (sim mechanics, ratings, adjustments,
+  every shipped level's optimal config solves + no pre-solve).
+- PlayMode `EchoForge.PlayTests`: **17/17 PASS** — incl. all 13 levels solved
+  through the real EchoChamber scene pipeline, fail+retune, pause/resume.
+- This is AUTOMATED CONTROLLER QA. Human touch QA = NOT VERIFIED (no device/human).
 
 ## AUDIO
-Not started.
+20 procedural WAVs (`Assets/EchoForge/Audio/Generated/`) via AudioGen.
+Objective QA PASS (levels/DC/no-NaN). Listening QA = NOT VERIFIED (no audio out).
 
-## LEVEL PROGRESS
-```
-Level 0:  Data implemented / VALIDATED (optimal solves) / Not manual-QA'd
-Level 1:  Data implemented / VALIDATED / Not manual-QA'd
-Level 2:  Data implemented / VALIDATED / Not manual-QA'd
-Level 3-12: Not implemented
-```
-Level validator: BUILT, 3/3 VALID (of 3 authored; 13 expected).
-Automated tests: BUILT, 13/13 PASS. Manual QA: NOT VERIFIED (no scenes yet).
+## ICON
+`Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` procedural + 180/120/60.
+Assigned to Standalone/iOS/Android slots. Small-size QA: ring + point readable.
 
-## KNOWN ISSUES
-None recorded.
+## MOBILE / PLAYER SETTINGS
+Product "Echo Forge", com.rehmanmughal.echoforge, v1.0.0/build 1, landscape-only,
+IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 
-## MCP CHANGE LOG
-```
-MCP-0001
-Date: 2026-09-07
-Agent: Claude (Sonnet 5)
-Scene/Asset: SampleScene (transient)
-Change: Created + transformed + deleted __MCP_RoundTrip_Probe empty GameObject.
-Reason: Mandatory MCP connectivity round-trip (master prompt §6).
-Validation: unity_gameobject_info confirmed position (1,2,3); delete confirmed.
-Result: PASS. No scene left dirty.
-```
+## AUDITS
+- OFFLINE_AUDIT: **PASS — no runtime network functionality** (code scan clean,
+  no SDKs, services disabled, local save only).
+- PACKAGE_AUDIT: plan written, NOT applied (`-noUpm`).
+- MCP cleanup (§34): not done — MCP still needed for authoring. Editor-only plugin.
+
+## KNOWN ISSUES / REMAINING WORK
+- BUG-NONE open.
+- Visual polish: environment is on-theme but sparse (frame + walls + posts);
+  no curved membranes / rich acoustic detail. Reads "premium gray-box + bloom".
+- UI: functional & contextual; fonts are LiberationSans throughout (safe, plain).
+- Responsive/safe-area QA across 5 aspect ratios: NOT VERIFIED (needs Game View
+  aspect testing).
+- Package trim, SampleScene delete, iOS export, Xcode archive/sign, physical
+  device, human touch QA, audio listening QA — all require a normal editor
+  launch and/or external toolchain/device/human.
 
 ## NEXT EXACT ACTIONS
-1. [DONE] Level_00/01/02 authored + validated 3/3.
-2. Add an EditMode test that loads every shipped Level_*.asset and asserts the
-   optimal config solves (data-solvability regression gate).
-3. Runtime scene systems: SceneFlow, GameState, SaveController (versioned JSON),
-   LevelController (drives ChamberRuntime + fires sim on PULSE), AudioController
-   stub, HapticController stub.
-4. Build 3 scenes via MCP: Bootstrap, ResonanceHall, EchoChamber. Scene-authored
-   UI + environment (no runtime-built primary UI).
-5. Pulse VFX: acoustic wave-packet visualization (NOT laser) driven by SimResult
-   playback timeline.
-6. Vertical slice flow: Launch → Sound Check → Resonance Hall → Resonance Dial →
-   Chamber 01 → tune → PULSE → result → save → Chamber 02 → back to Hall.
-7. Originality review vs Misprint Department / Punchcard Operator / Stencil Relay.
-8. Then Levels 3-12, environment/VFX/audio polish, icon, mobile config, QA, builds.
-
-## SCOPE NOTE
-This is a multi-session build (release-quality 13-level mobile game). Each session:
-read memory → inspect → implement next slice → test → commit → update this file.
-Do NOT restart or rebuild verified systems (see AI_RULES RULE 1 / master §8).
+1. From a NORMAL editor launch (no -noUpm): apply PACKAGE_AUDIT trim, delete
+   Assets/Scenes/SampleScene, re-verify (compile/tests/validator/scenes/build).
+2. Environment/VFX polish: curved wall membranes, floor detail, better pulse
+   wave-packet (leading ring), reflector/absorber/splitter shape language,
+   selection + socket visuals, camera feedback on PULSE.
+3. Responsive QA: Game View at 16:9 / 19.5:9 / 21:9 / 4:3 / 4.3:3, verify safe
+   area + no clipping; screenshot each. Record in UI_QA.md.
+4. Audio listening QA on a machine with output; fill AUDIO_PROVENANCE listening.
+5. iOS: switch platform, Unity export to Xcode, verify icon in asset catalog.
+6. Update FINAL_AUDIT.md with real per-line results each pass.
 ```

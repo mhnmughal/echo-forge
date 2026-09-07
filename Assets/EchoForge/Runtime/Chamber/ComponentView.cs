@@ -61,10 +61,12 @@ namespace EchoForge.Chamber
             if (accent == null) return;
             _mpb ??= new MaterialPropertyBlock();
             accent.GetPropertyBlock(_mpb);
-            Color c = on
-                ? (Forbidden ? new Color(0.55f, 0.08f, 0.12f) : new Color(0.85f, 0.55f, 0.18f))
-                : Color.black;
-            _mpb.SetColor(EmissionColor, c * (on ? 2.2f : 0f));
+
+            bool receiverLike = Type == CompType.Receiver || Type == CompType.Resonator || Type == CompType.Emitter;
+            Color baseC = Forbidden ? new Color(0.72f, 0.10f, 0.14f) : new Color(0.92f, 0.58f, 0.22f);
+            // receivers/resonators/emitters keep a soft resting glow; everything brightens on a hit
+            float mul = on ? 3.0f : (receiverLike ? 0.9f : 0f);
+            _mpb.SetColor(EmissionColor, baseC * mul);
             accent.SetPropertyBlock(_mpb);
         }
     }

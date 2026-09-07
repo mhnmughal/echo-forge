@@ -163,6 +163,7 @@ namespace EchoForge.Chamber
                     var nub = MakePrimitive(PrimitiveType.Cube, matEmitter, new Vector3(0.14f, 0.14f, 0.5f)).transform;
                     nub.SetParent(spinner, false); nub.localPosition = new Vector3(0, 0.28f, 0.35f);
                     spinner.localRotation = Quaternion.Euler(0, (int)dir * 45f, 0);
+                    AddGlowLight(root.transform, new Color(0.95f, 0.62f, 0.3f), 0.55f);
                     break;
 
                 case CompType.Reflector:
@@ -190,22 +191,24 @@ namespace EchoForge.Chamber
 
                 case CompType.Receiver:
                 {
-                    var baseM = MakePrimitive(PrimitiveType.Cylinder, forbidden ? matForbidden : matReceiver, new Vector3(0.6f, 0.35f, 0.6f)).transform;
-                    baseM.SetParent(spinner, false); baseM.localPosition = new Vector3(0, 0.35f, 0);
-                    var glow = MakePrimitive(PrimitiveType.Sphere, forbidden ? matForbidden : matReceiver, new Vector3(0.34f, 0.34f, 0.34f));
-                    glow.transform.SetParent(spinner, false); glow.transform.localPosition = new Vector3(0, 0.8f, 0);
+                    var baseM = MakePrimitive(PrimitiveType.Cylinder, forbidden ? matForbidden : matReceiver, new Vector3(0.62f, 0.4f, 0.62f)).transform;
+                    baseM.SetParent(spinner, false); baseM.localPosition = new Vector3(0, 0.4f, 0);
+                    var glow = MakePrimitive(PrimitiveType.Sphere, forbidden ? matForbidden : matReceiver, new Vector3(0.42f, 0.42f, 0.42f));
+                    glow.transform.SetParent(spinner, false); glow.transform.localPosition = new Vector3(0, 0.92f, 0);
                     accent = glow.GetComponent<Renderer>();
+                    AddGlowLight(root.transform, forbidden ? new Color(0.7f, 0.12f, 0.16f) : new Color(0.95f, 0.6f, 0.22f), 0.7f);
                     mesh = baseM;
                     break;
                 }
 
                 case CompType.Resonator:
                 {
-                    var baseM = MakePrimitive(PrimitiveType.Cylinder, matResonator, new Vector3(0.62f, 0.5f, 0.62f)).transform;
-                    baseM.SetParent(spinner, false); baseM.localPosition = new Vector3(0, 0.5f, 0);
-                    var ring = MakePrimitive(PrimitiveType.Sphere, matResonator, new Vector3(0.4f, 0.16f, 0.4f));
-                    ring.transform.SetParent(spinner, false); ring.transform.localPosition = new Vector3(0, 1.05f, 0);
+                    var baseM = MakePrimitive(PrimitiveType.Cylinder, matResonator, new Vector3(0.64f, 0.55f, 0.64f)).transform;
+                    baseM.SetParent(spinner, false); baseM.localPosition = new Vector3(0, 0.55f, 0);
+                    var ring = MakePrimitive(PrimitiveType.Sphere, matResonator, new Vector3(0.46f, 0.2f, 0.46f));
+                    ring.transform.SetParent(spinner, false); ring.transform.localPosition = new Vector3(0, 1.15f, 0);
                     accent = ring.GetComponent<Renderer>();
+                    AddGlowLight(root.transform, new Color(0.95f, 0.62f, 0.24f), 1.0f);
                     mesh = baseM;
                     break;
                 }
@@ -227,6 +230,19 @@ namespace EchoForge.Chamber
             view.ApplyOrientation(orient);
             _viewByCell[cell] = view;
             return view;
+        }
+
+        static void AddGlowLight(Transform parent, Color color, float intensity)
+        {
+            var go = new GameObject("Glow");
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = new Vector3(0, 0.9f, 0);
+            var l = go.AddComponent<Light>();
+            l.type = LightType.Point;
+            l.color = color;
+            l.intensity = intensity;
+            l.range = 3.2f;
+            l.shadows = LightShadows.None;
         }
 
         GameObject MakePrimitive(PrimitiveType type, Material mat, Vector3 scale)
