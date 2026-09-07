@@ -13,6 +13,15 @@ Every new session reads, in order:
 ## RULE 2 - REPOSITORY IS AUTHORITATIVE
 Do not rely on chat history. Record decisions in the repo.
 
+## RULE 2b - PRODUCT NAME vs CODENAME
+Player-facing product name = **Resonance Chamber** (App Store name, Unity
+`productName`, home-screen name, every on-screen title). **"Echo Forge" is only
+the codename** and stays in: C# namespaces `EchoForge.*`, editor menu paths
+`Echo Forge/...`, asmdef names, asset filenames (`EchoForge.mixer`,
+`EchoForge_Icon_*`), the save filename, the bundle id
+`com.rehmanmughal.echoforge`, and the git repo. Do not rename those. Any new
+player-visible text uses "Resonance Chamber".
+
 ## RULE 3 - MCP-FIRST UNITY EDITING
 Use the AnkleBreaker Unity MCP (`unity_*` tools, port 7890) for scenes, hierarchy,
 prefabs, components, UI, RectTransforms, environment, camera, lighting, materials,

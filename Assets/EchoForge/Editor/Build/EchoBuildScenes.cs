@@ -171,10 +171,10 @@ namespace EchoForge.EditorTools
             B.EventSystem();
 
             var (_, safe) = B.Canvas("Canvas", false);
-            var bTitle = B.Text(safe, "Title", "ECHO FORGE", 88, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 44), new Vector2(1200, 150));
-            bTitle.characterSpacing = 16f;
-            B.Rule(safe, "TitleRule", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -18), new Vector2(150, 3));
+            var bTitle = B.Text(safe, "Title", "RESONANCE  CHAMBER", 66, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 44), new Vector2(1600, 150));
+            bTitle.characterSpacing = 10f;
+            B.Rule(safe, "TitleRule", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -22), new Vector2(160, 3));
             B.Text(safe, "Sub", "TUNE THE ROOM, NOT THE CHARACTER", 22, TextAlignmentOptions.Center,
                 new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.9f),
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -58), new Vector2(1200, 50))
@@ -255,10 +255,10 @@ namespace EchoForge.EditorTools
             var guide = hallGO.GetComponent<SoundGuidePanel>();
 
             // title block (top-centre)
-            var title = B.Text(safe, "HallTitle", "ECHO FORGE", 58, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1000, 84));
-            title.characterSpacing = 12f;
-            B.Rule(safe, "TitleRule", new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -188), new Vector2(140, 3));
+            var title = B.Text(safe, "HallTitle", "RESONANCE  CHAMBER", 46, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -128), new Vector2(1200, 72));
+            title.characterSpacing = 9f;
+            B.Rule(safe, "TitleRule", new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -182), new Vector2(150, 3));
 
             var emblem = B.Text(safe, "ChamberInTuneEmblem", "CHAMBER  IN  TUNE", 20, TextAlignmentOptions.Center,
                 B.Amber, new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -214), new Vector2(600, 36));
@@ -384,7 +384,7 @@ namespace EchoForge.EditorTools
                 Vector2.zero, new Vector2(560, 320));
             B.Header(creditsPanel.gameObject, "CREDITS", 26);
             B.Text(creditsPanel.gameObject, "CreditsText",
-                "ECHO FORGE\n\nDesign · code · audio · art\nproject-generated original\n\nBuilt offline.  No trackers.", 22,
+                "RESONANCE CHAMBER\n\nDesign, code, audio, art\nproject-generated original\n\nBuilt offline.  No trackers.", 22,
                 TextAlignmentOptions.Center, B.Ivory,
                 new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, -10), new Vector2(-64, -140));
             creditsPanel.gameObject.SetActive(false);

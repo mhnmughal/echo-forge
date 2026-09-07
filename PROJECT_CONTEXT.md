@@ -1,7 +1,11 @@
-# PROJECT_CONTEXT.md - Echo Forge
+# PROJECT_CONTEXT.md - Resonance Chamber (codename Echo Forge)
 
 ## Product
-**Echo Forge** - a 2.5D offline spatial acoustic logic puzzle game.
+**Resonance Chamber** - a 2.5D offline spatial acoustic logic puzzle game.
+Player-facing name = Resonance Chamber (App Store, home screen, all titles).
+"Echo Forge" is the codename kept for namespaces, editor menus, asset ids, the
+bundle id, and the git repo. Chosen 2026-09-07 after an App Store name check
+(see Assets/Documentation/APP_STORE_LISTING.md).
 
 ## Core fantasy
 **Tune the room, not the character.** The player configures a physical acoustic

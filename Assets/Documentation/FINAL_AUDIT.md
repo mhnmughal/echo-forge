@@ -1,10 +1,14 @@
-# FINAL_AUDIT - Echo Forge
+# FINAL_AUDIT - Resonance Chamber (codename Echo Forge)
 
 Date: 2026-09-07. Honest PASS / FAIL / NOT VERIFIED (master prompt §30, §58).
 
 ```
-ECHO FORGE FINAL AUDIT
+RESONANCE CHAMBER FINAL AUDIT
 
+Product Name: PASS  (App Store + home-screen name "Resonance Chamber", set after
+  a public App Store check ruled out "Echo Forge" as too close to the existing
+  "EchoForge: Voice Changer" and the "Echo Forge Gaming" publisher; "Echo Forge"
+  kept only as the code / repo / menu codename. See APP_STORE_LISTING.md.)
 Product Identity: PASS  (spatial acoustic resonance; radial dial; bronze/violet/
   amber acoustic language; pulse rendered as wave-packet trail, not a laser)
 Independent from Misprint Department: PASS  (no document/correction metaphor)

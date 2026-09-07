@@ -4,16 +4,18 @@ using UnityEngine;
 
 namespace EchoForge.EditorTools
 {
-    /// <summary>Re-runnable production Player Settings for Echo Forge (mobile-first, offline,
-    /// landscape, no sensitive permissions). Master prompt §43 / §78-80.</summary>
+    /// <summary>Re-runnable production Player Settings. Product name is "Resonance Chamber"
+    /// (the App Store / home-screen name); "Echo Forge" stays the internal codename for the
+    /// namespaces, menus, and asset ids. Mobile-first, offline, landscape, no sensitive
+    /// permissions. Master prompt §43 / §78-80.</summary>
     public static class PlayerConfig
     {
         [MenuItem("Echo Forge/Build/7 - Player Settings")]
         public static void Apply()
         {
-            const string id = "com.rehmanmughal.echoforge";
+            const string id = "com.rehmanmughal.echoforge"; // permanent bundle id, not shown to users
 
-            PlayerSettings.productName = "Echo Forge";
+            PlayerSettings.productName = "Resonance Chamber";
             PlayerSettings.companyName = "Rehman Mughal";
             PlayerSettings.bundleVersion = "1.0.0";
 
@@ -55,7 +57,7 @@ namespace EchoForge.EditorTools
             PlayerSettings.gpuSkinning = true;
 
             AssetDatabase.SaveAssets();
-            Debug.Log($"<b>Echo Forge: Player Settings applied ({id}, landscape, IL2CPP, no sensitive permissions).</b>");
+            Debug.Log($"<b>Resonance Chamber: Player Settings applied ({id}, landscape, IL2CPP, no sensitive permissions).</b>");
         }
     }
 }

@@ -4,7 +4,7 @@ Applied by `Echo Forge/Build/7 - Player Settings` (PlayerConfig.cs), verified vi
 PlayerSettings API readback 2026-09-07.
 
 ## Player Settings
-- [x] Product Name = "Echo Forge"
+- [x] Product Name = "Resonance Chamber" (App Store + home-screen name; codename "Echo Forge")
 - [x] Bundle ID = com.rehmanmughal.echoforge (Standalone / iOS / Android)
 - [x] Version 1.0.0 / iOS build 1 / Android bundleVersionCode 1
 - [x] Orientation: LandscapeLeft default, portrait autorotate OFF, both landscapes ON

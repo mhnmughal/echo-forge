@@ -1,11 +1,15 @@
-# Echo Forge
+# Resonance Chamber
 
-Echo Forge is an offline 2.5D acoustic puzzle game. You never move a character.
-Instead you tune a resonance chamber so that a single pulse of sound travels the
+Resonance Chamber is an offline 2.5D acoustic puzzle game. You never move a
+character. Instead you tune a chamber so that a single pulse of sound travels the
 room, bends off the surfaces you set, and reaches every listening point in time.
 
 Built with Unity 6 and the Universal Render Pipeline. Single player, fully
 offline, landscape orientation, designed for phone and tablet.
+
+"Echo Forge" is the internal codename. It is still used for the C# namespaces,
+the editor menus, the asset ids, and this git repository. Everything the player
+sees, including the app name and the title screen, reads "Resonance Chamber".
 
 ## The idea
 
@@ -51,7 +55,7 @@ Levels 1 through 12 run in three series:
 * C Phase: two emitters, crossing paths, timing patterns, and the finale.
 
 Completing a chamber unlocks the next one. Finished chambers stay open for replay
-and better ratings. Clearing Level 12 brings the whole hall into tune.
+and better ratings. Clearing Level 12 brings the whole room into tune.
 
 ## Technology
 
@@ -65,14 +69,15 @@ and better ratings. Clearing Level 12 brings the whole hall into tune.
 * Original audio, generated offline by C# synthesis into 16 bit WAV.
 * Original app icon, rendered procedurally.
 * One AudioMixer with Master, Ambience, SFX, and UI buses.
+* 19-package manifest, no network modules. Unity engine diagnostics and analytics
+  disabled in the project settings.
 
 ## Privacy and networking
 
-Echo Forge collects nothing and sends nothing. There is no analytics, no ads, no
-telemetry, no cloud save, no account, and no login. The save file stays on the
-device. The app requests no camera, microphone, location, photo, Bluetooth, or
-tracking permission. Unity engine diagnostics and analytics are disabled in the
-project settings.
+Resonance Chamber collects nothing and sends nothing. There is no analytics, no
+ads, no telemetry, no cloud save, no account, and no login. The save file stays
+on the device. The app requests no camera, microphone, location, photo,
+Bluetooth, or tracking permission.
 
 ## Repository layout
 
@@ -87,28 +92,31 @@ Assets/EchoForge/Tests         EditMode and PlayMode test assemblies
 Assets/Documentation           design, QA, audit, and provenance documents
 ```
 
+Paths, menu names, and namespaces keep the "EchoForge" codename. Only player
+facing text carries the "Resonance Chamber" product name.
+
 ## Building
 
 1. Open the project in Unity 6000.3.19f1.
 2. Run the menu item `Echo Forge/Build/Everything` to regenerate assets and the
    three scenes.
 3. Run `Echo Forge/Validate Levels`. The target is 13 of 13 valid.
-4. Run the EditMode and PlayMode test suites. The target is 17 of 17 each.
+4. Run the EditMode and PlayMode test suites. The targets are 17 and 19.
 5. Build for the target platform. The scene list is Bootstrap, ResonanceHall,
    EchoChamber.
 
 ## Verification status
 
 * Level validation: 13 of 13 valid.
-* Automated tests: 17 EditMode and 17 PlayMode passing, including every level
-  solved through the real chamber scene.
-* Windows build: clean, no errors or warnings, smoke tested.
+* Automated tests: 17 EditMode and 19 PlayMode passing, including every level
+  driven to the solve through the real chamber scene.
+* Windows build: clean, no errors or warnings, smoke tested (~99 MB).
 * Offline audit: no runtime network functionality.
-* iOS export, device install, human touch testing, and audio listening are not
-  yet verified because they need a Mac, a device, a tester, or an audio output
-  device.
+* iOS export, device install, human touch testing, audio listening, and a real
+  device UI check are not yet verified because they need a Mac, a device, a
+  tester, or an audio output device.
 
 ## License
 
 Original work. All design, code, audio, and art in this repository are
-project generated for Echo Forge.
+project generated for Resonance Chamber (codename Echo Forge).

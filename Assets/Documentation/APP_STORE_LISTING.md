@@ -1,8 +1,7 @@
-# App Store Connect Listing, Echo Forge
+# App Store Connect Listing, Resonance Chamber
 
 Prepared for App Store Connect submission. US English (en-US) is the primary
-localization. Copy is authored for this app. Global uniqueness and App Store name
-availability have not been verified. No text below contains an em dash.
+localization. Copy is authored for this app. No text below contains an em dash.
 
 Apple guidance followed: no price or promotion in the description, no mention of
 other platforms or storefronts, no competitor or trademark terms, no "download
@@ -11,14 +10,38 @@ match the real build, accurate age rating, privacy answers truthful.
 
 ---
 
+## App name decision (2026-09-07)
+
+The working title "Echo Forge" was set aside for the store listing after a public
+App Store check:
+
+| Candidate | Public App Store collisions | Verdict |
+| --- | --- | --- |
+| Echo Forge | "EchoForge: Voice Changer" (com.lapnito.echoforge), "Arrow Echo Forge", the "Echo Forge Gaming" publisher, an "Echo Forge" Steam publisher. Apple's name check ignores case and spaces, so "Echo Forge" reads as the existing "EchoForge". | High rejection / confusion risk |
+| Echo Forge: Acoustic Puzzles | Still leads with "Echo Forge", so the same collision applies. "Echo" is also a very crowded prefix in this genre (Echo Maze, Echo Resonance, Echo Resonator, Echo Chamber Games). | Still risky |
+| **Resonance Chamber** | No app titled "Resonance Chamber" on the App Store. "Resonance" appears in unrelated apps (Bass Resonance, Schumann Resonance, a small itch.io "Resonance"), never as this two word phrase. No same name publisher. | **Chosen** |
+
+"Resonance Chamber" is the most unique of the three, sidesteps the whole
+"Echo Forge" / "EchoForge" family, avoids the saturated "Echo" prefix, and is
+literally what the game is about: you tune a resonance chamber. "Echo Forge"
+stays only as the internal codename (C# namespaces, editor menus, asset ids,
+the git repository). The bundle id `com.rehmanmughal.echoforge` is permanent and
+never shown to users, so it does not need to change.
+
+Reserve the name in App Store Connect (My Apps, plus, New App) to confirm it is
+free before finalizing.
+
+---
+
 ## Identity
 
+* **App name (max 30):** Resonance Chamber   (17 characters)
 * **Bundle ID:** com.rehmanmughal.echoforge
-* **SKU:** ECHOFORGE-1000
-* **App name (max 30):** Echo Forge
+* **SKU:** RESCHAMBER-1000
 * **Version:** 1.0.0
 * **Copyright:** 2026 Rehman Mughal
 * **Primary language:** English (U.S.)
+* **Home-screen / product name:** Resonance Chamber (Unity `productName`)
 
 ---
 
@@ -26,10 +49,10 @@ match the real build, accurate age rating, privacy answers truthful.
 
 | Option | Characters | Angle |
 | --- | --- | --- |
-| Tune the room, not the hero | 27 | The core hook, no character control |
 | Acoustic reflection puzzles | 27 | Plain genre label, strong for search |
+| Tune the room, not the hero | 27 | The core hook, no character control |
+| One pulse, every listener | 25 | The goal, stated plainly |
 | Bend sound, solve the room | 26 | Action plus goal |
-| Route the pulse through echo | 28 | Verb forward |
 | A puzzle of sound and space | 27 | Mood forward |
 
 Recommended: **Acoustic reflection puzzles** for search value, or
@@ -39,26 +62,32 @@ Recommended: **Acoustic reflection puzzles** for search value, or
 
 ## Promotional text (max 170 characters), pick one
 
-1. Tune reflectors and acoustic sockets, then release a visible sound pulse. Thirteen handcrafted stages of spatial logic, timing, and resonance. Fully offline.
-2. You never move a character. You tune a resonance chamber until one pulse of
-   sound bends off your reflectors and reaches every receiver. No ads, no
-   internet.
-3. Set the reflectors, forks, and delay plates, then release the pulse and watch
-   the wavefront travel. Thirteen chambers of quiet acoustic logic.
+1. You never move a character. You tune a chamber until one pulse of sound bends
+   off your reflectors and reaches every listener in time. Deterministic, calm,
+   and fully offline. (167)
+2. Set the reflectors, splitters, and delay plates, then release a visible sound
+   pulse and watch the wavefront travel. Thirteen chambers of quiet acoustic
+   logic. No ads, no internet. (169)
+3. A quiet puzzle about sound and space. Route one pulse through a room you shape,
+   under par for a Clean Echo, perfectly for a Pure Resonance. (140)
 
 ---
 
 ## Keywords (max 100 characters, comma separated, no spaces), pick one set
 
-Words already in the app name are indexed by Apple, so "echo" and "forge" are
-left out of every set.
+Words already in the app name ("resonance", "chamber") are indexed by Apple, so
+they are left out of every set. "echo" and "forge" are now free to use as
+keywords since they are not in the name.
 
-* **Set A, mechanic first:**
-  `logic,sound,resonance,mirror,wave,brain,teaser,offline,minimalist,routing,timing,spatial`
-* **Set B, audience first:**
-  `brain,logic,sound,acoustics,path,routing,relaxing,zen,thinky,chamber,strategy,offline`
-* **Set C, short tail heavy:**
-  `logic,sound,brain,mirror,reflect,offline,calm,strategy,tune,pulse,spatial,reasoning`
+* **Set A, mechanic first (98 chars):**
+  `puzzle,logic,sound,acoustic,echo,reflection,mirror,wave,pulse,brain teaser,offline,minimalist`
+* **Set B, audience first (95 chars):**
+  `brain,logic puzzle,sound,acoustics,path,routing,relaxing,zen,thinky,strategy,offline,no ads`
+* **Set C, short tail heavy (96 chars):**
+  `puzzle,logic,sound,echo,acoustic,brain,mirror,reflect,offline,calm,strategy,tune,spatial`
+
+Recommended: **Set A**. It covers the exact terms a player types for this genre
+and reclaims "echo" now that it is out of the name.
 
 Selected draft: subtitle **Acoustic reflection puzzles**, keyword **Set A**,
 promotional text **Option 1**. Alternatives remain available above.
@@ -84,14 +113,14 @@ Board is a reasonable alternative secondary.
 
 ## Description (max 4000 characters)
 
-Echo Forge is a quiet puzzle game about sound and space. You never move a
+Resonance Chamber is a quiet puzzle game about sound and space. You never move a
 character. You tune a room.
 
 Every chamber holds an emitter that releases one visible pulse of sound. Between
 that emitter and the listening points sit acoustic parts you can adjust. Rotate a
 reflector and the pulse turns. Move it to a new socket and the path changes
-again. A splitter turns one pulse into two. When the room looks right,
-you release the pulse and watch the wavefront travel the path you built. If it
+again. A splitter turns one pulse into two. When the room looks right, you
+release the pulse and watch the wavefront travel the path you built. If it
 reaches every receiver, and satisfies the timing or resonance rules a chamber
 asks for, the chamber resolves.
 
@@ -111,53 +140,53 @@ relationship, by count, beat difference, or simultaneous arrival.
 HOW IT IS BUILT
 
 A Sound Check chamber teaches the controls with no rating pressure. After that,
-twelve main chambers run in three short series. The first set is pure reflection and
-routing. The second adds splitters, forbidden receivers, delay plates, and
+twelve main chambers run in three short series. The first set is pure reflection
+and routing. The second adds splitters, forbidden receivers, delay plates, and
 resonators. The third brings in a second emitter, crossing paths, and timing
-patterns, and ends with a chamber that brings the whole hall into tune.
+patterns, and ends with a chamber that brings the whole room into tune.
 
 Finishing a chamber unlocks the next one. Finished chambers stay open so you can
 return and look for a cleaner solution. Every rotate or move counts as one tune.
-Solve at or under par for a Clean Echo. Find the tightest possible layout for a Pure
-Resonance.
+Solve at or under par for a Clean Echo. Find the tightest possible layout for a
+Pure Resonance.
 
 There is no game over. If a pulse misses, the room tells you why, and you keep
 tuning.
 
 PRIVACY
 
-Echo Forge is completely offline. It collects nothing and sends nothing. There is
-no analytics, no advertising, no account, and no login. Your progress is saved on
-your device. The app asks for no camera, microphone, location, photo, or tracking
-permission, even though sound is the whole subject of the game.
+Resonance Chamber is completely offline. It collects nothing and sends nothing.
+There is no analytics, no advertising, no account, and no login. Your progress is
+saved on your device. The app asks for no camera, microphone, location, photo, or
+tracking permission, even though sound is the whole subject of the game.
 
-Echo Forge is designed for landscape play on iPhone and iPad, with a restrained
-palette of deep blue, bronze, and warm amber, and an original soundscape
-generated for this game.
+Resonance Chamber is designed for landscape play on iPhone and iPad, with a
+restrained palette of deep blue, bronze, and warm amber, and an original
+soundscape generated for this game.
 
-(Character count of the description body above is within the 4000 limit. Verify
-after any edit.)
+(Description body is roughly 2500 characters, within the 4000 limit. Verify after
+any edit.)
 
 ---
 
 ## What's New for version 1.0.0
 
-First release of Echo Forge. Twelve main acoustic reflection chambers and a Sound Check
-tutorial, three performance ratings per main chamber, local save, and a full settings
-panel. Fully offline.
+First release. Twelve main acoustic reflection chambers and a Sound Check
+tutorial, three performance ratings per main chamber, local save, and a full
+settings panel. Fully offline.
 
 ---
 
 ## App Review notes
 
-Echo Forge is a single player offline puzzle game. No account, no login, and no
-special configuration are required to review it.
+Resonance Chamber is a single player offline puzzle game. No account, no login,
+and no special configuration are required to review it.
 
 How to play, in short:
-1. Launch the app. It opens on the Resonance Hall menu.
+1. Launch the app. It opens on the main menu.
 2. Tap START SESSION to enter the first chamber, which is a guided Sound Check.
-3. Tap a bronze component to select it, then tap the selected reflector again to rotate
-   it, or tap a highlighted socket to move it.
+3. Tap a bronze component to select it, then tap the selected reflector again to
+   rotate it, or tap a highlighted socket to move it.
 4. Tap the round PULSE button at the bottom center to run the simulation.
 5. When the pulse reaches the receiver, the chamber resolves and the next chamber
    unlocks. RESONANCE DIAL on the menu lets you jump between unlocked chambers.
@@ -171,6 +200,10 @@ Permissions: none are requested. The game is about acoustics but it does not use
 the microphone.
 
 Orientation: landscape only, which is intentional for the puzzle layout.
+
+Codename note: some engine identifiers and the source repository use the internal
+codename "Echo Forge". The product, the icon, and every on screen title read
+"Resonance Chamber".
 
 ---
 
@@ -209,8 +242,10 @@ Expected result: **4+.**
 ## Asset checklist for submission
 
 * App icon 1024 by 1024, no alpha, no rounded corners. Source is
-  `Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png`.
-* iPhone 6.9 inch screenshots, landscape, 2868 by 1320 (or another accepted size). Provide 1 to 10; three distinct gameplay views are recommended.
+  `Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` (codename filename; the art
+  is the Resonance Chamber icon).
+* iPhone 6.9 inch screenshots, landscape, 2868 by 1320 (or another accepted size).
+  Provide 1 to 10; three distinct gameplay views are recommended.
 * iPad 13 inch screenshots, landscape, 2752 by 2064 (or 2732 by 2048). Provide 1 to 10.
 * Optional app preview video, landscape, 15 to 30 seconds.
 * Screenshots must be captured from the real build with no added device frames
