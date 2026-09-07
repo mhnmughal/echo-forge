@@ -1,22 +1,35 @@
 # ASSET_PROVENANCE — Echo Forge
 
-Track every shipped non-code asset: models, meshes, textures, fonts, sprites,
-icons, audio (also in AUDIO_PROVENANCE.md), VFX sources, generated art, external
-assets. Do not ship assets whose license cannot be established.
+Every shipped non-code asset. Nothing external; all project-generated.
 
 ## Meshes / models
-Primitives + procedurally generated meshes (project-generated). None external yet.
+Unity built-in primitives (Cube/Cylinder/Sphere/Quad/Plane) only, arranged by
+edit-time builder scripts and by `LevelController` at runtime for the data-driven
+puzzle board. No imported models.
 
 ## Materials / textures
-URP materials authored in-project. Procedural/solid where possible. None external yet.
+URP Lit materials authored by `EchoBuild.Mat` (`Assets/EchoForge/Art/Materials/`):
+solid colours + metallic/smoothness/emission, project palette. No texture files.
 
 ## Fonts
-TBD — must be a legally-safe typeface (e.g. SIL OFL). Record exact font + license
-when chosen. Unity default (Liberation Sans, OFL) acceptable as body fallback.
+TextMeshPro default **LiberationSans SDF** (SIL Open Font License 1.1, bundled
+with `com.unity.ugui`). Used for all UI. Single family; weight/tracking/case give
+hierarchy. No font files added to the repo, no prior-project font pairing reused.
 
-## Icon
-App icon: NOT CREATED. Will be project-generated original (see §69-77 of master
-prompt). Record generation method + 1024 master path here when done.
+## App icon
+`Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` — 1024×1024 master, plus
+180/120/60 QA downscales. **Procedurally rendered** by
+`Assets/EchoForge/Editor/Build/IconGen.cs` (2× supersampled raster): bronze
+resonance ring + three restrained violet acoustic wavefronts curving in from the
+lower-left + an amber resonant point with bloom, on a deep midnight ground.
+Original raster art, no external source, no image-generation service.
+Assigned to Player Settings (Standalone / iOS / Android icon slots) by the same
+tool. Small-size QA (2026-09-07): ring silhouette + resonant point readable at
+60 px; wavefront detail softens at that size (acceptable). No Unity default icon,
+no prior-project motif, no text.
+
+## Audio
+See AUDIO_PROVENANCE.md — 20 project-generated procedural WAVs.
 
 ## External assets
 NONE.
