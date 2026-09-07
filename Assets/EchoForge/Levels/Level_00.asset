@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5816a658ab7a4049aa66594b83fced8, type: 3}
+  m_Name: Level_00
+  m_EditorClassIdentifier: EchoForge.Runtime::EchoForge.Level.EchoLevelDefinition
+  levelId: 0
+  title: Sound Check
+  series: 
+  isTutorial: 1
+  tutorialText: 'This is the source.
+
+    Send the pulse here.
+
+    Select the reflector.
+
+    Turn
+    it toward the receiver.
+
+    Send a pulse.'
+  visualVariant: 0
+  chamberSize: {x: 9, y: 7}
+  emitters:
+  - cell: {x: 1, y: 3}
+    dir: 2
+    startBeat: 0
+  fixedComponents:
+  - type: 5
+    cell: {x: 5, y: 5}
+    orient: 0
+    delayBeats: 0
+    receiverId: 1
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  adjustables:
+  - type: 1
+    cell: {x: 5, y: 3}
+    orient: 3
+    delayBeats: 0
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
+  movableSockets: []
+  timing: []
+  adjustmentPar: 1
+  optimalAdjustments: 1
+  optimalComponents:
+  - type: 1
+    cell: {x: 5, y: 3}
+    orient: 0
+    delayBeats: 0
+    receiverId: 0
+    forbidden: 0
+    rule: 0
+    ruleParam: 1
