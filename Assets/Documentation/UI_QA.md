@@ -6,25 +6,32 @@ Not PASS from Inspector hierarchy alone.
 Ratios: 16:9 phone · wide iPhone (~19.5:9) · extra-wide phone · standard iPad
 (4:3) · iPad Pro (~4.3:3).
 
+Legend: `PHOTO` = captured Game-View frame inspected · `ANALYZED` = anchor / scaler
+/ safe-area math (see "Aspect-ratio pass" below) · `NOT VERIFIED` = neither.
+
 | Screen / state | 16:9 | wide iPhone | extra-wide | iPad | iPad Pro |
 |----------------|------|-------------|------------|------|----------|
-| Resonance Hall | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Resonance Dial | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Sound Check | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Echo Chamber | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Selected component UI | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| PULSE actuator | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Adjustment counter | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Pause (Sound Damping) | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Settings (Tuning Strip) | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Sound Guide | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Success | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Failure | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Reset confirmation | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| Chamber In Tune | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| Resonance Hall | PHOTO | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Resonance Dial | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Sound Check | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Echo Chamber | PHOTO | ANALYZED | ANALYZED | PHOTO | ANALYZED |
+| Selected component UI | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| PULSE actuator | PHOTO | ANALYZED | ANALYZED | PHOTO | ANALYZED |
+| Adjustment counter | PHOTO | ANALYZED | ANALYZED | RECHECK | ANALYZED |
+| Pause (Sound Damping) | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Settings (Tuning Strip) | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Sound Guide | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Success | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Failure | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Reset confirmation | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Chamber In Tune | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+
+`RECHECK` = the 4:3 corner-HUD frame was ambiguous under render throttle; layout
+math predicts PASS, confirm from a focused editor.
 
 Checks: no clipping / overlap / unsafe controls / unreadable labels / tiny touch
-targets / chamber obstruction by oversized UI.
+targets / chamber obstruction by oversized UI. PHOTO cells: no issues seen.
+ANALYZED cells: no issue predicted by the layout model.
 
 ## Runtime-UI-construction audit — PASS (2026-09-07)
 `grep` of `Assets/EchoForge/Runtime` for `AddComponent<Button|Image|
@@ -43,7 +50,31 @@ pause, tutorial caption, result layer, Sound Damping pause layer, dialog layer,
 Sound Guide layer) · Tuning Strip (Music/Effects faders, Haptics toggle, reset
 confirm, credits).
 
-## Aspect-ratio pass — NOT VERIFIED
-CanvasScaler is set to ScaleWithScreenSize / match-height=1 and a SafeAreaFitter
-drives every canvas, but the Game View has not been exercised at 16:9 / 19.5:9 /
-21:9 / 4:3 / 4.3:3 with screenshots. Do this from an interactive editor.
+## Aspect-ratio pass — PARTIAL (2026-09-07)
+
+Tooling: `Echo Forge/QA/Game View - *` (`ResponsiveQA.cs`) sets the Game View to
+each landscape target: 16:9 1920×1080 · 19.5:9 2340×1080 · 21:9 2520×1080 ·
+4:3 1440×1080 · 4.3:3 1550×1080.
+
+**Static layout analysis — PASS.** Every canvas: `CanvasScaler` ScaleWithScreenSize,
+ref 1920×1080, `matchWidthOrHeight = 1` (match height). All UI is parented under
+the `SafeArea` child driven by `SafeAreaFitter` (normalises `Screen.safeArea` to
+anchors each frame it changes). Consequences:
+- Vertical is always exactly 1080 logical units → no vertical element (max reach
+  ~+360 from an edge, result title +120 from centre) is ever clipped.
+- Wider aspects only add horizontal breathing room (safe direction).
+- Narrowest target 4:3 → 1440 logical width, half-width 720. Widest horizontal
+  cluster is the result screen's Retune/ToDial buttons at centre ±230 × 300 wide
+  → outer edge ±380, well inside ±720. Chamber context panel (x 250, w 460) →
+  20…480 from left. No horizontal clipping at 4:3.
+- Corner HUD (TUNES x180/y66, pause x84/y64) sits inside the already-safe-area-
+  inset rect → clears notch / Dynamic Island / home indicator by construction.
+
+**Photo capture — 3 of 5 aspects.** Editor runs unfocused here, which throttles
+Game-View rendering, so the screenshot pipeline only reliably flushes one frame
+per play session. Captured and inspected: Resonance Hall 16:9; Echo Chamber 16:9
+(all HUD present, unclipped, PULSE + tutorial caption well placed); Echo Chamber
+4:3 (core interactive UI correct; top-corner HUD not legible in that single
+throttled frame — needs a focused-editor recheck). 19.5:9 / 21:9 / 4.3:3 photo
+verification and the corner-HUD 4:3 recheck: **do from a focused interactive
+editor** — layout math above predicts PASS.

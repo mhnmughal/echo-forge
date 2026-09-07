@@ -3,21 +3,27 @@
 > Any agent (Claude, Codex, human) must be able to resume from this file alone.
 
 ## PROJECT STATUS
-`IN_PROGRESS` — core game complete & verified; remaining work is presentation
-polish, listening QA, package trim (blocked by -noUpm), and iOS/device checks.
+`IN_PROGRESS` — core game complete & verified; package trim + AudioMixer + torus
+ring DONE this session. Remaining work all needs a FOCUSED interactive editor
+(real-time art pass, last responsive photos, profiler) or external hardware
+(iOS toolchain/device, human tester, audio output device).
 
 ## CURRENT MILESTONE
 M7 — visual polish pass + honest final audit. Core (M1-M6) done.
 
 ## LAST VERIFIED BUILD
-Windows StandaloneWindows64: **PASS** (2026-09-07) — 0 errors, 0 warnings,
-~105 MB. Smoke test: launches on D3D12, Input System + PhysX init, runs with no
-exceptions. iOS export: NOT ATTEMPTED (needs macOS/Xcode; see below).
+Windows StandaloneWindows64: **PASS** (2026-09-07, post package-trim) — 0 errors,
+0 warnings, ~103 MB. Smoke test (earlier build): launches on D3D12, Input System
++ PhysX init, no exceptions. iOS export: NOT ATTEMPTED (needs macOS/Xcode).
 
 ## ENVIRONMENT
 - Unity 6000.3.19f1, URP 17.3, Linear color space, New Input System, TMP, Test FW.
-- Editor runs with `-noUpm` → Package Manager disabled, manifest edits don't
-  resolve. Package trim is documented in PACKAGE_AUDIT.md, not applied.
+- Editor now runs WITHOUT `-noUpm` (relaunched 2026-09-07). Package Manager works;
+  trim APPLIED (manifest 53→29). If a future session sees `-noUpm` again, package
+  ops will fail — check `Environment.GetCommandLineArgs()`.
+- Known limit: this session's editor is unfocused, so the Game View renders only
+  ~1 frame per play session (screenshot pipeline unreliable for sequences). Also
+  no audio output device.
 - MCP: AnkleBreaker plugin 2.39.5, instance "Echo Forge" port 7890.
 - Tests via advanced tool `unity_testing_run_tests` (assemblies
   ["EchoForge.Tests"] / ["EchoForge.PlayTests"]).
@@ -35,7 +41,7 @@ Local-only (user-authorized 2026-09-07), never pushed. ~20 commits.
 |               | Chamber In Tune finale + emblem |
 | EchoChamber | built — data-driven board, contextual UI, circular PULSE actuator, |
 |             | Sound Damping pause, result/tutorial layers, post-processing |
-| SampleScene (Assets/Scenes) | template leftover — DELETE in a normal editor |
+| (SampleScene) | removed — Assets/Scenes/ is empty |
 
 ## GAMEPLAY SYSTEMS  (all in Assets/EchoForge/Runtime/)
 | System | Status |
@@ -64,6 +70,9 @@ Solutions in Assets/Documentation/LEVEL_DESIGN.md.
 ## AUDIO
 20 procedural WAVs (`Assets/EchoForge/Audio/Generated/`) via AudioGen.
 Objective QA PASS (levels/DC/no-NaN). Listening QA = NOT VERIFIED (no audio out).
+Real AudioMixer `Assets/EchoForge/Art/EchoForge.mixer` (Master→Ambience/SFX/UI,
+exposed MusicVol/EffectsVol/UIVol) built by `EchoPolish.BuildMixer`, wired in
+`AudioRig()`. Multiplier fallback kept.
 
 ## ICON
 `Assets/EchoForge/Art/Icon/EchoForge_Icon_1024.png` procedural + 180/120/60.
@@ -76,29 +85,38 @@ IL2CPP, Android ARM64 minSdk25, Linear, no camera/mic/location descriptions.
 ## AUDITS
 - OFFLINE_AUDIT: **PASS — no runtime network functionality** (code scan clean,
   no SDKs, services disabled, local save only).
-- PACKAGE_AUDIT: plan written, NOT applied (`-noUpm`).
+- PACKAGE_AUDIT: **APPLIED** — 53→29 deps, re-verified. See PACKAGE_AUDIT.md.
 - MCP cleanup (§34): not done — MCP still needed for authoring. Editor-only plugin.
 
-## KNOWN ISSUES / REMAINING WORK
+## DONE THIS SESSION (2026-09-07, session_01HnKWKst1ksn91DWhcZytbv)
+- Package trim 53→29 (`f335774`), SampleScene confirmed gone.
+- Real AudioMixer asset + wiring; editor-compile warnings → 0 (`e6a214c`).
+- `ResonanceRing.asset` procedural torus mesh, replaces flat-disc ring.
+- Chamber component emissive + glow-light bump for board readability;
+  Hall camera pull-back + layered warm/violet light; ambient rebalance.
+- `ResponsiveQA.cs` Game-View aspect harness; UI_QA responsive = static-ANALYZED
+  all 5 aspects + PHOTO 16:9/4:3 (see UI_QA.md).
+- Windows build re-verified PASS (0/0, 103 MB); 17/17 + 13/13 + 17/17 green.
+
+## KNOWN ISSUES / REMAINING WORK  (all need focused editor or external hardware)
 - BUG-NONE open.
-- Visual polish: environment is on-theme but sparse (frame + walls + posts);
-  no curved membranes / rich acoustic detail. Reads "premium gray-box + bloom".
-- UI: functional & contextual; fonts are LiberationSans throughout (safe, plain).
-- Responsive/safe-area QA across 5 aspect ratios: NOT VERIFIED (needs Game View
-  aspect testing).
-- Package trim, SampleScene delete, iOS export, Xcode archive/sign, physical
-  device, human touch QA, audio listening QA — all require a normal editor
-  launch and/or external toolchain/device/human.
+- Environment art: stylised-minimal, coherent but not §21 membrane/detail bar.
+  Needs real-time iteration on a FOCUSED editor (blind screenshot loop can't
+  converge it — this session tried and reverted a too-dark pass).
+- Per-component particle VFX (charge/branch/membrane); pulse leading-ring.
+- Fonts: LiberationSans throughout (safe, plain) — optional display-face upgrade.
+- Responsive: middle 3 aspects + 4:3 corner-HUD photo recheck (layout math = PASS).
+- Profiler pass; iOS export/archive/sign; physical device; human touch + audio
+  listening QA.
+- §34: strip `com.anklebreaker.unity-mcp` before the final store export.
 
 ## NEXT EXACT ACTIONS
-1. From a NORMAL editor launch (no -noUpm): apply PACKAGE_AUDIT trim, delete
-   Assets/Scenes/SampleScene, re-verify (compile/tests/validator/scenes/build).
-2. Environment/VFX polish: curved wall membranes, floor detail, better pulse
-   wave-packet (leading ring), reflector/absorber/splitter shape language,
-   selection + socket visuals, camera feedback on PULSE.
-3. Responsive QA: Game View at 16:9 / 19.5:9 / 21:9 / 4:3 / 4.3:3, verify safe
-   area + no clipping; screenshot each. Record in UI_QA.md.
+1. On a FOCUSED interactive editor: real-time environment/VFX/animation art pass;
+   capture the remaining responsive aspects; run the Unity Profiler on each scene.
+2. Font: optional swap to a restrained architectural display face.
+3. On macOS/Xcode: iOS platform switch → export → archive → sign → device install;
+   verify icon in the asset catalog.
 4. Audio listening QA on a machine with output; fill AUDIO_PROVENANCE listening.
-5. iOS: switch platform, Unity export to Xcode, verify icon in asset catalog.
-6. Update FINAL_AUDIT.md with real per-line results each pass.
+5. Before final export: remove the MCP plugin package, rebuild, re-verify.
+6. Update FINAL_AUDIT.md per-line each pass.
 ```

@@ -39,10 +39,17 @@ All 20 clips: peak ≈ 0.84 (−1.5 dBFS), no NaN/Inf, DC offset < 0.005, 0 hard
 clips (except 1 sample in component_pickup — inaudible). Loudness balanced by
 peak-normalisation.
 
+## Mixer (2026-09-07)
+`Assets/EchoForge/Art/EchoForge.mixer` — real AudioMixer, built at edit time by
+`EchoPolish.BuildMixer`. Bus tree: **Master → { Ambience, SFX, UI }**. Exposed
+params **MusicVol / EffectsVol / UIVol** (verified resolvable via
+`mixer.GetFloat`). `AudioController` routes the SFX pool to the SFX group and the
+ambience source to the Ambience group, and drives MusicVol/EffectsVol in dB from
+the saved 0–1 sliders. The mixer-optional multiplier path is retained as a
+fallback (`mixer == null`).
+
 ## Listening QA
 `NOT VERIFIED` — this environment has no audio output device. Per master prompt
 §23, actual listening (clipping / harshness / fatigue / ambience masking gameplay
-pulses / mixer routing) has not been performed and must not be fabricated.
-Mixer routing: SFX play through pooled AudioSources; ambience through a looped
-source; category volumes applied via multiplier (AudioMixer asset optional, see
-PACKAGE_AUDIT.md).
+pulses / audible mixer balance) has not been performed and must not be fabricated.
+Requires a machine with audio output.

@@ -14,10 +14,12 @@ Status: CURRENT (2026-09-07). All systems below implemented + tested.
 
 ## Assemblies
 - `EchoForge.Runtime` (Assets/EchoForge/Runtime) — all gameplay/runtime code.
-- `EchoForge.Editor` (Assets/EchoForge/Editor) — level validator, tooling, asset gen.
-- `EchoForge.Tests` (Assets/EchoForge/Tests) — EditMode + PlayMode tests.
+- `EchoForge.Editor` (Assets/EchoForge/Editor) — validator, tooling, asset gen,
+  `ResponsiveQA` (Game View aspect harness).
+- `EchoForge.Tests` / `EchoForge.PlayTests` — EditMode + PlayMode tests.
 
 No third-party runtime assemblies. MCP plugin is Editor-only tooling.
+Packages trimmed to 29 (see PACKAGE_AUDIT.md).
 
 ## Deterministic simulation (authoritative)
 The puzzle result is computed entirely by `PulseSimulator`, a pure C# discrete
@@ -64,5 +66,14 @@ statements on level id in gameplay code.
 missing / corrupt / newer-version saves. Never downgrades an earned rating.
 
 ## Audio
-`AudioController` + AudioMixer (Master / Ambience / SFX / UI). Clips are
-project-generated (see AUDIO_PROVENANCE.md). Mixer exposed params persist via save.
+`AudioController` + `EchoForge.mixer` AudioMixer (Master → Ambience / SFX / UI,
+exposed MusicVol / EffectsVol / UIVol). Clips are project-generated (see
+AUDIO_PROVENANCE.md). Saved 0–1 slider values drive the exposed params in dB;
+a multiplier fallback covers `mixer == null`.
+
+## Presentation assets (edit-time generated, `Assets/EchoForge/Art/`)
+- `ResonanceRing.asset` — procedural torus mesh for the Hall's suspended ring
+  (`EchoPolish.BuildTorus`), replaced the flat scaled-cylinder stand-in.
+- `EchoForge.mixer` — see Audio, above.
+- `EchoForge_Post.asset` — URP post profile (bloom / ACES / color / vignette).
+Menu: `Echo Forge/Build/8 - Ring Mesh + Mixer`.
