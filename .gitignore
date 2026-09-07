@@ -1,0 +1,39 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Asset meta data only ignored when the asset is ignored (kept otherwise)
+!/[Aa]ssets/**/*.meta
+
+# Build outputs / exports
+/[Ee]xport*/
+*.apk
+*.aab
+*.ipa
+*.app
+*.unitypackage
+
+# IDE / OS
+.vs/
+.idea/
+.gradle/
+*.csproj
+*.sln
+*.slnx
+*.user
+.DS_Store
+Thumbs.db
+
+# Crashlytics / diagnostics
+crashlytics-build.properties
+sysinfo.txt
+
+# Local Claude scratch (if any lands here)
+/.claude-scratch/
