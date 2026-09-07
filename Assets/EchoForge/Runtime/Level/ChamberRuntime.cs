@@ -37,9 +37,13 @@ namespace EchoForge.Level
             Tunes++;
         }
 
+        public bool CanMove(int index) =>
+            index >= 0 && index < _adjustables.Count &&
+            _def.movableAdjustableIndices.Contains(index) && _def.movableSockets.Count > 0;
+
         public bool CanMoveTo(int index, Vector2Int socket)
         {
-            if (index < 0 || index >= _adjustables.Count) return false;
+            if (!CanMove(index)) return false;
             if (!_def.movableSockets.Contains(socket)) return false;
             foreach (var c in _adjustables)
                 if (c.cell == socket) return false; // socket occupied

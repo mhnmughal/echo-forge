@@ -21,6 +21,9 @@ namespace EchoForge.Sim
 
     public enum Rating { None, Resolved, CleanEcho, PureResonance }
 
+    /// <summary>How a traced pulse segment ends - drives the acoustic VFX playback.</summary>
+    public enum SegEnd { Travel, Reflect, Split, Delay, Absorb, Wall, Receiver, Forbidden, Resonator, Exit }
+
     public static class Directions
     {
         static readonly Vector2Int[] Steps =
@@ -68,6 +71,8 @@ namespace EchoForge.Sim
             int i = (int)d;
             return ((Dir)(((i + 7) % 8)), (Dir)((i + 1) % 8));
         }
+
+        public static Dir Opposite(Dir d) => (Dir)(((int)d + 4) % 8);
     }
 
     [Serializable]
@@ -129,12 +134,23 @@ namespace EchoForge.Sim
         public bool forbidden;
     }
 
+    public struct Segment
+    {
+        public Vector2Int from;
+        public Vector2Int to;
+        public int startBeat;
+        public int endBeat;
+        public int branch;
+        public SegEnd end;
+    }
+
     public sealed class SimResult
     {
         public bool Success;
         public FailReason Fail = FailReason.None;
         public readonly List<ReceiverHit> Hits = new();
         public readonly List<int> AbsorbedAt = new();
+        public readonly List<Segment> Trace = new();
         public int TotalBeats;
         public bool EndedByCap;
         public int PulsesSpawned;
@@ -166,6 +182,9 @@ namespace EchoForge.Sim
             public Dir dir;
             public int beat;
             public int branch;
+            public bool hasPrev;
+            public Vector2Int prev;
+            public int prevBeat;
         }
 
         public static SimResult Run(AcousticGraph g)
@@ -177,7 +196,10 @@ namespace EchoForge.Sim
             int branchSeed = 0;
             foreach (var e in g.Emitters)
             {
-                pending.Add(new Pulse { cell = e.cell, dir = e.dir, beat = Mathf.Max(0, e.startBeat), branch = branchSeed++ });
+                pending.Add(new Pulse
+                {
+                    cell = e.cell, dir = e.dir, beat = Mathf.Max(0, e.startBeat), branch = branchSeed++
+                });
                 result.PulsesSpawned++;
             }
 
@@ -202,45 +224,71 @@ namespace EchoForge.Sim
                 Pulse p = pending[pick];
                 pending.RemoveAt(pick);
 
-                var key = (p.cell, p.dir);
-                revisits.TryGetValue(key, out int seen);
-                if (seen >= MaxRevisits) { result.EndedByCap = true; continue; }
-                revisits[key] = seen + 1;
-
                 if (p.beat > result.TotalBeats) result.TotalBeats = p.beat;
 
-                if (!g.InBounds(p.cell)) continue; // left the chamber -> gone
+                int segIdx = -1;
+                if (p.hasPrev)
+                {
+                    result.Trace.Add(new Segment
+                    {
+                        from = p.prev, to = p.cell, startBeat = p.prevBeat, endBeat = p.beat,
+                        branch = p.branch, end = SegEnd.Travel
+                    });
+                    segIdx = result.Trace.Count - 1;
+                }
+
+                var key = (p.cell, p.dir);
+                revisits.TryGetValue(key, out int seen);
+                if (seen >= MaxRevisits) { result.EndedByCap = true; SetEnd(result, segIdx, SegEnd.Exit); continue; }
+                revisits[key] = seen + 1;
+
+                if (!g.InBounds(p.cell)) { SetEnd(result, segIdx, SegEnd.Exit); continue; }
 
                 if (g.TryGet(p.cell, out ComponentDef comp))
                 {
                     switch (comp.type)
                     {
                         case CompType.Wall:
+                            SetEnd(result, segIdx, SegEnd.Wall);
+                            continue;
+
                         case CompType.Absorber:
-                            if (comp.type == CompType.Absorber) result.AbsorbedAt.Add(comp.receiverId);
+                            result.AbsorbedAt.Add(comp.receiverId);
+                            SetEnd(result, segIdx, SegEnd.Absorb);
                             continue;
 
                         case CompType.Receiver:
                             result.Hits.Add(new ReceiverHit { receiverId = comp.receiverId, beat = p.beat, forbidden = comp.forbidden });
                             if (comp.forbidden) result.Fail = FailReason.ForbiddenReceiver;
+                            SetEnd(result, segIdx, comp.forbidden ? SegEnd.Forbidden : SegEnd.Receiver);
                             continue;
 
                         case CompType.Resonator:
                             result.Hits.Add(new ReceiverHit { receiverId = comp.receiverId, beat = p.beat, forbidden = false });
+                            SetEnd(result, segIdx, SegEnd.Resonator);
                             continue;
 
                         case CompType.Reflector:
                         {
                             var nd = Directions.Reflect(p.dir, comp.orient);
-                            if (nd.HasValue) p.dir = nd.Value;
+                            if (nd.HasValue) { p.dir = nd.Value; SetEnd(result, segIdx, SegEnd.Reflect); }
                             break;
                         }
 
                         case CompType.Splitter:
                         {
                             var (a, b) = Directions.Fork(p.dir);
-                            pending.Add(new Pulse { cell = p.cell + Directions.Step(a), dir = a, beat = p.beat + 1, branch = nextBranch++ });
-                            pending.Add(new Pulse { cell = p.cell + Directions.Step(b), dir = b, beat = p.beat + 1, branch = nextBranch++ });
+                            SetEnd(result, segIdx, SegEnd.Split);
+                            pending.Add(new Pulse
+                            {
+                                cell = p.cell + Directions.Step(a), dir = a, beat = p.beat + 1,
+                                branch = nextBranch++, hasPrev = true, prev = p.cell, prevBeat = p.beat
+                            });
+                            pending.Add(new Pulse
+                            {
+                                cell = p.cell + Directions.Step(b), dir = b, beat = p.beat + 1,
+                                branch = nextBranch++, hasPrev = true, prev = p.cell, prevBeat = p.beat
+                            });
                             result.PulsesSpawned += 2;
                             continue;
                         }
@@ -248,7 +296,12 @@ namespace EchoForge.Sim
                         case CompType.DelayPlate:
                         {
                             int hold = Mathf.Max(0, comp.delayBeats);
-                            pending.Add(new Pulse { cell = p.cell + Directions.Step(p.dir), dir = p.dir, beat = p.beat + 1 + hold, branch = p.branch });
+                            SetEnd(result, segIdx, SegEnd.Delay);
+                            pending.Add(new Pulse
+                            {
+                                cell = p.cell + Directions.Step(p.dir), dir = p.dir, beat = p.beat + 1 + hold,
+                                branch = p.branch, hasPrev = true, prev = p.cell, prevBeat = p.beat
+                            });
                             continue;
                         }
 
@@ -257,19 +310,29 @@ namespace EchoForge.Sim
                     }
                 }
 
-                pending.Add(new Pulse { cell = p.cell + Directions.Step(p.dir), dir = p.dir, beat = p.beat + 1, branch = p.branch });
+                pending.Add(new Pulse
+                {
+                    cell = p.cell + Directions.Step(p.dir), dir = p.dir, beat = p.beat + 1,
+                    branch = p.branch, hasPrev = true, prev = p.cell, prevBeat = p.beat
+                });
             }
 
             Evaluate(g, result);
             return result;
         }
 
+        static void SetEnd(SimResult r, int segIdx, SegEnd end)
+        {
+            if (segIdx < 0 || segIdx >= r.Trace.Count) return;
+            var s = r.Trace[segIdx];
+            s.end = end;
+            r.Trace[segIdx] = s;
+        }
+
         static void Evaluate(AcousticGraph g, SimResult r)
         {
-            // forbidden already flags on hit
             if (r.Fail == FailReason.ForbiddenReceiver) { r.Success = false; return; }
 
-            // every non-forbidden receiver must be hit
             foreach (var kv in g.Cells)
             {
                 var c = kv.Value;
@@ -281,7 +344,6 @@ namespace EchoForge.Sim
                 }
             }
 
-            // timing constraints
             foreach (var t in g.Timing)
             {
                 if (!TryFirstBeat(r, t.fromReceiverId, out int bf) || !TryFirstBeat(r, t.toReceiverId, out int bt))
@@ -295,7 +357,6 @@ namespace EchoForge.Sim
                 }
             }
 
-            // resonators
             foreach (var kv in g.Cells)
             {
                 var c = kv.Value;
@@ -328,10 +389,8 @@ namespace EchoForge.Sim
             {
                 case ResonatorRule.HitCount:
                     return beats.Count >= Mathf.Max(1, c.ruleParam);
-
                 case ResonatorRule.Simultaneous:
                     return HasPairWithDelta(beats, 0);
-
                 case ResonatorRule.BeatDelta:
                     return HasPairWithDelta(beats, Mathf.Max(0, c.ruleParam));
             }

@@ -31,6 +31,8 @@ namespace EchoForge.Level
         public List<ComponentDef> adjustables = new();
         [Tooltip("Cells a movable component may be dropped into.")]
         public List<Vector2Int> movableSockets = new();
+        [Tooltip("Indices into 'adjustables' the player is allowed to relocate between sockets.")]
+        public List<int> movableAdjustableIndices = new();
 
         [Header("Win conditions")]
         public List<TimingConstraint> timing = new();
