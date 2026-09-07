@@ -28,9 +28,13 @@ Level 0 Sound Check: PASS  (tutorial guidance + persistence, PlayMode-tested)
 Final Level 12: PASS  (2 emitters -> converging resonator, BeatDelta 2)
 Chamber In Tune Finale: PASS  (plays once on return; emblem persists; finaleSeen)
 
-Resonance Hall UI: PASS (built, functional) / visual polish PARTIAL
-Resonance Dial UI: PASS (radial, 12 nodes, rotate/launch, lock+rating state)
-Echo Chamber UI: PASS (contextual, chamber-dominant, no permanent dock)
+Resonance Hall UI: PASS  (centred menu card, one flush button column, primary
+  emphasis, title + bronze rule — PHOTO-verified 16:9)
+Resonance Dial UI: PASS (radial, 12 nodes, header, aligned close/launch)
+Echo Chamber UI: PASS (contextual, chamber-dominant, no permanent dock; HUD pills
+  + pause menu PHOTO-verified 16:9)
+UI system: PASS  (one EchoBuild factory — themed Button/Panel/Header/ButtonStack;
+  panels + buttons share margins, heights, gaps; bronze/graphite/ivory throughout)
 Contextual Controls: PASS   PULSE Actuator: PASS (physical circular strike pad)
 Sound Damping Pause: PASS   Tuning Strip: PASS (real persisted settings + reset
   confirm)   Sound Guide: PASS

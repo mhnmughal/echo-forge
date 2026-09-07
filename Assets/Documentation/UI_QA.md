@@ -11,10 +11,11 @@ Legend: `PHOTO` = captured Game-View frame inspected · `ANALYZED` = anchor / sc
 
 | Screen / state | 16:9 | wide iPhone | extra-wide | iPad | iPad Pro |
 |----------------|------|-------------|------------|------|----------|
-| Resonance Hall | PHOTO | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
+| Resonance Hall | PHOTO✓ | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
 | Resonance Dial | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
 | Sound Check | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
-| Echo Chamber | PHOTO | ANALYZED | ANALYZED | PHOTO | ANALYZED |
+| Echo Chamber | PHOTO✓ | ANALYZED | ANALYZED | PHOTO | ANALYZED |
+| Pause (Sound Damping) | PHOTO✓ | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
 | Selected component UI | ANALYZED | ANALYZED | ANALYZED | ANALYZED | ANALYZED |
 | PULSE actuator | PHOTO | ANALYZED | ANALYZED | PHOTO | ANALYZED |
 | Adjustment counter | PHOTO | ANALYZED | ANALYZED | RECHECK | ANALYZED |
@@ -41,6 +42,21 @@ data-driven puzzle-board component views (justified per §7/§20 — content var
 per level), a gameplay glow light, and transient pulse-VFX packets. No primary
 production UI is built at runtime — all three scenes' UI is authored at edit time
 by `EchoBuildScenes` and serialized into the `.unity` files.
+
+## UI system (2026-09-07 pass)
+One factory in `EchoBuild.cs` drives every screen so panels + buttons align:
+- `Button` — flat graphite fill (bronze fill + amber rule when `primary`), a bronze
+  base rule, ivory label with +6 tracking, hover-warms / press-bronze color states.
+- `Panel` / `Rule` / `Header` — consistent card fill, bronze accent rules, one
+  header baseline (title + underline at a fixed offset).
+- `ButtonStack` — equal-width, equal-gap vertical button columns (top-anchored),
+  used by the Hall main menu and the pause menu so columns are perfectly flush.
+- `UIEdge` (64) / `BtnH` (76) / `BtnHBig` (96) / `BtnGap` (16) constants.
+Screens rebuilt on it: Bootstrap title, Hall main menu (centred card, one column),
+Resonance Dial / Tuning Strip / Sound Guide (headers + aligned close/action rows),
+Tuning faders + toggle (shared left margin), Chamber HUD (TUNES pill + pause disc
+on one rail, bronze-ticked context card, tutorial caption), Result + Pause layers
+(scrim + centred card + aligned button rows/column).
 
 ## Screens built & wired (edit-time authored)
 Resonance Hall (primary action, Sound Check, Dial, Tuning, Sound Guide, finale

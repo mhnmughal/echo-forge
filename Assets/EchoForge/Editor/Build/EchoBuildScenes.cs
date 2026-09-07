@@ -170,11 +170,14 @@ namespace EchoForge.EditorTools
             B.EventSystem();
 
             var (_, safe) = B.Canvas("Canvas", false);
-            B.Text(safe, "Title", "ECHO FORGE", 92, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 40), new Vector2(1200, 160));
-            B.Text(safe, "Sub", "tune the room, not the character", 30, TextAlignmentOptions.Center,
-                new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.85f),
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -50), new Vector2(1200, 60));
+            var bTitle = B.Text(safe, "Title", "ECHO FORGE", 88, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 44), new Vector2(1200, 150));
+            bTitle.characterSpacing = 16f;
+            B.Rule(safe, "TitleRule", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -18), new Vector2(150, 3));
+            B.Text(safe, "Sub", "TUNE THE ROOM, NOT THE CHARACTER", 22, TextAlignmentOptions.Center,
+                new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.9f),
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, -58), new Vector2(1200, 50))
+                .characterSpacing = 6f;
 
             new GameObject("Systems", typeof(BootstrapController));
             Save(s, "Bootstrap");
@@ -250,31 +253,46 @@ namespace EchoForge.EditorTools
             var strip = hallGO.GetComponent<TuningStripController>();
             var guide = hallGO.GetComponent<SoundGuidePanel>();
 
-            var primary = B.Button(safe, "PrimaryAction", "START SESSION", 34,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 150), new Vector2(460, 108));
-            B.Wire(primary, hall, nameof(ResonanceHallController.OnPrimaryAction));
-            var primaryLabel = primary.GetComponentInChildren<TMP_Text>();
+            // title block (top-centre)
+            var title = B.Text(safe, "HallTitle", "ECHO FORGE", 58, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -130), new Vector2(1000, 84));
+            title.characterSpacing = 12f;
+            B.Rule(safe, "TitleRule", new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -188), new Vector2(140, 3));
 
-            var soundCheck = B.Button(safe, "SoundCheck", "SOUND CHECK", 24,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(-260, 90), new Vector2(230, 68));
-            B.Wire(soundCheck, hall, nameof(ResonanceHallController.OnSoundCheck));
-            var dialBtn = B.Button(safe, "OpenDial", "RESONANCE DIAL", 24,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(260, 90), new Vector2(230, 68));
-            B.Wire(dialBtn, hall, nameof(ResonanceHallController.OnOpenDial));
-            var setBtn = B.Button(safe, "OpenSettings", "TUNING", 22,
-                new Vector2(1, 1), new Vector2(1, 1), new Vector2(-110, -70), new Vector2(160, 68));
-            B.Wire(setBtn, hall, nameof(ResonanceHallController.OnOpenSettings));
-            var guideBtn = B.Button(safe, "OpenGuide", "SOUND GUIDE", 22,
-                new Vector2(0, 1), new Vector2(0, 1), new Vector2(150, -70), new Vector2(200, 68));
-            B.Wire(guideBtn, hall, nameof(ResonanceHallController.OnOpenSoundGuide));
-
-            var emblem = B.Text(safe, "ChamberInTuneEmblem", "CHAMBER IN TUNE", 28, TextAlignmentOptions.Center,
-                B.Amber, new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -70), new Vector2(600, 60));
+            var emblem = B.Text(safe, "ChamberInTuneEmblem", "CHAMBER  IN  TUNE", 20, TextAlignmentOptions.Center,
+                B.Amber, new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -214), new Vector2(600, 36));
+            emblem.characterSpacing = 7f;
             emblem.gameObject.SetActive(false);
+
+            // centred menu card — one column, everything flush
+            var menu = B.Panel(safe, "MainMenu", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                new Vector2(0, -70), new Vector2(524, 462));
+            B.Rule(menu.gameObject, "MenuTopRule", new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -1.5f), new Vector2(0, 3), new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.55f));
+            var stack = B.ButtonStack(menu.gameObject, 28f, 432f, B.BtnH, new[]
+            {
+                ("PrimaryAction", "START SESSION", 30f),
+                ("OpenDial", "RESONANCE DIAL", 26f),
+                ("SoundCheck", "SOUND CHECK", 26f),
+            }, primaryFirst: true);
+            B.Wire(stack[0], hall, nameof(ResonanceHallController.OnPrimaryAction));
+            B.Wire(stack[1], hall, nameof(ResonanceHallController.OnOpenDial));
+            B.Wire(stack[2], hall, nameof(ResonanceHallController.OnSoundCheck));
+            var primaryLabel = stack[0].GetComponentInChildren<TMP_Text>();
+
+            B.Rule(menu.gameObject, "MenuDivider", new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(0, 118), new Vector2(432, 2), new Color(1, 1, 1, 0.08f));
+            var guideBtn = B.Button(menu.gameObject, "OpenGuide", "SOUND GUIDE", 20,
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(-110, 46), new Vector2(208, 56));
+            B.Wire(guideBtn, hall, nameof(ResonanceHallController.OnOpenSoundGuide));
+            var setBtn = B.Button(menu.gameObject, "OpenSettings", "TUNING", 20,
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(110, 46), new Vector2(208, 56));
+            B.Wire(setBtn, hall, nameof(ResonanceHallController.OnOpenSettings));
 
             // dial panel
             var dialPanel = B.Panel(safe, "DialPanel", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero,
-                new Color(0.03f, 0.035f, 0.05f, 0.96f));
+                B.ScrimFill);
+            B.Header(dialPanel.gameObject, "SELECT  CHAMBER", 28);
             var ringRT = B.Rect(dialPanel.gameObject, "DialRing", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                 new Vector2(0, 0), new Vector2(720, 720));
             var nodes = new DialNode[12];
@@ -314,10 +332,11 @@ namespace EchoForge.EditorTools
                 new Vector2(430, 0), new Vector2(90, 90));
             B.Wire(nextB, dial, nameof(ResonanceDialController.Next));
             var launchB = B.Button(dialPanel.gameObject, "Launch", "ENTER CHAMBER", 26,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 150), new Vector2(420, 96));
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 60 + B.BtnHBig * 0.5f), new Vector2(420, B.BtnHBig),
+                primary: true);
             B.Wire(launchB, dial, nameof(ResonanceDialController.Launch));
-            var dialClose = B.Button(dialPanel.gameObject, "DialClose", "BACK", 22,
-                new Vector2(0, 1), new Vector2(0, 1), new Vector2(120, -70), new Vector2(160, 64));
+            var dialClose = B.Button(dialPanel.gameObject, "DialClose", "BACK", 20,
+                new Vector2(0, 1), new Vector2(0, 1), new Vector2(B.UIEdge + 90, -B.UIEdge - 28), new Vector2(180, 56));
             B.Wire(dialClose, dial, nameof(ResonanceDialController.Close));
             dialPanel.gameObject.SetActive(false);
 
@@ -335,41 +354,47 @@ namespace EchoForge.EditorTools
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
 
-            // tuning strip
+            // tuning strip — header · two faders · toggle · divider · reset · done
             var stripPanel = B.Panel(safe, "TuningStrip", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(760, 520), new Color(0.04f, 0.045f, 0.06f, 0.98f));
-            B.Text(stripPanel.gameObject, "SettingsTitle", "TUNING STRIP", 30, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -44), new Vector2(500, 44));
-            var musicSlider = MakeSlider(stripPanel.gameObject, "MusicFader", "MUSIC / AMBIENCE", 120);
-            var fxSlider = MakeSlider(stripPanel.gameObject, "EffectsFader", "EFFECTS", 20);
-            var hapticsToggle = MakeToggle(stripPanel.gameObject, "HapticsToggle", "HAPTICS", -70);
-            var resetBtn = B.Button(stripPanel.gameObject, "ResetProgress", "RESET RESONANCE HISTORY", 20,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 120), new Vector2(460, 60),
-                new Color(B.Crimson.r, B.Crimson.g, B.Crimson.b, 0.25f));
+                Vector2.zero, new Vector2(720, 636));
+            B.Header(stripPanel.gameObject, "TUNING  STRIP", 28);
+            var musicSlider = MakeSlider(stripPanel.gameObject, "MusicFader", "MUSIC / AMBIENCE", 150);
+            var fxSlider = MakeSlider(stripPanel.gameObject, "EffectsFader", "EFFECTS", 58);
+            var hapticsToggle = MakeToggle(stripPanel.gameObject, "HapticsToggle", "HAPTICS", -24);
+            B.Rule(stripPanel.gameObject, "StripDivider", new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(0, 214), new Vector2(560, 2), new Color(1, 1, 1, 0.08f));
+            var resetBtn = B.Button(stripPanel.gameObject, "ResetProgress", "RESET RESONANCE HISTORY", 18,
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 172), new Vector2(420, 56),
+                new Color(B.Crimson.r * 0.5f, B.Crimson.g * 0.5f, B.Crimson.b * 0.5f, 0.92f));
             B.Wire(resetBtn, strip, nameof(TuningStripController.OnResetRequested));
-            var stripClose = B.Button(stripPanel.gameObject, "StripClose", "DONE", 22,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 48), new Vector2(200, 56));
+            var stripClose = B.Button(stripPanel.gameObject, "StripClose", "DONE", 24,
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 80), new Vector2(300, B.BtnHBig),
+                primary: true);
             B.Wire(stripClose, strip, nameof(TuningStripController.Close));
             var creditsBtn = B.Button(stripPanel.gameObject, "Credits", "CREDITS", 16,
-                new Vector2(1, 1), new Vector2(1, 1), new Vector2(-70, -30), new Vector2(120, 44));
+                new Vector2(1, 1), new Vector2(1, 1), new Vector2(-84, -44), new Vector2(140, 44));
             B.Wire(creditsBtn, strip, nameof(TuningStripController.OnCreditsToggle));
             var creditsPanel = B.Panel(stripPanel.gameObject, "CreditsPanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(520, 280));
+                Vector2.zero, new Vector2(560, 320));
+            B.Header(creditsPanel.gameObject, "CREDITS", 26);
             B.Text(creditsPanel.gameObject, "CreditsText",
-                "ECHO FORGE\nDesign, code, audio, art: project-generated original\nBuilt offline. No trackers.", 22,
-                TextAlignmentOptions.Center, B.Ivory);
+                "ECHO FORGE\n\nDesign · code · audio · art\nproject-generated original\n\nBuilt offline.  No trackers.", 22,
+                TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, -10), new Vector2(-64, -140));
             creditsPanel.gameObject.SetActive(false);
 
             var resetConfirm = B.Panel(stripPanel.gameObject, "ResetConfirm", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(560, 260), new Color(0.05f, 0.03f, 0.035f, 0.99f));
+                Vector2.zero, new Vector2(580, 300), new Color(0.055f, 0.035f, 0.04f, 0.995f));
+            B.Header(resetConfirm.gameObject, "RESET  HISTORY?", 26);
             B.Text(resetConfirm.gameObject, "ConfirmText",
-                "RESET RESONANCE HISTORY?\nAll completed chambers and ratings will be cleared.", 22,
-                TextAlignmentOptions.Center, B.Ivory, new Vector2(0, 0.4f), new Vector2(1, 1), Vector2.zero, new Vector2(-40, -20));
+                "All completed chambers and ratings will be cleared. Audio and haptics settings are kept.", 20,
+                TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 22), new Vector2(-72, -150));
             var doReset = B.Button(resetConfirm.gameObject, "DoReset", "RESET", 22, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-120, 40), new Vector2(180, 60), new Color(B.Crimson.r, B.Crimson.g, B.Crimson.b, 0.4f));
+                new Vector2(-108, 36 + 34), new Vector2(196, 68), new Color(B.Crimson.r, B.Crimson.g, B.Crimson.b, 0.9f));
             B.Wire(doReset, strip, nameof(TuningStripController.OnResetConfirmed));
             var cancelReset = B.Button(resetConfirm.gameObject, "CancelReset", "CANCEL", 22, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(120, 40), new Vector2(180, 60));
+                new Vector2(108, 36 + 34), new Vector2(196, 68));
             B.Wire(cancelReset, strip, nameof(TuningStripController.OnResetCancelled));
             resetConfirm.gameObject.SetActive(false);
             stripPanel.gameObject.SetActive(false);
@@ -386,21 +411,20 @@ namespace EchoForge.EditorTools
 
             // sound guide
             var guidePanel = B.Panel(safe, "SoundGuidePanel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                Vector2.zero, new Vector2(900, 640), new Color(0.04f, 0.045f, 0.06f, 0.98f));
-            B.Text(guidePanel.gameObject, "GuideTitle", "SOUND GUIDE", 30, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -44), new Vector2(500, 44));
+                Vector2.zero, new Vector2(880, 660));
+            B.Header(guidePanel.gameObject, "SOUND  GUIDE", 28);
             B.Text(guidePanel.gameObject, "GuideBody",
-                "EMITTER  releases one visible pulse.\n" +
-                "REFLECTOR  turns the pulse in 45 steps.\n" +
-                "ABSORBER  stops a pulse.\n" +
-                "SPLITTER  forks one pulse into two.\n" +
-                "DELAY PLATE  holds a pulse a set number of beats.\n" +
-                "RECEIVER  needs a pulse. Forbidden receivers must stay silent.\n" +
-                "RESONATOR  needs two pulses in the right relationship.", 24,
+                "EMITTER          releases one visible pulse.\n" +
+                "REFLECTOR      turns the pulse in 45° steps.\n" +
+                "ABSORBER        stops a pulse.\n" +
+                "SPLITTER          forks one pulse into two.\n" +
+                "DELAY PLATE   holds a pulse a set number of beats.\n" +
+                "RECEIVER         needs a pulse.  Forbidden ones must stay silent.\n" +
+                "RESONATOR      needs two pulses in the right relationship.", 23,
                 TextAlignmentOptions.TopLeft, B.Ivory,
-                new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(-80, -120));
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, -16), new Vector2(-104, -150));
             var guideClose = B.Button(guidePanel.gameObject, "GuideClose", "BACK", 22,
-                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 40), new Vector2(200, 56));
+                new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 38 + 30), new Vector2(240, 60));
             B.Wire(guideClose, guide, nameof(SoundGuidePanel.Close));
             guidePanel.gameObject.SetActive(false);
             SetRef(guide, "panel", guidePanel.gameObject);
@@ -422,40 +446,48 @@ namespace EchoForge.EditorTools
             Debug.Log("Echo Forge: Resonance Hall scene built.");
         }
 
+        // Faders + toggle share one left margin (-280) and a 560-wide control band.
+        const float FieldLeft = -280f, FieldW = 560f;
+
         static Slider MakeSlider(GameObject parent, string name, string label, float y)
         {
-            B.Text(parent, name + "Label", label, 20, TextAlignmentOptions.Left, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-250, y + 34), new Vector2(500, 30));
-            var rt = B.Rect(parent, name, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, y), new Vector2(520, 26));
+            B.Text(parent, name + "Label", label, 19, TextAlignmentOptions.Left, B.Ivory,
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(FieldLeft + 250, y + 32), new Vector2(500, 28))
+                .characterSpacing = 3f;
+            var rt = B.Rect(parent, name, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, y), new Vector2(FieldW, 10));
             var s = rt.gameObject.AddComponent<Slider>();
             var bg = new GameObject("BG", typeof(Image)); bg.transform.SetParent(rt, false);
-            var bgrt = (RectTransform)bg.transform; B.Stretch(bgrt);
-            bg.GetComponent<Image>().color = new Color(1, 1, 1, 0.08f);
+            B.Stretch((RectTransform)bg.transform);
+            bg.GetComponent<Image>().color = new Color(1, 1, 1, 0.09f);
             var fillArea = new GameObject("Fill Area", typeof(RectTransform)); fillArea.transform.SetParent(rt, false);
-            var fart = (RectTransform)fillArea.transform; B.Stretch(fart);
+            B.Stretch((RectTransform)fillArea.transform);
             var fill = new GameObject("Fill", typeof(Image)); fill.transform.SetParent(fillArea.transform, false);
             var frt = (RectTransform)fill.transform; B.Stretch(frt);
-            fill.GetComponent<Image>().color = new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.8f);
+            fill.GetComponent<Image>().color = new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.92f);
             var handle = new GameObject("Handle", typeof(Image)); handle.transform.SetParent(rt, false);
-            var hrt = (RectTransform)handle.transform; hrt.sizeDelta = new Vector2(22, 34);
-            handle.GetComponent<Image>().color = B.Ivory;
-            s.fillRect = frt; s.handleRect = hrt; s.targetGraphic = handle.GetComponent<Image>();
+            var hrt = (RectTransform)handle.transform; hrt.sizeDelta = new Vector2(26, 26);
+            var hi = handle.GetComponent<Image>(); hi.sprite = B.Disc(false); hi.color = B.Ivory;
+            s.fillRect = frt; s.handleRect = hrt; s.targetGraphic = hi;
             s.minValue = 0; s.maxValue = 1; s.value = 0.8f;
             return s;
         }
 
         static Toggle MakeToggle(GameObject parent, string name, string label, float y)
         {
-            B.Text(parent, name + "Label", label, 20, TextAlignmentOptions.Left, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-160, y), new Vector2(300, 30));
-            var rt = B.Rect(parent, name, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(150, y), new Vector2(64, 34));
+            B.Text(parent, name + "Label", label, 19, TextAlignmentOptions.Left, B.Ivory,
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(FieldLeft + 200, y), new Vector2(400, 30))
+                .characterSpacing = 3f;
+            var rt = B.Rect(parent, name, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                new Vector2(FieldLeft + FieldW - 36, y), new Vector2(72, 34));
             var t = rt.gameObject.AddComponent<Toggle>();
             var bg = new GameObject("BG", typeof(Image)); bg.transform.SetParent(rt, false);
-            var bgrt = (RectTransform)bg.transform; B.Stretch(bgrt);
-            bg.GetComponent<Image>().color = new Color(1, 1, 1, 0.1f);
+            B.Stretch((RectTransform)bg.transform);
+            bg.GetComponent<Image>().color = new Color(1, 1, 1, 0.11f);
             var check = new GameObject("Check", typeof(Image)); check.transform.SetParent(rt, false);
-            var crt = (RectTransform)check.transform; B.Stretch(crt);
-            check.GetComponent<Image>().color = new Color(B.Amber.r, B.Amber.g, B.Amber.b, 0.9f);
+            var crt = (RectTransform)check.transform;
+            crt.anchorMin = new Vector2(0, 0); crt.anchorMax = new Vector2(1, 1);
+            crt.offsetMin = new Vector2(5, 5); crt.offsetMax = new Vector2(-5, -5);
+            check.GetComponent<Image>().color = new Color(B.Amber.r, B.Amber.g, B.Amber.b, 0.95f);
             t.targetGraphic = bg.GetComponent<Image>();
             t.graphic = check.GetComponent<Image>();
             t.isOn = true;
@@ -520,105 +552,122 @@ namespace EchoForge.EditorTools
             uiGO.transform.SetParent(safe.transform, false);
             var ui = uiGO.GetComponent<ChamberUI>();
 
-            // context (lower-left)
-            var ctx = B.Panel(safe, "ContextInfo", new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 120), new Vector2(460, 150));
-            var ctxGroup = ctx.gameObject.AddComponent<CanvasGroup>();
-            var ctxTitle = B.Text(ctx.gameObject, "Title", "REFLECTOR", 30, TextAlignmentOptions.TopLeft, B.Bronze,
-                new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(-40, -20));
-            var ctxDetail = B.Text(ctx.gameObject, "Detail", "ANGLE 45", 22, TextAlignmentOptions.BottomLeft, B.Ivory,
-                new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(-40, -20));
+            // --- HUD: top rail (TUNES pill left, pause disc right) on one baseline ---
+            var tunesPill = B.Panel(safe, "TunesPill", new Vector2(0, 1), new Vector2(0, 1),
+                new Vector2(B.UIEdge + 108, -B.UIEdge - 26), new Vector2(216, 52),
+                new Color(0.07f, 0.078f, 0.106f, 0.9f));
+            B.Rule(tunesPill.gameObject, "PillTick", new Vector2(0, 0), new Vector2(0, 1),
+                new Vector2(2, 0), new Vector2(3, -14), B.RuleBronze);
+            var tunes = B.Text(tunesPill.gameObject, "AdjustmentCounter", "TUNES  00", 24, TextAlignmentOptions.Center, B.Bronze,
+                new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(-8, -6));
+            tunes.characterSpacing = 4f;
 
-            // counter (top-left, engraved)
-            var tunes = B.Text(safe, "AdjustmentCounter", "TUNES 00", 26, TextAlignmentOptions.TopLeft, B.Bronze,
-                new Vector2(0, 1), new Vector2(0, 1), new Vector2(180, -66), new Vector2(300, 44));
-
-            // PULSE actuator (lower-center) - a physical circular strike pad, not a rectangle
-            var pulseBtn = B.Button(safe, "PulseActuator", "PULSE", 30, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(0, 150), new Vector2(188, 188), new Color(0.42f, 0.28f, 0.12f, 0.92f));
-            var pulseImg = pulseBtn.GetComponent<Image>();
-            pulseImg.sprite = B.Disc(false);
-            pulseImg.type = Image.Type.Simple;
-            var pulseRing = B.Rect(pulseBtn.gameObject, "Ring", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(26, 26));
-            var pulseRingImg = pulseRing.gameObject.AddComponent<Image>();
-            pulseRingImg.sprite = B.Disc(true);
-            pulseRingImg.color = new Color(B.Amber.r, B.Amber.g, B.Amber.b, 0.9f);
-            pulseRingImg.raycastTarget = false;
-            B.Wire(pulseBtn, level, nameof(LevelController.OnPulsePressed));
-
-            // pause button (small circular)
-            var pauseBtn = B.Button(safe, "PauseButton", "II", 26, new Vector2(1, 1), new Vector2(1, 1),
-                new Vector2(-84, -64), new Vector2(84, 84), new Color(0.09f, 0.10f, 0.13f, 0.85f));
+            var pauseBtn = B.Button(safe, "PauseButton", "II", 24, new Vector2(1, 1), new Vector2(1, 1),
+                new Vector2(-B.UIEdge - 42, -B.UIEdge - 42), new Vector2(84, 84),
+                new Color(0.09f, 0.10f, 0.13f, 0.92f), rule: false);
             var pauseImg = pauseBtn.GetComponent<Image>();
             pauseImg.sprite = B.Disc(false);
             pauseImg.type = Image.Type.Simple;
             B.Wire(pauseBtn, level, nameof(LevelController.OnPausePressed));
 
-            // tutorial layer - a restrained lower-center caption, not a full-width bar
-            var tut = B.Panel(safe, "TutorialLayer", new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 330),
-                new Vector2(600, 64), new Color(0.05f, 0.055f, 0.075f, 0.55f));
-            var tutAccent = B.Panel(tut.gameObject, "Accent", new Vector2(0, 0), new Vector2(0, 1), new Vector2(6, 0),
-                new Vector2(4, -16), new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.9f));
-            tutAccent.rectTransform.pivot = new Vector2(0, 0.5f);
-            var tutGroup = tut.gameObject.AddComponent<CanvasGroup>();
-            var tutText = B.Text(tut.gameObject, "Text", "", 24, TextAlignmentOptions.Center, B.Ivory);
-            B.Stretch((RectTransform)tutText.transform);
+            // --- HUD: context readout (lower-left, bronze-ticked card) ---
+            var ctx = B.Panel(safe, "ContextInfo", new Vector2(0, 0), new Vector2(0, 0),
+                new Vector2(B.UIEdge + 240, B.UIEdge + 68), new Vector2(480, 136),
+                new Color(0.07f, 0.078f, 0.106f, 0.92f));
+            var ctxGroup = ctx.gameObject.AddComponent<CanvasGroup>();
+            B.Rule(ctx.gameObject, "CtxTick", new Vector2(0, 0), new Vector2(0, 1),
+                new Vector2(3, 0), new Vector2(3, -28), B.RuleBronze);
+            var ctxTitle = B.Text(ctx.gameObject, "Title", "REFLECTOR", 28, TextAlignmentOptions.TopLeft, B.Bronze,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(6, 0), new Vector2(-56, -26));
+            ctxTitle.characterSpacing = 4f;
+            var ctxDetail = B.Text(ctx.gameObject, "Detail", "ANGLE 45", 21, TextAlignmentOptions.BottomLeft, B.Ivory,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(6, 0), new Vector2(-56, -26));
 
-            // result layer
-            var result = B.Panel(safe, "ResultLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero,
-                new Color(0.02f, 0.025f, 0.04f, 0.88f));
-            var rTitle = B.Text(result.gameObject, "ResultTitle", "RESONANCE ACHIEVED", 52, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 120), new Vector2(1000, 90));
-            var rReason = B.Text(result.gameObject, "ResultReason", "", 26, TextAlignmentOptions.Center, B.Crimson,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 50), new Vector2(800, 44));
-            var rRating = B.Text(result.gameObject, "ResultRating", "", 30, TextAlignmentOptions.Center, B.Amber,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 4), new Vector2(800, 44));
-            var nextBtn = B.Button(result.gameObject, "NextChamber", "NEXT CHAMBER", 24, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(0, 210), new Vector2(360, 84));
+            // --- HUD: PULSE actuator (bottom-centre circular strike pad) ---
+            var pulseBtn = B.Button(safe, "PulseActuator", "PULSE", 30, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(0, 156), new Vector2(190, 190), new Color(0.42f, 0.28f, 0.12f, 0.94f), rule: false);
+            var pulseImg = pulseBtn.GetComponent<Image>();
+            pulseImg.sprite = B.Disc(false);
+            pulseImg.type = Image.Type.Simple;
+            var pulseRing = B.Rect(pulseBtn.gameObject, "Ring", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, new Vector2(24, 24));
+            var pulseRingImg = pulseRing.gameObject.AddComponent<Image>();
+            pulseRingImg.sprite = B.Disc(true);
+            pulseRingImg.color = new Color(B.Amber.r, B.Amber.g, B.Amber.b, 0.92f);
+            pulseRingImg.raycastTarget = false;
+            B.Wire(pulseBtn, level, nameof(LevelController.OnPulsePressed));
+
+            // --- tutorial caption (restrained lower-centre pill above the actuator) ---
+            var tut = B.Panel(safe, "TutorialLayer", new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0, 300),
+                new Vector2(660, 62), new Color(0.06f, 0.066f, 0.09f, 0.82f));
+            B.Rule(tut.gameObject, "Accent", new Vector2(0, 0), new Vector2(0, 1),
+                new Vector2(3, 0), new Vector2(3, -14), new Color(B.Bronze.r, B.Bronze.g, B.Bronze.b, 0.95f));
+            var tutGroup = tut.gameObject.AddComponent<CanvasGroup>();
+            var tutText = B.Text(tut.gameObject, "Text", "", 23, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(6, 0), new Vector2(-40, -8));
+
+            // --- result layer: scrim + centred card ---
+            var result = B.Panel(safe, "ResultLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
+            var resultCard = B.Panel(result.gameObject, "Card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                Vector2.zero, new Vector2(640, 528));
+            var rTitle = B.Text(resultCard.gameObject, "ResultTitle", "RESONANCE ACHIEVED", 44, TextAlignmentOptions.Center, B.Ivory,
+                new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -86), new Vector2(-56, 64));
+            rTitle.characterSpacing = 6f;
+            B.Rule(resultCard.gameObject, "TitleRule", new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -134), new Vector2(120, 3));
+            var rReason = B.Text(resultCard.gameObject, "ResultReason", "", 24, TextAlignmentOptions.Center, B.Crimson,
+                new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -168), new Vector2(-72, 40));
+            var rRating = B.Text(resultCard.gameObject, "ResultRating", "", 28, TextAlignmentOptions.Center, B.Amber,
+                new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -212), new Vector2(-72, 44));
+            var nextBtn = B.Button(resultCard.gameObject, "NextChamber", "NEXT CHAMBER", 26, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(0, 40 + B.BtnHBig + B.BtnGap + B.BtnH * 0.5f), new Vector2(468, B.BtnHBig), primary: true);
             B.Wire(nextBtn, level, nameof(LevelController.OnNextPressed));
-            var retuneBtn = B.Button(result.gameObject, "Retune", "RETUNE", 24, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-230, 110), new Vector2(300, 76));
+            var retuneBtn = B.Button(resultCard.gameObject, "Retune", "RETUNE", 22, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-118, 40 + B.BtnH * 0.5f), new Vector2(226, B.BtnH));
             B.Wire(retuneBtn, level, nameof(LevelController.OnRetunePressed));
-            var toDial = B.Button(result.gameObject, "ToDial", "RESONANCE DIAL", 24, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(230, 110), new Vector2(300, 76));
+            var toDial = B.Button(resultCard.gameObject, "ToDial", "RESONANCE DIAL", 22, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(118, 40 + B.BtnH * 0.5f), new Vector2(226, B.BtnH));
             B.Wire(toDial, level, nameof(LevelController.OnDialPressed));
             result.gameObject.SetActive(false);
 
-            // pause layer
-            var pause = B.Panel(safe, "PauseLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero,
-                new Color(0.02f, 0.025f, 0.035f, 0.9f));
-            B.Text(pause.gameObject, "PauseTitle", "SOUND DAMPING", 44, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 150), new Vector2(800, 80));
-            var resumeBtn = B.Button(pause.gameObject, "Resume", "RESUME", 26, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0, 40), new Vector2(360, 76));
-            B.Wire(resumeBtn, level, nameof(LevelController.OnResumePressed));
-            var restartBtn = B.Button(pause.gameObject, "Restart", "RESTART CHAMBER", 26, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0, -50), new Vector2(360, 76));
-            B.Wire(restartBtn, level, nameof(LevelController.OnRestartPressed));
-            var pguideBtn = B.Button(pause.gameObject, "PauseGuide", "SOUND GUIDE", 26, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0, -140), new Vector2(360, 76));
-            B.Wire(pguideBtn, level, nameof(LevelController.OnSoundGuideOpen));
-            var exitBtn = B.Button(pause.gameObject, "ExitSession", "EXIT SESSION", 26, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(0, -230), new Vector2(360, 76));
-            B.Wire(exitBtn, level, nameof(LevelController.OnExitSessionPressed));
+            // --- pause layer: scrim + centred card, one button column ---
+            var pause = B.Panel(safe, "PauseLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
+            var pauseCard = B.Panel(pause.gameObject, "Card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                Vector2.zero, new Vector2(468, 540));
+            B.Header(pauseCard.gameObject, "SOUND  DAMPING", 28);
+            var pStack = B.ButtonStack(pauseCard.gameObject, 140f, 384f, B.BtnH, new[]
+            {
+                ("Resume", "RESUME", 26f),
+                ("Restart", "RESTART CHAMBER", 24f),
+                ("PauseGuide", "SOUND GUIDE", 24f),
+                ("ExitSession", "EXIT SESSION", 24f),
+            }, primaryFirst: true);
+            B.Wire(pStack[0], level, nameof(LevelController.OnResumePressed));
+            B.Wire(pStack[1], level, nameof(LevelController.OnRestartPressed));
+            B.Wire(pStack[2], level, nameof(LevelController.OnSoundGuideOpen));
+            B.Wire(pStack[3], level, nameof(LevelController.OnExitSessionPressed));
             pause.gameObject.SetActive(false);
 
-            // dialog + sound guide layers
-            var dialog = B.Panel(safe, "DialogLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero,
-                new Color(0.02f, 0.025f, 0.035f, 0.9f));
+            // --- dialog + chamber sound-guide layers ---
+            var dialog = B.Panel(safe, "DialogLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
             var dialogText = B.Text(dialog.gameObject, "DialogText", "", 28, TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 60), new Vector2(800, 120));
+                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 40), new Vector2(820, 160));
             dialog.gameObject.SetActive(false);
 
-            var guideL = B.Panel(safe, "SoundGuideLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero,
-                new Color(0.03f, 0.035f, 0.05f, 0.96f));
-            B.Text(guideL.gameObject, "GuideBody",
-                "EMITTER releases a pulse. REFLECTOR turns it 45 deg. ABSORBER stops it.\n" +
-                "SPLITTER forks it. DELAY PLATE holds it. RECEIVER needs a pulse.\n" +
-                "RESONATOR needs two. Forbidden receivers must stay silent.", 26,
-                TextAlignmentOptions.Center, B.Ivory,
-                new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 40), new Vector2(1100, 300));
-            var guideLClose = B.Button(guideL.gameObject, "GuideLClose", "BACK", 24, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(0, 120), new Vector2(220, 66));
+            var guideL = B.Panel(safe, "SoundGuideLayer", new Vector2(0, 0), new Vector2(1, 1), Vector2.zero, Vector2.zero, B.ScrimFill);
+            var guideLCard = B.Panel(guideL.gameObject, "Card", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                Vector2.zero, new Vector2(920, 560));
+            B.Header(guideLCard.gameObject, "SOUND  GUIDE", 28);
+            B.Text(guideLCard.gameObject, "GuideBody",
+                "EMITTER          releases one visible pulse.\n" +
+                "REFLECTOR      turns the pulse in 45° steps.\n" +
+                "ABSORBER        stops a pulse.\n" +
+                "SPLITTER          forks one pulse into two.\n" +
+                "DELAY PLATE   holds a pulse a set number of beats.\n" +
+                "RECEIVER         needs a pulse.  Forbidden ones must stay silent.\n" +
+                "RESONATOR      needs two pulses in the right relationship.", 22,
+                TextAlignmentOptions.TopLeft, B.Ivory,
+                new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, -6), new Vector2(-120, -150));
+            var guideLClose = B.Button(guideLCard.gameObject, "GuideLClose", "BACK", 22, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(0, 36 + 30), new Vector2(240, 60));
             B.Wire(guideLClose, level, nameof(LevelController.OnSoundGuideClose));
             guideL.gameObject.SetActive(false);
 

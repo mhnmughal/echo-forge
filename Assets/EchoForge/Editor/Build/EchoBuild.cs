@@ -29,7 +29,23 @@ namespace EchoForge.EditorTools
         public static readonly Color PaleViolet = Hex("B7A9F2");
         public static readonly Color Amber = Hex("E0A83A");
         public static readonly Color Crimson = Hex("8C1E28");
-        public static readonly Color PanelDark = new Color(0.055f, 0.062f, 0.09f, 0.92f);
+
+        // ---- UI system (one scale so panels + buttons line up everywhere) ----
+        public static readonly Color ScrimFill  = new Color(0.031f, 0.035f, 0.051f, 0.955f); // full-screen dim
+        public static readonly Color PanelFill  = new Color(0.070f, 0.078f, 0.106f, 0.985f); // card / group
+        public static readonly Color PanelDark  = PanelFill;                                  // legacy alias
+        public static readonly Color BtnNormal  = new Color(0.102f, 0.118f, 0.169f, 0.96f);
+        public static readonly Color BtnHover   = new Color(0.149f, 0.173f, 0.235f, 1f);
+        public static readonly Color BtnPress   = new Color(0.220f, 0.169f, 0.106f, 1f);
+        public static readonly Color BtnPrimary = new Color(0.430f, 0.290f, 0.135f, 1f);
+        public static readonly Color BtnPrimHov = new Color(0.541f, 0.369f, 0.176f, 1f);
+        public static readonly Color RuleBronze = new Color(0.690f, 0.463f, 0.180f, 0.90f);
+
+        public const float UIEdge   = 64f;   // screen-edge margin for every anchored control
+        public const float BtnH     = 76f;   // standard button height
+        public const float BtnHBig  = 96f;   // primary button height
+        public const float BtnGap   = 16f;   // gap between stacked/rowed buttons
+        public const float Tracking = 6f;    // letter-spacing for labels / headers
 
         public static Color Hex(string h)
         {
@@ -185,8 +201,31 @@ namespace EchoForge.EditorTools
         {
             var rt = Rect(parent, name, anchorMin, anchorMax, pos, size);
             var img = rt.gameObject.AddComponent<Image>();
-            img.color = color ?? PanelDark;
+            img.color = color ?? PanelFill;
             return img;
+        }
+
+        /// <summary>Thin filled bar — a bronze accent rule / divider. Never a raycast target.</summary>
+        public static Image Rule(GameObject parent, string name, Vector2 anchorMin, Vector2 anchorMax,
+            Vector2 pos, Vector2 size, Color? color = null)
+        {
+            var rt = Rect(parent, name, anchorMin, anchorMax, pos, size);
+            var img = rt.gameObject.AddComponent<Image>();
+            img.color = color ?? RuleBronze;
+            img.raycastTarget = false;
+            return img;
+        }
+
+        /// <summary>Centred title + bronze underline at a fixed offset from a panel's top edge,
+        /// so every panel header sits on the same baseline.</summary>
+        public static TMP_Text Header(GameObject panel, string title, float size = 30f)
+        {
+            var t = Text(panel, "Header", title, size, TextAlignmentOptions.Center, Ivory,
+                new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -48), new Vector2(-96, 54));
+            t.characterSpacing = 8f;
+            Rule(panel, "HeaderRule", new Vector2(0.5f, 1), new Vector2(0.5f, 1),
+                new Vector2(0, -86), new Vector2(132, 3));
+            return t;
         }
 
         public static TMP_Text Text(GameObject parent, string name, string content, float size,
@@ -206,23 +245,58 @@ namespace EchoForge.EditorTools
             return t;
         }
 
+        /// <summary>Themed button: flat graphite (or bronze, when <paramref name="primary"/>) fill
+        /// with a bronze base rule, ivory tracked label. Hover warms, press goes bronze. Pass
+        /// <paramref name="rule"/> = false for circular / sprite buttons.</summary>
         public static Button Button(GameObject parent, string name, string label, float labelSize,
-            Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 size, Color? bg = null, Color? fg = null)
+            Vector2 anchorMin, Vector2 anchorMax, Vector2 pos, Vector2 size,
+            Color? bg = null, Color? fg = null, bool primary = false, bool rule = true)
         {
             var rt = Rect(parent, name, anchorMin, anchorMax, pos, size);
             var img = rt.gameObject.AddComponent<Image>();
-            img.color = bg ?? new Color(Bronze.r, Bronze.g, Bronze.b, 0.16f);
+            img.color = Color.white; // real tint comes from Button.colors so states read cleanly
+
             var btn = rt.gameObject.AddComponent<Button>();
             btn.targetGraphic = img;
+            btn.transition = Selectable.Transition.ColorTint;
             var colors = btn.colors;
-            colors.highlightedColor = new Color(1, 1, 1, 1.0f);
-            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-            colors.fadeDuration = 0.08f;
+            colors.normalColor      = bg ?? (primary ? BtnPrimary : BtnNormal);
+            colors.highlightedColor = primary ? BtnPrimHov : BtnHover;
+            colors.selectedColor    = colors.normalColor;
+            colors.pressedColor     = primary ? BtnPrimary : BtnPress;
+            colors.disabledColor    = new Color(0.09f, 0.10f, 0.13f, 0.5f);
+            colors.colorMultiplier  = 1f;
+            colors.fadeDuration     = 0.09f;
             btn.colors = colors;
+
+            if (rule)
+                Rule(rt.gameObject, "Rule", new Vector2(0, 0), new Vector2(1, 0),
+                    new Vector2(0, 2f), new Vector2(-18, 3f), primary ? Amber : RuleBronze);
 
             var t = Text(rt.gameObject, "Label", label, labelSize, TextAlignmentOptions.Center, fg ?? Ivory);
             Stretch((RectTransform)t.transform);
+            t.characterSpacing = Tracking;
             return btn;
+        }
+
+        /// <summary>A vertically-stacked column of equal buttons anchored to the TOP of
+        /// <paramref name="panel"/>. <paramref name="topInset"/> is the gap from the panel's top
+        /// edge to the first button's top edge. Every entry shares width + gap so the column is
+        /// perfectly flush. First entry is emphasised (taller + bronze) when <paramref name="primaryFirst"/>.</summary>
+        public static Button[] ButtonStack(GameObject panel, float topInset, float width, float height,
+            (string name, string label, float size)[] items, bool primaryFirst = false)
+        {
+            var outp = new Button[items.Length];
+            float top = -topInset;                 // anchoredPosition.y measured down from the top edge
+            for (int i = 0; i < items.Length; i++)
+            {
+                float h = (primaryFirst && i == 0) ? height + 16f : height;
+                outp[i] = Button(panel, items[i].name, items[i].label, items[i].size,
+                    new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, top - h * 0.5f),
+                    new Vector2(width, h), primary: primaryFirst && i == 0);
+                top -= h + BtnGap;
+            }
+            return outp;
         }
 
         public static void Wire(Button b, UnityEngine.Object target, string method)
