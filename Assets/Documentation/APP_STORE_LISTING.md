@@ -5,7 +5,8 @@ Prepared for App Store Connect submission. Primary localization is English (U.S.
 this file uses an em dash or an en dash. Only the plain hyphen is used, and only
 where it reads naturally.
 
-Last refreshed: September 8, 2026.
+Last refreshed: September 8, 2026 (privacy audit folded in; reviewer recording
+produced). Companion documents: PRIVACY_AUDIT.md, PRIVACY_POLICY.md.
 
 ---
 
@@ -22,9 +23,15 @@ Last refreshed: September 8, 2026.
 * Screenshots and the app preview are captured from the real build, at the exact
   store resolutions, with no added device frames and no invented marketing text.
 * Age rating answers are truthful. Expected result is 4+.
-* App Privacy answers are truthful. Expected selection is Data Not Collected.
+* App Privacy answers are truthful. Expected selection is Data Not Collected. Full
+  privacy review is in PRIVACY_AUDIT.md (verdict: PASS on design and code).
+* Privacy manifest: Unity 6000.3 auto-generates `PrivacyInfo.xcprivacy` on the
+  iOS build (NSPrivacyTracking false, no collected data types, four Unity engine
+  required-reason API categories). No third-party SDK needs its own.
+* Export compliance: the app uses no encryption and no networking. Set
+  `ITSAppUsesNonExemptEncryption` to NO in the exported Info.plist.
 * Support URL and Privacy Policy URL are required and must resolve before the app
-  can be submitted.
+  can be submitted. Both are still to be hosted.
 * Landscape only orientation is declared and is intentional for the puzzle layout.
 
 ---
@@ -236,21 +243,25 @@ Getting through it:
    chamber, SOUND GUIDE explains every component, and TUNING opens settings,
    including a full progress reset.
 
-Reviewer demo recording: a gameplay capture is provided at 2868 by 1320, the
-landscape resolution of the iPhone 17 Pro Max. It begins at app launch, moves
-through the main menu and each of its buttons, plays the Sound Check tutorial from
-start to finish, and then solves several main chambers, so the review covers real
-play and not just menus. If it is hosted, the full walkthrough URL is listed with
-the submission, and the short App Preview on the listing is a trimmed section of
-the same capture.
+Reviewer demo recording: a 61 second gameplay capture is provided at 2868 by 1320,
+the landscape resolution of the iPhone 17 Pro Max, with the game's own audio. It
+begins at app launch, moves through the Resonance Hall and its menu buttons (ring
+ripple, Sound Guide), plays the Sound Check tutorial from start to finish, then
+solves Levels 1 through 3 through the real chamber (select, move or rotate a part,
+PULSE, watch the wavefront, resolve, next chamber), and ends on the chamber select
+dial. Host it and list the URL with the submission. The short App Preview on the
+listing is a trimmed 25 to 30 second section of this same capture.
 
 Networking and privacy: the app makes zero network connections. There is no
-analytics, advertising, tracking, or third party SDK. Unity engine diagnostics and
-analytics are disabled in the project settings. The correct App Privacy selection
-is Data Not Collected.
+analytics, advertising, tracking, or third party SDK, and no account or login.
+Unity engine diagnostics and analytics are disabled in the project settings. The
+local save file never leaves the device, so the correct App Privacy selection is
+Data Not Collected and the answer to tracking is No. Unity 6 auto-generates the
+`PrivacyInfo.xcprivacy` for this build. See PRIVACY_AUDIT.md for the full review.
 
 Permissions: none are requested. The subject is acoustics, but the game never uses
-the microphone or any other sensor.
+the microphone or any other sensor. All iOS usage description strings are empty,
+so the exported Info.plist contains no permission prompts.
 
 Orientation: landscape only, by design, because every puzzle is laid out wide.
 
@@ -262,12 +273,22 @@ icon, and every on screen title, reads "Resonance Chamber".
 
 ## App Privacy answers
 
-* Data collection: **Data Not Collected.**
-* Tracking: **No, this app does not track.**
-* Third party partners: none.
-* Privacy policy URL: required by App Store Connect. Host the text in
-  `PRIVACY_POLICY.md` at a public URL and enter that URL. A GitHub Pages page or a
-  simple page on a personal site is enough.
+Backed by PRIVACY_AUDIT.md (September 8, 2026). Verdict there: PASS on design and
+code, no code changes required.
+
+* Data collection: **Data Not Collected.** Nothing is transmitted off the device.
+  The local save holds only level progress, ratings, tune counts, and audio and
+  haptic settings, and it is never used for tracking, advertising, or analytics.
+  Unity telemetry is disabled. There are no third-party partners.
+* Tracking: **No, this app does not track.** `AppTrackingTransparency` and
+  `AdSupport` are not linked; there is no `NSUserTrackingUsageDescription`.
+* Data types to configure: **none**, because nothing is collected.
+* Privacy manifest: Unity auto-generates `PrivacyInfo.xcprivacy` at build time
+  with `NSPrivacyTracking` false and no collected data types. Verify it in the
+  exported Xcode project (checklist in PRIVACY_AUDIT.md section H).
+* Privacy policy URL: **required**, still to be hosted. Put the text of
+  `PRIVACY_POLICY.md` on a public HTTPS page (GitHub Pages or a personal site) and
+  enter that URL. Finalize the contact line and date in `PRIVACY_POLICY.md` first.
 
 ---
 
@@ -284,11 +305,14 @@ Expected result: **4+.**
 
 ## Required URLs
 
-* Support URL: a public page with real contact information. Do not use the private
-  source repository. Hosting is deferred by the user.
+These two are the only remaining blockers to submission (PRIVACY_AUDIT.md
+section G).
+
+* Support URL: **required**. A public page with a real contact method. Do not use
+  the private source repository. Still to be hosted.
+* Privacy Policy URL: **required**. Host `PRIVACY_POLICY.md` on a public HTTPS
+  page. Still to be hosted.
 * Marketing URL: optional, can be left blank for 1.0.
-* Privacy Policy URL: required. See `PRIVACY_POLICY.md`. Hosting is deferred by the
-  user (September 7, 2026).
 
 ---
 
@@ -325,16 +349,20 @@ Sizes for this app (landscape only):
 * iPhone 6.9 inch (iPhone 17 Pro Max and the 16 Pro Max class): **2868 by 1320**.
 * iPad 13 inch: **2752 by 2064**.
 
-The planned reviewer recording (launch, every menu button, the full Sound Check,
-then several chambers) is longer than 30 seconds, so it cannot be the App Preview
-as is. Keep the full version as the reviewer demo, host it, and link it in the
-review notes. Cut one 25 to 30 second highlight from the same capture for the
-actual App Preview: a few seconds of the menu, one reflector rotation, one PULSE
-with the wavefront traveling, and one chamber resolving.
+The reviewer recording exists: `ResonanceChamber_Preview_2868x1320.mp4`, 61
+seconds, H.264 with audio, captured with Unity Recorder at exactly 2868 by 1320
+through the real game (no device frame, no overlay). It is 61 seconds, longer than
+the 30 second App Preview limit, so it serves as the hosted reviewer demo, not the
+store preview.
 
-Unity Recorder is installed in the project for this capture. Record at the exact
-pixel size above, disable any Recorder watermark, and export without a device
-frame.
+For the store App Preview, cut one 25 to 30 second highlight from that file: a few
+seconds of the Resonance Hall, one reflector rotation, one PULSE with the wavefront
+traveling across the board, and one chamber resolving. If you also submit an iPad
+13 inch App Preview, record it natively at 2752 by 2064; do not letterbox or
+upscale the iPhone capture.
+
+Note: `com.unity.recorder` was added only for this capture and is to be removed
+again before the store build (PACKAGE_AUDIT.md).
 
 ---
 
