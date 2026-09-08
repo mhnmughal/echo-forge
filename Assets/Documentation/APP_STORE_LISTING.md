@@ -286,9 +286,9 @@ code, no code changes required.
 * Privacy manifest: Unity auto-generates `PrivacyInfo.xcprivacy` at build time
   with `NSPrivacyTracking` false and no collected data types. Verify it in the
   exported Xcode project (checklist in PRIVACY_AUDIT.md section H).
-* Privacy policy URL: **required**, still to be hosted. Put the text of
-  `PRIVACY_POLICY.md` on a public HTTPS page (GitHub Pages or a personal site) and
-  enter that URL. Finalize the contact line and date in `PRIVACY_POLICY.md` first.
+* Privacy policy URL: **required**, still to be hosted. Deploy `docs/privacy.html`
+  (or the text of `PRIVACY_POLICY.md`) to a public HTTPS page and enter that URL.
+  Fill in the `{{CONTACT_EMAIL}}` and `{{LAST_UPDATED_DATE}}` placeholders first.
 
 ---
 
@@ -306,12 +306,14 @@ Expected result: **4+.**
 ## Required URLs
 
 These two are the only remaining blockers to submission (PRIVACY_AUDIT.md
-section G).
+section G). Ready-to-host pages are in `docs/`:
 
-* Support URL: **required**. A public page with a real contact method. Do not use
-  the private source repository. Still to be hosted.
-* Privacy Policy URL: **required**. Host `PRIVACY_POLICY.md` on a public HTTPS
-  page. Still to be hosted.
+* Support URL: **required**. Host `docs/support.html` (how to play, common
+  questions, contact). Do not use the private source repository.
+* Privacy Policy URL: **required**. Host `docs/privacy.html` (mirrors
+  `PRIVACY_POLICY.md`).
+* Both are plain static HTML with no build step. Fill in the `{{PLACEHOLDER}}`
+  values (contact email, date, version) first. See `docs/README.md`.
 * Marketing URL: optional, can be left blank for 1.0.
 
 ---

@@ -145,25 +145,22 @@ The draft is accurate and covers the right topics: no data collected, no
 permissions, no networking, local-only save, backups handled by the OS, a
 children note, a change process, and a contact section.
 
-Fixes needed before it goes live:
-
-1. The contact section still reads "Public contact details and hosting will be
-   added before submission" and "This is an unpublished draft." Replace with a
-   working contact method (an email address or a contact form URL) and remove the
-   draft disclaimer.
-2. Set a real "Last updated" date when it is published.
-3. Optional wording: state plainly that the app is not directed at children under
-   13 and collects no data from anyone, which keeps the children section simple.
+Status: the draft disclaimer and "contact TBD" text have been removed (2026-09-08).
+`PRIVACY_POLICY.md` and `docs/privacy.html` now carry the final wording, the
+"not directed at children / collects no data from anyone" clarification, and an
+explicit Tracking section, with two placeholders left to fill:
+`{{LAST_UPDATED_DATE}}` and `{{CONTACT_EMAIL}}`.
 
 ---
 
 ## F. Required URLs (both block submission)
 
-* **Privacy Policy URL**: host `PRIVACY_POLICY.md` at a stable public HTTPS page
-  (GitHub Pages or a personal site). Must be a viewable web page, not a file
-  download. Enter it in App Store Connect.
-* **Support URL**: a public page with a real contact method. The private source
-  repository is not acceptable.
+* **Privacy Policy URL**: deploy `docs/privacy.html` to a stable public HTTPS
+  page. Must be a viewable web page, not a file download. Enter it in App Store
+  Connect.
+* **Support URL**: deploy `docs/support.html`. A public page with a real contact
+  method. The private source repository is not acceptable.
+* Hosting how-to and the placeholder list are in `docs/README.md`.
 
 ---
 
@@ -171,11 +168,11 @@ Fixes needed before it goes live:
 
 ### Blocking (cannot submit without these)
 
-1. Host the privacy policy at a public HTTPS URL and enter it in App Store
-   Connect.
-2. Provide a Support URL with real contact information.
-3. Finalize PRIVACY_POLICY.md per Section E (contact method, date, remove the
-   draft disclaimer).
+1. Host `docs/privacy.html` at a public HTTPS URL and enter it in App Store
+   Connect. (Template ready; fill in the placeholders per `docs/README.md`.)
+2. Host `docs/support.html` and enter it as the Support URL.
+3. Fill in `{{CONTACT_EMAIL}}` and `{{LAST_UPDATED_DATE}}` in both
+   `PRIVACY_POLICY.md` and `docs/privacy.html`, keeping the two in sync.
 
 ### Recommended (lowers rejection risk and per-submission friction)
 

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support - Resonance Chamber</title>
+<meta name="robots" content="index, follow">
+<meta name="description" content="Support and help for the Resonance Chamber puzzle game: how to play, common questions, and contact.">
+<style>
+  :root {
+    --bg: #0a0b12;
+    --panel: #12141c;
+    --ink: #ece6da;
+    --muted: #9a9486;
+    --bronze: #b0762e;
+    --amber: #e0a33c;
+    --rule: #2a2b36;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 0 20px;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 56px 0 96px; }
+  header { border-bottom: 1px solid var(--rule); padding-bottom: 22px; margin-bottom: 8px; }
+  h1 { font-size: 1.6rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 6px; }
+  h2 { font-size: 1.05rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--amber); margin: 40px 0 10px; }
+  h3 { font-size: 1rem; margin: 22px 0 4px; color: #fff; }
+  .meta { color: var(--muted); font-size: 0.9rem; }
+  a { color: var(--amber); }
+  a:hover { color: var(--bronze); }
+  strong { color: #fff; }
+  ul, ol { padding-left: 1.2em; }
+  li { margin: 4px 0; }
+  .lead { font-size: 1.08rem; }
+  .rule { height: 1px; background: var(--bronze); opacity: 0.6; margin: 44px 0 0; }
+  footer { color: var(--muted); font-size: 0.85rem; margin-top: 20px; }
+  nav a { margin-right: 18px; }
+  .card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 20px 16px; margin: 14px 0; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Resonance Chamber Support</h1>
+    <p class="meta">Acoustic reflection puzzles &nbsp;|&nbsp; Version {{APP_VERSION}}</p>
+    <nav class="meta"><a href="./privacy.html">Privacy Policy</a><a href="{{APP_STORE_URL}}">App Store</a></nav>
+  </header>
+
+  <p class="lead">Resonance Chamber is a calm, fully offline puzzle game. You shape
+  a room, release one pulse of sound, and route it to every listener. This page
+  covers how to play and the questions that come up most often.</p>
+
+  <h2>How to play</h2>
+  <div class="card">
+    <ol>
+      <li>Tap <strong>START SESSION</strong> on the main menu to begin the Sound
+      Check, a short guided tutorial.</li>
+      <li>Tap a bronze component to select it. Tap a selected reflector again to
+      rotate it. Tap a highlighted socket to move a movable part.</li>
+      <li>Tap the round <strong>PULSE</strong> button to run the room and watch the
+      wavefront travel.</li>
+      <li>Reach every receiver, and satisfy any timing or resonance rule, to
+      resolve the chamber and unlock the next one.</li>
+      <li><strong>RESONANCE DIAL</strong> jumps between unlocked chambers.
+      <strong>SOUND GUIDE</strong> explains every component.
+      <strong>TUNING</strong> holds volume, haptics, and a full progress reset.</li>
+    </ol>
+  </div>
+
+  <h2>Common questions</h2>
+
+  <h3>The game has no sound</h3>
+  <p>Check the two faders in <strong>TUNING</strong> on the main menu, and make
+  sure your device is not in silent mode. Resonance Chamber respects the iOS
+  silent switch.</p>
+
+  <h3>My progress disappeared</h3>
+  <p>Progress is saved on your device only. It is lost if the app is deleted, if
+  the device is reset, or if you tap <strong>RESET RESONANCE HISTORY</strong> in
+  <strong>TUNING</strong>. There is no account and no cloud save, so progress does
+  not move between devices.</p>
+
+  <h3>A chamber seems impossible</h3>
+  <p>Every chamber has a solution and nothing is random. If a pulse misses, the
+  result screen tells you why (a receiver was missed, a forbidden receiver was
+  hit, the timing was off, or a resonance was incomplete). Open the
+  <strong>SOUND GUIDE</strong> for a refresher on how each part behaves, then keep
+  tuning. There is no game over.</p>
+
+  <h3>The screen only works in landscape</h3>
+  <p>That is intended. Each puzzle is laid out wide, so the game is landscape
+  only.</p>
+
+  <h3>Does the game work offline</h3>
+  <p>Yes, completely. Resonance Chamber never connects to the internet. It has no
+  ads, no analytics, and no tracking. See the
+  <a href="./privacy.html">privacy policy</a>.</p>
+
+  <h3>Haptics are too strong or not working</h3>
+  <p>Toggle haptics in <strong>TUNING</strong>. On devices without a haptic motor
+  there is no effect.</p>
+
+  <h2>Contact</h2>
+  <p>If your question is not answered here, email
+  <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a>. Please include your
+  device model and iOS version. Replies are typically within
+  {{RESPONSE_TIME}}.</p>
+
+  <div class="rule"></div>
+  <footer>&copy; {{YEAR}} Resonance Chamber Co. All rights reserved.</footer>
+</main>
+</body>
+</html>
