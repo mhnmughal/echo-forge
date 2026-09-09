@@ -57,74 +57,58 @@ it under about 500 MB, and use .mp4 or .mov.
 
 ## Part A - Resolution Center reply
 
-> Thank you for the review. Resonance Chamber is a single player, fully offline
-> puzzle game. It has no account, no login, no user-generated content, no in-app
-> purchases, no advertising, and no network connectivity. Answers to the six
-> points follow, and a screen recording captured on a physical iPhone running
-> iOS 26.6.1 is attached, beginning with app launch and showing the typical
-> gameplay flow.
+Fits Apple's 4000 character limit (about 3,200 characters). Answers only what was
+asked, no filler.
+
+> Resonance Chamber is a single player, fully offline puzzle game. No account, no
+> login, no user-generated content, no in-app purchases, no advertising, no
+> network connections. A screen recording captured on a physical iPhone running
+> iOS 26.6.1 is attached.
 >
-> **1. Screen recording.** Attached, captured on a physical iPhone running
-> iOS 26.6.1. It starts by launching the app from the Home Screen and shows: the
-> main menu, the Sound Check tutorial played to completion,
-> Levels 1 and 2 solved (select a component, rotate or move it, press PULSE, the
-> pulse travels and reaches the receiver), and the Resonance Dial and Sound Guide
-> menus. There are no account, login, account deletion, user-generated content,
-> or paid content flows in the app, so none appear.
+> 1. Screen recording: attached. It starts at app launch and shows the main menu,
+> the Sound Check tutorial completed, Levels 1 and 2 solved (select a component,
+> rotate or move it, press PULSE, the pulse reaches the receiver), and the
+> Resonance Dial and Sound Guide menus. The app has no account, login, account
+> deletion, user-generated content, or paid-content flows, so none appear.
 >
-> **2. Purpose and target audience.** Resonance Chamber is an acoustic logic
-> puzzle game. The player never controls a character. They shape a room by
-> rotating and repositioning acoustic parts (reflectors, splitters, absorbers,
-> delay plates), then release one visible pulse of sound and route it so it
-> reaches every listening point and satisfies that chamber's timing or resonance
-> rule. The value it provides is a calm, deterministic thinking game with no time
-> pressure, no reflexes, no randomness, and no internet requirement: a solved
-> puzzle stays solved. Target audience: puzzle and logic game players who enjoy
-> spatial reasoning, ages 4 and up. The app is rated 4+ and contains no violence,
-> profanity, or other objectionable content.
+> 2. Purpose and audience: an acoustic logic puzzle. The player shapes a room by
+> rotating and moving acoustic parts (reflectors, splitters, absorbers, delay
+> plates), then releases one pulse of sound and routes it to reach every listening
+> point and satisfy that chamber's timing or resonance rule. It is a calm,
+> deterministic puzzle with no time pressure, no reflexes, no randomness, and no
+> internet requirement. Audience: puzzle and logic players, ages 4 and up. Rated
+> 4+, no objectionable content.
 >
-> **3. Setup and access.** No setup, no login, no account, no configuration, and
-> no sample files are required. The full app is available offline on first
-> launch. To reach the main features: launch the app, which opens on the main
-> menu; tap START SESSION for the guided Sound Check tutorial; tap a bronze
-> component to select it, tap a selected reflector again to rotate it, or tap a
-> highlighted socket to move a movable part; tap the round PULSE button at the
-> bottom center to run the simulation. Clearing the tutorial unlocks Level 1, and
-> each solved chamber unlocks the next of the 13 total chambers. From the main
-> menu, RESONANCE DIAL jumps to any unlocked chamber, SOUND GUIDE explains every
-> component, and TUNING holds the audio and haptics settings and a full progress
-> reset. No demo credentials are needed because there is no login.
+> 3. Setup and access: none required. No login, account, configuration, or sample
+> files. The full app works offline on first launch. Launch it to reach the main
+> menu; tap START SESSION for the tutorial; tap a component to select it, tap a
+> selected reflector again to rotate it, tap a highlighted socket to move a
+> movable part; tap PULSE to run the simulation. Clearing the tutorial unlocks
+> Level 1; each solved chamber unlocks the next (13 total). RESONANCE DIAL selects
+> any unlocked chamber, SOUND GUIDE explains the components, TUNING has settings
+> and a progress reset. No demo credentials needed.
 >
-> **4. External services, tools, or platforms.** None are used to deliver the
-> app's functionality. There is no backend, no data provider, and no API. There
-> is no authentication service (no accounts). There is no payment processor (no
-> in-app purchases, no advertising). There are no AI services. There is no
-> analytics, telemetry, crash reporting, or attribution SDK; Unity engine
-> diagnostics and analytics are disabled in the project. The app makes zero
-> network connections. All content (levels, audio, artwork, icon, text) is
-> bundled in the app and was generated by us. The only third-party technology is
-> the Unity game engine used to build the app, and the LiberationSans font that
-> ships with Unity's UI package under the SIL Open Font License 1.1.
+> 4. External services, tools, or platforms: none. No backend, data provider, or
+> API. No authentication service. No payment processor, in-app purchases, or
+> advertising. No AI services. No analytics, telemetry, crash reporting, or
+> attribution SDK; Unity diagnostics and analytics are disabled in the project.
+> Zero network connections. All levels, audio, artwork, icon, and text are bundled
+> and were generated by us. The only third-party technology is the Unity game
+> engine and the LiberationSans font it bundles (SIL Open Font License 1.1).
 >
-> **5. Regional differences.** None. The app behaves identically in every region.
-> There are no regional feature flags and no geo-restricted or geo-varied content.
-> The app is priced at USD 0.00 (free) in every storefront, with no in-app
-> purchases and no regional pricing. The app does not use location services.
+> 5. Regional differences: none. The app behaves identically in every region, with
+> no regional feature flags, geo-varied content, or regional pricing. Price:
+> USD 0.00 (free), no in-app purchases. No location services.
 >
-> **6. Regulated industry or protected third-party material.** Not applicable.
-> Resonance Chamber is a puzzle game and is not part of any regulated industry.
-> Every asset in the app is our original work: the level designs, the
-> deterministic acoustic simulation, all sound effects and ambience (synthesized
-> offline by our own code into WAV files), all artwork and the app icon (rendered
-> procedurally by our own code), and all on-screen text. We use no licensed or
-> third-party music, art, trademarks, or protected material. The only external
-> asset is the open-licensed LiberationSans font bundled with the Unity engine.
-> No documentation or credentials are required. Note: some internal engine
-> identifiers and our source code repository use the working codename "Echo
-> Forge"; everything the user sees, including the app name, icon, and every title,
-> reads "Resonance Chamber."
->
-> Please let us know if anything else is needed.
+> 6. Regulated industry or protected third-party material: not applicable.
+> Resonance Chamber is a puzzle game in no regulated industry. All assets are our
+> original work: level designs, the deterministic acoustic simulation, all audio
+> (synthesized offline by our code into WAV), all artwork and the icon (rendered
+> procedurally by our code), and all text. No licensed or third-party music, art,
+> trademarks, or protected material, other than the open-licensed LiberationSans
+> font from the Unity engine. No documentation or credentials required. Some
+> internal engine identifiers and our source repository use the working codename
+> "Echo Forge"; everything the user sees reads "Resonance Chamber".
 
 ---
 
