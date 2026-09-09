@@ -107,9 +107,9 @@ it under about 500 MB, and use .mp4 or .mov.
 > ships with Unity's UI package under the SIL Open Font License 1.1.
 >
 > **5. Regional differences.** None. The app behaves identically in every region.
-> There are no regional feature flags, no geo-restricted or geo-varied content,
-> and no regional pricing (the app is free with no in-app purchases). The
-> interface is English (U.S.) only. The app does not use location services.
+> There are no regional feature flags and no geo-restricted or geo-varied content.
+> The app is priced at USD 0.00 (free) in every storefront, with no in-app
+> purchases and no regional pricing. The app does not use location services.
 >
 > **6. Regulated industry or protected third-party material.** Not applicable.
 > Resonance Chamber is a puzzle game and is not part of any regulated industry.
@@ -138,7 +138,8 @@ it under about 500 MB, and use .mp4 or .mov.
 > or attribution SDKs (Unity diagnostics and analytics are disabled in the
 > project). App Privacy: Data Not Collected. Does not use App Tracking
 > Transparency. Requests no permissions (no camera, microphone, location,
-> Bluetooth, photos, or tracking), even though the theme is acoustics.
+> Bluetooth, photos, or tracking), even though the theme is acoustics. Price:
+> USD 0.00 (free), no in-app purchases.
 >
 > External services used to deliver functionality: none. The only third-party
 > technology is the Unity game engine and its bundled open-licensed LiberationSans
@@ -153,8 +154,8 @@ it under about 500 MB, and use .mp4 or .mov.
 > explains the components, TUNING has settings and a progress reset. No demo
 > credentials are needed.
 >
-> The app functions identically in all regions. English (U.S.) only. Rated 4+, no
-> objectionable content. Landscape orientation only, by design.
+> The app functions identically in all regions. Rated 4+, no objectionable
+> content. Landscape orientation only, by design.
 >
 > Some internal engine identifiers and the source repository use the working
 > codename "Echo Forge." Everything the user sees reads "Resonance Chamber."
