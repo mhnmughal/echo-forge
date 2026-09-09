@@ -15,8 +15,8 @@ US English. No em dash used.
 
 ## What you must do
 
-1. **Record your screen on a physical iPhone or iPad** running the current iOS
-   version. See "Screen recording instructions" below. This cannot be the Unity
+1. **Record your screen on a physical iPhone running iOS 26.6.1** (the current
+   release). See "Screen recording instructions" below. This cannot be the Unity
    editor capture; Apple requires a real-device recording.
 2. Attach that recording to the Resolution Center reply.
 3. Paste **Part A** as the reply text.
@@ -49,8 +49,9 @@ Then open Control Center and tap the record button. Record for 1 to 3 minutes:
    GUIDE** (component reference), then close them.
 6. Optionally open **TUNING** to show the settings and the progress reset.
 
-Keep the device on the current iOS version. No editing, captions, or music
-needed. Export the video and attach it.
+Record on iPhone with iOS 26.6.1. No editing, captions, or music needed. Export
+the video and attach it. If the file is large, trim only the head and tail, keep
+it under about 500 MB, and use .mp4 or .mov.
 
 ---
 
@@ -59,12 +60,13 @@ needed. Export the video and attach it.
 > Thank you for the review. Resonance Chamber is a single player, fully offline
 > puzzle game. It has no account, no login, no user-generated content, no in-app
 > purchases, no advertising, and no network connectivity. Answers to the six
-> points follow, and a screen recording captured on a physical iPhone running the
-> current iOS version is attached, beginning with app launch and showing the
-> typical gameplay flow.
+> points follow, and a screen recording captured on a physical iPhone running
+> iOS 26.6.1 is attached, beginning with app launch and showing the typical
+> gameplay flow.
 >
-> **1. Screen recording.** Attached. It starts by launching the app from the Home
-> Screen and shows: the main menu, the Sound Check tutorial played to completion,
+> **1. Screen recording.** Attached, captured on a physical iPhone running
+> iOS 26.6.1. It starts by launching the app from the Home Screen and shows: the
+> main menu, the Sound Check tutorial played to completion,
 > Levels 1 and 2 solved (select a component, rotate or move it, press PULSE, the
 > pulse travels and reaches the receiver), and the Resonance Dial and Sound Guide
 > menus. There are no account, login, account deletion, user-generated content,
